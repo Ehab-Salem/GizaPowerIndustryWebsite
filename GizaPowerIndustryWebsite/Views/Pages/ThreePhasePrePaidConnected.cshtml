@@ -1,0 +1,488 @@
+﻿<style>
+    @@media (max-width: 991px) {
+        .tab-style-04 .nav-tabs .nav-link.active::before
+
+    {
+        display: none !important;
+    }
+
+    }
+    /* ===== Enhanced Tab Design – GPI Brand ===== */
+    :root {
+        --gpi-red: #a3191e;
+        --text-dark: #06283F;
+        --text-grey: #4B5563;
+        --border-light: #E5E7EB;
+    }
+
+    /* Remove any conflicting Dawyer underline */
+    .tab-style-04 .nav-link::after,
+    .tab-style-04 .nav-link:hover::after,
+    .tab-style-04 .nav-link.active::after {
+        display: none !important;
+    }
+
+    /* Tabs container */
+    .tab-style-04 .nav-tabs {
+        border-bottom: 2px solid var(--border-light);
+        gap: 0;
+        flex-wrap: wrap;
+    }
+
+        /* Each tab link */
+        .tab-style-04 .nav-tabs .nav-link {
+            border: none !important;
+            background: transparent !important;
+            font-size: 0.95rem;
+            font-weight: 600;
+            color: var(--text-grey);
+            padding: 0.75rem 1.4rem;
+            position: relative;
+            transition: color 0.2s;
+            text-transform: uppercase;
+            letter-spacing: 0.4px;
+            white-space: nowrap;
+        }
+
+            .tab-style-04 .nav-tabs .nav-link:hover {
+                color: var(--gpi-red);
+            }
+
+            .tab-style-04 .nav-tabs .nav-link.active {
+                color: var(--gpi-red);
+            }
+
+                /* Active underline – clean red bar */
+                .tab-style-04 .nav-tabs .nav-link.active::before {
+                    content: "";
+                    position: absolute;
+                    bottom: -2px;
+                    left: 0;
+                    width: 100%;
+                    height: 3px;
+                    background: var(--gpi-red);
+                    border-radius: 2px 2px 0 0;
+                }
+
+    .tab-style-04 .tab-border {
+        background: var(--gpi-red) !important;
+    }
+
+    #data .row {
+        margin-left: 0;
+        margin-right: 0;
+    }
+
+        #data .row.bg-very-light-gray {
+            background-color: #F9FAFB;
+        }
+
+    #data .col-lg-5,
+    #data .col-md-3,
+    #data .col-sm-4 {
+        font-weight: 600;
+        color: var(--text-dark);
+        font-size: 0.95rem;
+    }
+
+    #data .col-lg-7,
+    #data .col-md-9,
+    #data .col-sm-8 {
+        color: var(--text-grey);
+        font-size: 0.95rem;
+        line-height: 1.6;
+    }
+
+    .technical-table {
+        background: #fff;
+        border: 1px solid var(--border-light);
+        border-radius: 8px;
+        overflow: hidden;
+        margin-bottom: 2rem;
+        font-size: 0.9rem;
+    }
+
+        .technical-table thead {
+            background: #F9FAFB;
+        }
+
+            .technical-table thead td,
+            .technical-table thead th {
+                font-weight: 600;
+                color: var(--text-dark);
+                padding: 0.8rem 0.5rem;
+                vertical-align: middle;
+                border-bottom: 2px solid var(--border-light);
+            }
+
+            .technical-table thead .bg-red {
+                background: var(--gpi-red) !important;
+                color: #fff !important;
+            }
+
+                .technical-table thead .bg-red th,
+                .technical-table thead .bg-red td {
+                    color: #fff !important;
+                    font-weight: 700;
+                    font-size: 1rem;
+                    padding: 1rem 0.5rem;
+                }
+
+        .technical-table tbody td {
+            padding: 0.7rem 0.5rem;
+            vertical-align: middle;
+            border-color: var(--border-light);
+        }
+
+        .technical-table tbody tr:hover {
+            background: #FDF2F2;
+        }
+
+    .table-responsive {
+        -webkit-overflow-scrolling: touch;
+        border-radius: 8px;
+    }
+
+    #data .col-12 > span {
+        display: block;
+        text-align: center;
+        color: #9CA3AF;
+        font-size: 0.85rem;
+        margin-top: 1rem;
+    }
+
+    #note p {
+        font-size: 1rem;
+        color: var(--text-grey);
+        line-height: 1.8;
+        background: #F9FAFB;
+        padding: 2rem;
+        border-radius: 12px;
+        border-left: 4px solid var(--gpi-red);
+    }
+
+    .feature-block {
+        background: #F9FAFB;
+        border-radius: 12px;
+        padding: 1.5rem;
+        height: auto;
+        border-left: 4px solid var(--gpi-red);
+    }
+
+        .feature-block h6 {
+            font-size: 1.05rem;
+            font-weight: 700;
+            color: var(--gpi-red);
+            margin-bottom: 0.75rem;
+            text-transform: uppercase;
+            letter-spacing: 0.4px;
+        }
+
+        .feature-block ul {
+            list-style: none;
+            padding-left: 0;
+            margin-bottom: 0;
+        }
+
+            .feature-block ul li {
+                position: relative;
+                padding-left: 1.4rem;
+                margin-bottom: 0.5rem;
+                color: var(--text-grey);
+                font-size: 0.9rem;
+                line-height: 1.6;
+            }
+
+                .feature-block ul li::before {
+                    content: "•";
+                    position: absolute;
+                    left: 0;
+                    top: 0;
+                    color: var(--gpi-red);
+                    font-weight: 700;
+                    font-size: 1.1rem;
+                    line-height: 1.4;
+                }
+
+    .card-type-label {
+        display: inline-block;
+        background: var(--gpi-red);
+        color: #fff;
+        font-weight: 700;
+        font-size: 0.8rem;
+        text-transform: uppercase;
+        letter-spacing: 0.8px;
+        padding: 0.35rem 0.9rem;
+        border-radius: 20px;
+        margin-bottom: 0.6rem;
+    }
+
+    .smart-billing-item {
+        display: flex;
+        align-items: flex-start;
+        gap: 0.75rem;
+        margin-bottom: 0.9rem;
+        padding: 0.8rem 1rem;
+        background: #fff;
+        border-radius: 8px;
+        border: 1px solid var(--border-light);
+    }
+
+        .smart-billing-item .bullet-icon {
+            flex-shrink: 0;
+            width: 10px;
+            height: 10px;
+            background: var(--gpi-red);
+            border-radius: 50%;
+            margin-top: 0.45rem;
+        }
+
+        .smart-billing-item span {
+            color: var(--text-grey);
+            font-size: 0.95rem;
+            line-height: 1.5;
+        }
+
+    @@media (max-width: 768px) {
+        .tab-style-04 .nav-tabs .nav-link
+
+    {
+        padding: 0.6rem 0.8rem;
+        font-size: 0.8rem;
+        letter-spacing: 0.2px;
+    }
+
+    .feature-block {
+        margin-bottom: 1rem;
+        height: auto;
+    }
+
+    }
+
+    @@media (max-width: 576px) {
+        .tab-style-04 .nav-tabs .nav-link
+
+    {
+        padding: 0.55rem 0.65rem;
+        font-size: 0.72rem;
+    }
+
+    }
+
+    @@media (max-width: 768px) {
+        .product-main-img {
+            height: 210px !important;
+            width: auto;
+            object-fit: contain;
+        }
+    }
+</style>
+
+<div class="main-content">
+    <!-- start section -->
+    <section class="pt-40px pb-0">
+        <div class="container">
+            <div class="row align-items-center">
+                <div class="col-lg-6 md-mb-40px" data-anime='{ "translate": [0, 0], "opacity": [0,1], "duration": 600, "delay": 100, "staggervalue": 150, "easing": "easeOutQuad" }'>
+                    <div class="row overflow-hidden position-relative">
+                        <div class="col-12 position-relative product-image">
+                            <div class="swiper product-image-slider" data-slider-options='{ "spaceBetween": 0, "watchOverflow": true, "navigation": { "nextEl": ".slider-product-next", "prevEl": ".slider-product-prev" }, "thumbs": { "swiper": { "el": ".product-image-thumb", "slidesPerView": "5", "spaceBetween": 15 } } }' data-swiper-thumb-click="1">
+                                <div class="swiper-wrapper">
+                                    <div class="swiper-slide gallery-box">
+                                        <a href="~/assets/imgs/meters/@ViewBag.Img" data-group="lightbox-gallery" title="@ViewBag.Name">
+                                            <img src="~/assets/imgs/meters/@ViewBag.Img" alt="@ViewBag.Name" class="product-main-img" style="display: block; max-width: 100%; height: auto; margin: 0 auto;">
+                                        </a>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-lg-5 offset-lg-1 product-info" style="margin-left: 10px;" data-anime='{ "translate": [0, 0], "opacity": [0,1], "duration": 600, "delay": 100, "staggervalue": 150, "easing": "easeOutQuad" }'>
+                    <h5 class="alt-font text-dark-gray fw-600 mb-10px" style="font-size:40px;line-height: normal; color: #a3191e;">
+                        @ViewBag.Name
+                    </h5>
+                    <div class="mb-20px h-1px w-100 bg-extra-medium-gray d-block mt-5"></div>
+                    <div class="product-price mb-10px mt-5">
+                        <span class="text-dark-gray fs-20 xs-fs-24 fw-600 ls-minus-1px" style="color: #a3191e;">
+                            General View
+                        </span>
+                        <p style="color:#717580">
+                            The <b>PC03 DC</b> is a robust, high-accuracy three-phase prepaid smart meter designed for direct
+                            connection in low-voltage networks. Engineered for secure energy management and advanced
+                            tamper detection, it supports multi-tariff billing, modular communication, and remote recharge.
+                            Fully compliant with <b>IEC & EN standards</b>, it is ideal for utility companies seeking scalable, secure, and
+                            user-friendly metering solutions.
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+    <!-- start section -->
+    <section id="tab" style="padding-bottom:0px;padding-top: 45px;">
+        <div class="container">
+            <div class="row">
+                <div class="col-12 tab-style-04" data-anime='{ "translate": [0, 0], "opacity": [0,1], "duration": 600, "delay": 100, "staggervalue": 150, "easing": "easeOutQuad" }'>
+                    <ul class="nav nav-tabs border-0 justify-content-center alt-font fs-17 fw-500">
+                        <li class="nav-item text-center">
+                            <a class="nav-link active" data-bs-toggle="tab" href="#note">KEY FEATURES<span class="tab-border bg-dark-gray"></span></a>
+                        </li>
+                        <li class="nav-item text-center">
+                            <a class="nav-link" data-bs-toggle="tab" href="#ADVANCED">ADVANCED FUNCTIONS<span class="tab-border bg-dark-gray"></span></a>
+                        </li>
+                        <li class="nav-item text-center">
+                            <a class="nav-link" data-bs-toggle="tab" href="#COMMUNICATION">COMMUNICATION INTERFACES<span class="tab-border bg-dark-gray"></span></a>
+                        </li>
+                        <li class="nav-item text-center">
+                            <a class="nav-link" data-bs-toggle="tab" href="#aluminum-conductors">Security & Interface<span class="tab-border bg-dark-gray"></span></a>
+                        </li>
+                        <li class="nav-item text-center">
+                            <a class="nav-link" data-bs-toggle="tab" href="#dimensions">Dimensions<span class="tab-border bg-dark-gray"></span></a>
+                        </li>
+                    </ul>
+                    <div class="h-1px w-100 bg-extra-medium-gray sm-mt-10px" style="margin-bottom:15px"></div>
+                    <div class="tab-content">
+                        <!-- KEY FEATURES (active by default) -->
+                        <div class="tab-pane fade show active" id="note">
+                            <div class="row m-0">
+                                <div class="col-12">
+                                    <div class="row">
+                                        <div class="col-lg-5 col-md-3 col-sm-4 pt-10px pb-10px xs-pb-0 text-dark-gray alt-font fw-600" style="color: #a3191e;">METER TYPE :</div>
+                                        <div class="col-lg-7 col-md-9 col-sm-8 pt-10px pb-10px xs-pt-0">3-phase, 4-wire, direct-connected</div>
+                                    </div>
+                                    <div class="row bg-very-light-gray">
+                                        <div class="col-lg-5 col-md-3 col-sm-4 pt-10px pb-10px xs-pb-0 text-dark-gray alt-font fw-600" style="color: #a3191e;">MEASUREMENT:</div>
+                                        <div class="col-lg-7 col-md-9 col-sm-8 pt-10px pb-10px xs-pt-0">Active & reactive energy (four quadrants), demand, instantaneous values</div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="col-lg-5 col-md-3 col-sm-4 pt-10px pb-10px xs-pb-0 text-dark-gray alt-font fw-600" style="color: #a3191e;">ACCURACY CLASS :</div>
+                                        <div class="col-lg-7 col-md-9 col-sm-8 pt-10px pb-10px xs-pt-0">Active Energy – Class 0.5, Reactive Energy – Class 1.</div>
+                                    </div>
+                                    <div class="row bg-very-light-gray">
+                                        <div class="col-lg-5 col-md-3 col-sm-4 pt-10px pb-10px xs-pb-0 text-dark-gray alt-font fw-600" style="color: #a3191e;">DISPLAY:</div>
+                                        <div class="col-lg-7 col-md-9 col-sm-8 pt-10px pb-10px xs-pt-0">Industrial-grade LCD, Arabic/English interface, 1600 viewing angle</div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="col-lg-5 col-md-3 col-sm-4 pt-10px pb-10px xs-pb-0 text-dark-gray alt-font fw-600" style="color: #a3191e;">CURRENT RATING:</div>
+                                        <div class="col-lg-7 col-md-9 col-sm-8 pt-10px pb-10px xs-pt-0">5(100)A</div>
+                                    </div>
+                                    <div class="row bg-very-light-gray">
+                                        <div class="col-lg-5 col-md-3 col-sm-4 pt-10px pb-10px xs-pb-0 text-dark-gray alt-font fw-600" style="color: #a3191e;">VOLTAGE RATING :</div>
+                                        <div class="col-lg-7 col-md-9 col-sm-8 pt-10px pb-10px xs-pt-0">3×220/380V (operating range: +30%/−40%)</div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="col-lg-5 col-md-3 col-sm-4 pt-10px pb-10px xs-pb-0 text-dark-gray alt-font fw-600" style="color: #a3191e;">FREQUENCY:</div>
+                                        <div class="col-lg-7 col-md-9 col-sm-8 pt-10px pb-10px xs-pt-0">50 Hz ±5%</div>
+                                    </div>
+                                    <div class="row bg-very-light-gray">
+                                        <div class="col-lg-5 col-md-3 col-sm-4 pt-10px pb-10px xs-pb-0 text-dark-gray alt-font fw-600" style="color: #a3191e;">PROTECTION:</div>
+                                        <div class="col-lg-7 col-md-9 col-sm-8 pt-10px pb-10px xs-pt-0">IP54, lightning protection per IEC 1036</div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="col-lg-5 col-md-3 col-sm-4 pt-10px pb-10px xs-pb-0 text-dark-gray alt-font fw-600" style="color: #a3191e;">BATTERY BACKUP :</div>
+                                        <div class="col-lg-7 col-md-9 col-sm-8 pt-10px pb-10px xs-pt-0">RTC supported for 15 years during outages</div>
+                                    </div>
+                                    <div class="row bg-very-light-gray">
+                                        <div class="col-lg-5 col-md-3 col-sm-4 pt-10px pb-10px xs-pb-0 text-dark-gray alt-font fw-600" style="color: #a3191e;">MATERIAL :</div>
+                                        <div class="col-lg-7 col-md-9 col-sm-8 pt-10px pb-10px xs-pt-0">Fire-resistant polycarbonate (base, cover, terminal)</div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="col-lg-5 col-md-3 col-sm-4 pt-10px pb-10px xs-pb-0 text-dark-gray alt-font fw-600" style="color: #a3191e;">RELAY :</div>
+                                        <div class="col-lg-7 col-md-9 col-sm-8 pt-10px pb-10px xs-pt-0">Magnetic latching relay, 120A max, 3 poles (UC3)</div>
+                                    </div>
+                                    <div class="row bg-very-light-gray">
+                                        <div class="col-lg-5 col-md-3 col-sm-4 pt-10px pb-10px xs-pb-0 text-dark-gray alt-font fw-600" style="color: #a3191e;">AUDIBLE ALARM :</div>
+                                        <div class="col-lg-7 col-md-9 col-sm-8 pt-10px pb-10px xs-pt-0">Built-in buzzer for low credit alerts</div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="col-lg-5 col-md-3 col-sm-4 pt-10px pb-10px xs-pb-0 text-dark-gray alt-font fw-600" style="color: #a3191e;">POWER FACTOR RANGE:</div>
+                                        <div class="col-lg-7 col-md-9 col-sm-8 pt-10px pb-10px xs-pt-0">Lag – Unity – Lead</div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <!-- ADVANCED FUNCTIONS -->
+                        <div class="tab-pane fade" id="ADVANCED">
+                            <div class="row m-0">
+                                <div class="col-12">
+                                    <ul class="list-style-04">
+                                        <li>Multi-tariff registers</li>
+                                        <li>Load profile 4 configurable channels</li>
+                                        <li>Instantaneous monitoring of voltage, current, power factor (true rms)</li>
+                                        <li>Event logging with timestamp and push to hes</li>
+                                        <li>Relay control via remote, manual, or threshold logic</li>
+                                        <li>Overcurrent protection with auto-recovery and lockout logic</li>
+                                        <li>Tamper detection: Cover opening, current reversal, bypass, overload, relay fault and all of this push to hes</li>
+                                        <li>Power quality monitoring: Over/under voltage, missing phase, imbalance</li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+                        <!-- COMMUNICATION INTERFACES -->
+                        <div class="tab-pane fade" id="COMMUNICATION">
+                            <div class="row m-0">
+                                <div class="col-12">
+                                    <ul class="list-style-04">
+                                        <li>Optical port (IEC 62056-21)</li>
+                                        <li>Dual RS485 ports with RJ45 terminals enable reliable digital communication and system integration.</li>
+                                        <li>PLC+RF (G3/PRIME V1.4)</li>
+                                        <li>3G / 4G / NB-IOT</li>
+                                        <li>DLMS/COSEM compliant.</li>
+                                        <li>Modular plug-and-play communication unit.</li>
+                                        <li>Remote firmware upgrade capability</li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+                        <!-- Security & Interface -->
+                        <div class="tab-pane fade" id="aluminum-conductors">
+                            <div class="row m-0">
+                                <div class="col-lg-6 mb-4 mb-lg-0">
+                                    <div class="feature-block">
+                                        <h6>SECURITY & COMPLIANCE</h6>
+                                        <ul>
+                                            <li>AES-GCM-128 encryption (ECC256 for public networks)</li>
+                                            <li>Secure token exchange</li>
+                                            <li>Multi-level password access (A1–A4)</li>
+                                            <li>Invocation counter and system title management</li>
+                                            <li>Firmware upgrade without data loss</li>
+                                            <li>Complies with: IEC 62052-11 / IEC 62053-21 / IEC 62053-23 / IEC 62055-41</li>
+                                            <li>IEC 62056 series</li>
+                                            <li>IEC 60529</li>
+                                            <li>IEC 60060 / IEC 60068 (HV, shock, vibration)</li>
+                                        </ul>
+                                    </div>
+                                </div>
+                                <div class="col-lg-6">
+                                    <div class="feature-block">
+                                        <h6>PREPAYMENT & TARIFF MANAGEMENT</h6>
+                                        <ul>
+                                            <li>STS-compliant token-based recharge</li>
+                                            <li>Supports Multi step tariff structure</li>
+                                            <li>Friendly mode with configurable holidays and intervals</li>
+                                            <li>Real-time balance, overdraft, and consumption tracking</li>
+                                            <li>Remote recharge and tamper-triggered relay control</li>
+                                            <li>Card-based operations: User, Function, Collection</li>
+                                        </ul>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <!-- Dimensions -->
+                        <div class="tab-pane fade" id="dimensions">
+                            <div class="row m-0">
+                                <div class="col-12">
+                                    <p><b>(L X W X H) 251 mm x 170 mm x 79 mm</b></p>
+                                    <img class="w-40" src="~/assets/imgs/meters/dim.png" style="margin: 0 auto;
+                                        height: 350px;
+                                        width: 100% !important;" alt="">
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+</div>

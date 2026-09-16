@@ -1,0 +1,931 @@
+@{
+    ViewData["Title"] = "Home";
+}
+
+@section Styles {
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Oswald:wght@300;400;500;600;700&family=DM+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
+
+<style>
+/* ─────────────────────────────────────────────
+   GPI HOME — ENHANCEMENT LAYER
+   Additive CSS on top of existing site styles
+   ───────────────────────────────────────────── */
+
+  :root {
+    --gpi-red: #B82025;
+    --gpi-navy: #0D1B3E;
+    --gpi-gold: #C9A84C;
+    --ease-out: cubic-bezier(0.22, 1, 0.36, 1);
+    --ease-spring: cubic-bezier(0.34, 1.56, 0.64, 1);
+  }
+
+  /* ── SCROLL REVEAL ── */
+  [data-reveal] {
+    opacity: 0;
+    transform: translateY(40px);
+    transition: opacity 0.75s var(--ease-out), transform 0.75s var(--ease-out);
+  }
+  [data-reveal="left"]  { transform: translateX(-40px); }
+  [data-reveal="right"] { transform: translateX(40px); }
+  [data-reveal="scale"] { transform: scale(0.92) translateY(20px); }
+  [data-reveal="fade"]  { transform: none; }
+
+  [data-reveal].is-visible {
+    opacity: 1;
+    transform: none;
+  }
+  /* stagger children */
+  [data-reveal-group] > * {
+    opacity: 0;
+    transform: translateY(30px);
+    transition: opacity 0.6s var(--ease-out), transform 0.6s var(--ease-out);
+  }
+  [data-reveal-group].is-visible > *:nth-child(1) { transition-delay: 0s;    opacity:1; transform:none; }
+  [data-reveal-group].is-visible > *:nth-child(2) { transition-delay: 0.12s; opacity:1; transform:none; }
+  [data-reveal-group].is-visible > *:nth-child(3) { transition-delay: 0.24s; opacity:1; transform:none; }
+  [data-reveal-group].is-visible > *:nth-child(4) { transition-delay: 0.36s; opacity:1; transform:none; }
+  [data-reveal-group].is-visible > *:nth-child(5) { transition-delay: 0.48s; opacity:1; transform:none; }
+
+  /* ── HERO ENHANCEMENTS ── */
+  .hero { position: relative; overflow: hidden; }
+
+  /* animated red pulse line under EMPOWERING */
+  .hero-title .highlight-red {
+    position: relative;
+    display: inline-block;
+  }
+  .hero-title .highlight-red::after {
+    content: '';
+    position: absolute;
+    bottom: -4px;
+    left: 0;
+    width: 0;
+    height: 3px;
+    background: var(--gpi-red);
+    animation: underline-grow 1.2s 0.4s var(--ease-out) forwards;
+  }
+  @@keyframes underline-grow { to { width: 100%; } }
+
+  /* hero text stagger */
+  .hero-title {
+    animation: hero-slide-up 0.9s 0.1s var(--ease-out) both;
+  }
+  .hero-subtitle {
+    animation: hero-slide-up 0.9s 0.35s var(--ease-out) both;
+  }
+  .hero .btn {
+    animation: hero-slide-up 0.9s 0.55s var(--ease-out) both;
+  }
+  @@keyframes hero-slide-up {
+    from { opacity:0; transform: translateY(28px); }
+    to   { opacity:1; transform: translateY(0); }
+  }
+
+  /* hero visual bounce-in */
+  .hero-visual {
+    animation: hero-zoom-in 1.1s 0.2s var(--ease-spring) both;
+  }
+  @@keyframes hero-zoom-in {
+    from { opacity:0; transform: scale(0.88); }
+    to   { opacity:1; transform: scale(1); }
+  }
+
+  /* scroll-hint arrow */
+  .scroll-hint {
+    position: absolute;
+    bottom: 28px;
+    left: 50%;
+    transform: translateX(-50%);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 6px;
+    opacity: 0.6;
+    animation: hero-slide-up 1s 1.2s var(--ease-out) both;
+    z-index: 10;
+  }
+  .scroll-hint span {
+    font-size: 11px;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    color: #fff;
+    font-family: 'DM Sans', sans-serif;
+  }
+  .scroll-hint-arrow {
+    width: 24px;
+    height: 24px;
+    border-right: 2px solid #fff;
+    border-bottom: 2px solid #fff;
+    transform: rotate(45deg);
+    animation: bounce-arrow 1.4s ease-in-out infinite;
+  }
+  @@keyframes bounce-arrow {
+    0%, 100% { transform: rotate(45deg) translateY(0); }
+    50%       { transform: rotate(45deg) translateY(6px); }
+  }
+
+  /* ── STAT BOXES ── */
+  .stat-box {
+    transition: transform 0.3s var(--ease-out), box-shadow 0.3s ease;
+    cursor: default;
+  }
+  .stat-box:hover {
+    transform: translateY(-6px) scale(1.03);
+    box-shadow: 0 18px 40px rgba(0,0,0,0.22);
+  }
+  .stat-number {
+    transition: letter-spacing 0.3s ease;
+  }
+  .stat-box:hover .stat-number {
+    letter-spacing: 0.02em;
+  }
+
+  /* ── MISSION / VISION CARDS ── */
+  .mission-card {
+    transition: transform 0.35s var(--ease-out), box-shadow 0.35s ease;
+    cursor: default;
+    position: relative;
+    overflow: hidden;
+  }
+  .mission-card::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: rgba(255,255,255,0.06);
+    opacity: 0;
+    transition: opacity 0.3s ease;
+  }
+  .mission-card:hover { transform: translateY(-8px); box-shadow: 0 24px 48px rgba(0,0,0,0.25); }
+  .mission-card:hover::before { opacity: 1; }
+
+  .mission-image-container {
+    overflow: hidden;
+    border-radius: inherit;
+  }
+  .mission-image-container img {
+    transition: transform 0.6s var(--ease-out);
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
+  .mission-image-container:hover img {
+    transform: scale(1.06);
+  }
+
+  /* ── VALUE PANELS ── */
+  .value-panel {
+    transition: flex 0.5s var(--ease-out), filter 0.3s ease;
+    cursor: pointer;
+    position: relative;
+    overflow: hidden;
+  }
+  .value-panel:hover { filter: brightness(1.1); }
+
+  /* description tooltip on each panel */
+  .value-description {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    padding: 20px 18px;
+    background: linear-gradient(to top, rgba(13,27,62,0.92) 0%, transparent 100%);
+    font-family: 'DM Sans', sans-serif;
+    font-size: 13px;
+    color: rgba(255,255,255,0.88);
+    line-height: 1.5;
+    opacity: 0;
+    transform: translateY(12px);
+    transition: opacity 0.35s ease, transform 0.35s var(--ease-out);
+  }
+  .value-panel:hover .value-description {
+    opacity: 1;
+    transform: translateY(0);
+  }
+
+  .value-content h3 {
+    transition: transform 0.35s var(--ease-out);
+  }
+  .value-panel:hover .value-content h3 {
+    transform: translateY(-8px);
+  }
+
+  /* ── PARTNER CARDS ── */
+  .partner-card {
+    transition: transform 0.3s var(--ease-out), box-shadow 0.3s ease;
+  }
+  .partner-card:hover {
+    transform: translateY(-5px) scale(1.04);
+    box-shadow: 0 16px 36px rgba(0,0,0,0.15);
+  }
+
+  /* ── BUSINESS SECTION ── */
+  .business-visual img {
+    transition: transform 0.6s var(--ease-out);
+  }
+  .business-visual:hover img {
+    transform: scale(1.04);
+  }
+
+  /* ── SUSTAINABILITY IMAGES ── */
+  .sus-main-visual img,
+  .sus-small-visual img {
+    transition: transform 0.6s var(--ease-out), filter 0.3s ease;
+  }
+  .sus-main-visual:hover img,
+  .sus-small-visual:hover img {
+    transform: scale(1.05);
+    filter: brightness(1.05);
+  }
+
+  /* ── CONTACT FORM ── */
+  .input-with-icon input,
+  .input-with-icon select,
+  .input-with-icon textarea {
+    transition: border-color 0.25s ease, box-shadow 0.25s ease, background 0.25s ease;
+  }
+  .input-with-icon input:focus,
+  .input-with-icon select:focus,
+  .input-with-icon textarea:focus {
+    border-color: var(--gpi-red) !important;
+    box-shadow: 0 0 0 3px rgba(184,32,37,0.12);
+    background: rgba(184,32,37,0.02);
+    outline: none;
+  }
+
+  /* form success state */
+  .form-success-banner {
+    display: none;
+    align-items: center;
+    gap: 12px;
+    background: #d4edda;
+    border: 1px solid #c3e6cb;
+    color: #155724;
+    border-radius: 8px;
+    padding: 14px 18px;
+    font-family: 'DM Sans', sans-serif;
+    font-size: 14px;
+    margin-bottom: 16px;
+    animation: banner-in 0.4s var(--ease-out);
+  }
+  .form-success-banner.show { display: flex; }
+  @@keyframes banner-in {
+    from { opacity:0; transform: translateY(-10px); }
+    to   { opacity:1; transform: none; }
+  }
+  .form-success-banner svg { flex-shrink: 0; }
+
+  /* submit btn loading state */
+  .btn-red-submit.loading {
+    opacity: 0.7;
+    pointer-events: none;
+    position: relative;
+  }
+  .btn-red-submit.loading::after {
+    content: '';
+    position: absolute;
+    right: 14px;
+    top: 50%;
+    transform: translateY(-50%);
+    width: 14px;
+    height: 14px;
+    border: 2px solid rgba(255,255,255,0.3);
+    border-top-color: #fff;
+    border-radius: 50%;
+    animation: spin 0.7s linear infinite;
+  }
+  @@keyframes spin { to { transform: translateY(-50%) rotate(360deg); } }
+
+  /* ── SECTION LABEL DECORATION ── */
+  .about-label, .sus-label, .business-label {
+    position: relative;
+    display: inline-block;
+  }
+  .about-label::before,
+  .sus-label::before {
+    content: '';
+    display: inline-block;
+    width: 24px;
+    height: 2px;
+    background: currentColor;
+    vertical-align: middle;
+    margin-right: 8px;
+    border-radius: 1px;
+  }
+  .about-label::after,
+  .sus-label::after {
+    content: '';
+    display: inline-block;
+    width: 24px;
+    height: 2px;
+    background: currentColor;
+    vertical-align: middle;
+    margin-left: 8px;
+    border-radius: 1px;
+  }
+
+  /* ── BTN HOVER POLISH ── */
+  .btn-red-submit, .btn-about, .btn-red-pill {
+    transition: transform 0.25s var(--ease-out), box-shadow 0.25s ease, opacity 0.25s ease !important;
+  }
+  .btn-red-submit:hover, .btn-about:hover, .btn-red-pill:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 8px 24px rgba(184,32,37,0.35);
+  }
+  .btn-red-submit:active, .btn-about:active, .btn-red-pill:active {
+    transform: translateY(0);
+  }
+
+  /* ── CONTACT ICON BOX HOVER ── */
+  .contact-icon-box {
+    transition: background 0.3s ease, transform 0.3s var(--ease-out);
+  }
+  .contact-method:hover .contact-icon-box {
+    background: var(--gpi-red);
+    transform: scale(1.1) rotate(5deg);
+    color: #fff;
+  }
+  .contact-method:hover .contact-icon-box svg {
+    stroke: #fff;
+  }
+
+  /* ── BACK TO TOP BUTTON ── */
+  #back-to-top {
+    position: fixed;
+    bottom: 32px;
+    right: 32px;
+    width: 46px;
+    height: 46px;
+    background: var(--gpi-red);
+    color: #fff;
+    border: none;
+    border-radius: 50%;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    box-shadow: 0 4px 16px rgba(184,32,37,0.4);
+    opacity: 0;
+    transform: translateY(20px);
+    transition: opacity 0.3s ease, transform 0.3s var(--ease-out), box-shadow 0.3s ease;
+    z-index: 9999;
+  }
+  #back-to-top.visible {
+    opacity: 1;
+    transform: translateY(0);
+  }
+  #back-to-top:hover {
+    box-shadow: 0 8px 28px rgba(184,32,37,0.5);
+    transform: translateY(-3px);
+  }
+  #back-to-top svg { pointer-events: none; }
+
+  /* ── ACTIVE NAV HIGHLIGHT (if nav links have matching hrefs) ── */
+  .progress-bar {
+    position: fixed;
+    top: 0;
+    left: 0;
+    height: 3px;
+    background: var(--gpi-red);
+    z-index: 10000;
+    width: 0%;
+    transition: width 0.1s linear;
+    border-radius: 0 2px 2px 0;
+  }
+</style>
+}
+
+<!-- Reading-progress bar -->
+<div class="progress-bar" id="progressBar"></div>
+
+<!-- Back to Top Button -->
+<button id="back-to-top" aria-label="Back to top">
+    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+        <polyline points="18 15 12 9 6 15"></polyline>
+    </svg>
+</button>
+
+<!-- Hero Section -->
+<section class="hero" id="home">
+    <div class="hero-wrapper">
+        <div class="hero-content">
+            <div class="hero-text">
+                <h1 class="hero-title" style="line-height:0.7 !important">
+                    <span class="highlight-red" style="color:#B82025;">EMPOWERING</span>
+                    <br>
+                    <span style="font-size: 90px;">A SUSTAINABLE FUTURE</span>
+                    <br>
+                    <span style="font-size: 40px; margin-top: 1px;">INNOVATIVE SOLUTIONS <br /> FOR A GREENER TOMORROW</span>
+                </h1>
+                <p class="hero-subtitle">
+                    GPI offers sustainable solutions in energy and infrastructure that enable businesses,
+                    communities and regions to develop and flourish. Since its inception in 1984, <br />
+                    the salient features of our approach are high quality innovative solutions and <br />
+                    an unwavering commitment to transparency,
+                    excellence and customer-satisfaction.
+                </p>
+                <a asp-controller="Pages" asp-action="Sustainability" type="button" class="btn btn-red-submit w-full max-w-[204px] sm:w-[204px]">
+                    Learn More<span class="arrow-circle-custom"><img src="~/assets/images/contact-icon-arrow.png" alt="Arrow"></span>
+                </a>
+            </div>
+        </div>
+        <div class="hero-visual">
+            <div class="circular-overlay">
+                <div class="circular-video-bg">
+                    <video autoplay muted loop playsinline class="circular-video">
+                        <source src="assets/videos/video GPI.mp4" type="video/mp4">
+                    </video>
+                </div>
+                <div class="video-thumbnail top">
+                    <video autoplay muted loop playsinline>
+                        <source src="assets/videos/video GPI.mp4" type="video/mp4">
+                    </video>
+                </div>
+                <div class="video-thumbnail bottom">
+                    <video autoplay muted loop playsinline>
+                        <source src="assets/videos/video GPI.mp4" type="video/mp4">
+                    </video>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- Scroll hint -->
+    <div class="scroll-hint">
+        <span>Scroll</span>
+        <div class="scroll-hint-arrow"></div>
+    </div>
+</section>
+
+<!-- Video Background Section -->
+<section class="video-section" id="video-intro">
+    <video class="section-video" autoplay muted loop playsinline>
+        <source src="assets/videos/video GPI.mp4" type="video/mp4">
+    </video>
+    <div class="video-overlay"></div>
+</section>
+
+<!-- Statistics Section (About Us) -->
+<section class="stats-section" id="about">
+    <div class="container" style="text-align: center;">
+        <div class="about-header" data-reveal>
+            <p class="about-label" style="color: #B82025;font-size: 16px;margin-top:24px !important; margin-bottom:0px !important">About Us</p>
+            <h2 class="section-title">EMPOWERING BUSINESSES AND</h2>
+            <h2 class="section-title1" style="font-weight: normal;">COMMUNITIES TO DEVELOP AND FLOURISH</h2>
+        </div>
+
+        <div class="about-grid">
+            <!-- Left Container -->
+            <div class="about-left-column" data-reveal="left">
+                <div class="about-row-top" data-reveal-group>
+                    <div class="stat-box stat-navy box1">
+                        <div class="stat-number" data-counter="600" data-suffix="+">600+</div>
+                        <div class="stat-label">Employees</div>
+                    </div>
+                    <div class="stat-box stat-red box2">
+                        <div class="stat-number" data-counter="400" data-suffix="+">400+</div>
+                        <div class="stat-label">Clients</div>
+                    </div>
+                </div>
+
+                <div class="about-row-bottom">
+                    <div class="stat-image-horizontal">
+                        <img src="~/assets/images/about-workers-horizontal.jpg" alt="Workers at facility">
+                    </div>
+                </div>
+
+                <div class="about-row-top" data-reveal-group>
+                    <div class="stat-box stat-navy box1">
+                        <div class="stat-number" data-counter="40" data-suffix="+">40+</div>
+                        <div class="stat-label">Years of Experience</div>
+                    </div>
+                    <div class="stat-box stat-red box2">
+                        <div class="stat-number" data-counter="20" data-suffix="+">20+</div>
+                        <div class="stat-label">Distributors in Egypt</div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Vertical Image -->
+            <div class="stat-image-vertical" data-reveal="scale">
+                <img src="~/assets/images/about-worker-vertical.jpg" alt="Worker at electrical facility">
+            </div>
+
+            <!-- Content Area -->
+            <div class="about-content-wrapper" data-reveal="right">
+                <div class="about-content">
+                    <p class="about-text-bold">
+                        Established in 1984, GPI has evolved from a local manufacturer of electrical cables into an
+                        integrated power and infrastructure solutions provider.
+                    </p>
+                    <p class="about-text-regular">
+                        Our Operations span across distinct energy sectors including Cables & Wires, Lighting,
+                        Advanced Meters Technologies, and Turnkey Engineering and Construction Projects.
+                    </p>
+                    <a asp-controller="Pages" asp-action="About" class="btn btn-about">Learn More</a>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Mission & Vision Section -->
+<section class="mission-vision-section">
+    <div class="container" style="text-align: center;">
+        <div class="about-header" data-reveal>
+            <p class="about-label" style="color: #B82025;font-size: 16px;">Our Purpose</p>
+            <h2 class="section-title">Building Trust, Excellence,</h2>
+            <h2 class="section-title1" style="font-weight: normal;">and a Greener Future</h2>
+        </div>
+        <div class="container">
+            <div class="mission-vision-grid" data-reveal-group>
+                <!-- Mission Card -->
+                <div class="mission-card card-red">
+                    <div class="card-title">OUR<br>MISSION</div>
+                    <div class="card-text">
+                        Empowering sustainable communities through innovative, high-efficiency products and exceptional service.
+                    </div>
+                </div>
+                <!-- Top Image -->
+                <div class="mission-image-container">
+                    <img src="~/assets/images/mission-img-top.png" alt="Industrial cable coils">
+                </div>
+                <!-- Bottom Image -->
+                <div class="mission-image-container">
+                    <img src="~/assets/images/mission-img-bottom.png" alt="Industrial equipment red tint">
+                </div>
+                <!-- Vision Card -->
+                <div class="mission-card card-navy">
+                    <div class="card-title">OUR<br>VISION</div>
+                    <div class="card-text">
+                        Becoming the partner of choice through innovation, value, and global reach by 2030.
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- The GPI Promise (Core Values) Section -->
+<section class="values-section">
+    <div class="container" style="text-align: center;">
+        <div class="about-header" data-reveal>
+            <p class="about-label" style="color: #B82025;font-size: 16px;">Core Values</p>
+            <h2 class="section-title1" style="font-weight: normal;">Relationships, Trust, Excellence</h2>
+            <h2 class="section-title">The GPI Promise</h2>
+        </div>
+    </div>
+
+    <div class="values-strip">
+        <!-- Integrity -->
+        <div class="value-panel panel-integrity">
+            <div class="value-overlay overlay-integrity"></div>
+            <div class="value-content"><h3>Integrity</h3></div>
+            <div class="value-description">We act with honesty and transparency in every relationship, delivering on our promises with accountability.</div>
+        </div>
+        <!-- Sustainability -->
+        <div class="value-panel panel-sustainability">
+            <div class="value-overlay overlay-sustainability"></div>
+            <div class="value-content"><h3>Sustainability</h3></div>
+            <div class="value-description">We design solutions and processes with the environment in mind, minimizing our footprint for future generations.</div>
+        </div>
+        <!-- Innovation -->
+        <div class="value-panel panel-innovation">
+            <div class="value-overlay overlay-innovation"></div>
+            <div class="value-content"><h3>Innovation</h3></div>
+            <div class="value-description">We continuously push boundaries, adopting cutting-edge technology and forward-thinking practices.</div>
+        </div>
+        <!-- Customer Centricity -->
+        <div class="value-panel panel-customer">
+            <div class="value-overlay overlay-customer"></div>
+            <div class="value-content"><h3>Customer Centricity</h3></div>
+            <div class="value-description">Our clients are at the heart of everything we do — their success is our success.</div>
+        </div>
+        <!-- Commitment to Excellence -->
+        <div class="value-panel panel-excellence">
+            <div class="value-overlay overlay-excellence"></div>
+            <div class="value-content"><h3>Commitment to Excellence</h3></div>
+            <div class="value-description">We uphold the highest quality standards in every product, project, and partnership.</div>
+        </div>
+    </div>
+</section>
+
+<!-- Market Reach Section -->
+<section class="market-section" id="partners">
+    <div class="container">
+        <div class="market-grid">
+            <div class="market-content" data-reveal="left">
+                <p class="about-label" style="font-size: 16px;">Our Partners</p>
+                <h2 class="market-title">
+                    <span class="text-red">Expanding</span> Our<br>Market Reach
+                </h2>
+                <p class="market-description">
+                    Our distributors are instrumental in expanding GPI's market reach through a
+                    strong network of reliable and experienced partners. We view our distributors as
+                    strategic partners, ensuring profitable returns through high-quality solutions and
+                    comprehensive support.
+                </p>
+            </div>
+
+            <div class="partner-cards" data-reveal-group>
+                <div class="partner-card">
+                    <div class="partner-logo-box">
+                        <img src="~/assets/images/Component 1.svg" alt="Partner Logo" class="logo-main">
+                        <img src="~/assets/images/partner-emblem-color.png" alt="Alternate Logo" class="logo-alternate">
+                    </div>
+                </div>
+                <div class="partner-card">
+                    <div class="partner-logo-box">
+                        <img src="~/assets/images/Component 1.svg" alt="Partner Logo" class="logo-main">
+                        <img src="~/assets/images/partner-emblem-color.png" alt="Alternate Logo" class="logo-alternate">
+                    </div>
+                </div>
+                <div class="partner-card">
+                    <div class="partner-logo-box">
+                        <img src="~/assets/images/Component 1.svg" alt="Partner Logo" class="logo-main">
+                        <img src="~/assets/images/partner-emblem-color.png" alt="Alternate Logo" class="logo-alternate">
+                    </div>
+                </div>
+                <div class="partner-card">
+                    <div class="partner-logo-box">
+                        <img src="~/assets/images/Component 1.svg" alt="Partner Logo" class="logo-main">
+                        <img src="~/assets/images/partner-emblem-color.png" alt="Alternate Logo" class="logo-alternate">
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Business Lines Section -->
+<section class="business-section" id="business">
+    <div class="business-grid">
+        <div class="business-visual" data-reveal="left">
+            <img src="~/assets/images/business-hero.jpg" alt="GPI Manufacturing Facility">
+        </div>
+        <div class="business-content" data-reveal="right">
+            <div class="business-text-wrapper">
+                <p class="business-label">Business Lines</p>
+                <h2 class="business-title" style="font-weight:800">Cables & Wires</h2>
+                <p class="business-description">
+                    Regional, diversified integrated cable solutions provider.
+                    Boasting the ability to provide reliable, cost-effective,
+                    high-quality products, complying with international standards.
+                </p>
+                <a asp-controller="Pages" asp-action="Cables-Wires" class="btn btn-red-pill">Learn More</a>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Sustainability Section -->
+<section class="sustainability-section" id="sustainability">
+    <div class="container">
+        <div class="sus-header" data-reveal>
+            <div class="sus-header-left">
+                <p class="sus-label">Sustainability</p>
+                <h2 class="sus-title">An Opportunity to<br>Innovate and Lead</h2>
+            </div>
+            <div class="sus-header-right">
+                <p class="sus-intro">
+                    For GPI, sustainability is not just a responsibility, it's an opportunity to innovate and lead by example.
+                </p>
+            </div>
+        </div>
+
+        <div class="sus-grid" data-reveal-group>
+            <div class="sus-grid-item sus-main-visual">
+                <img src="~/assets/images/sustainability-copper-coils.jpg" alt="Eco-Friendly Production">
+            </div>
+
+            <div class="sus-grid-item sus-card-feature">
+                <div class="sus-card-content">
+                    <h3>Eco-Friendly Manufacturing</h3>
+                    <p>We actively engage with communities we operate in to promote sustainable practices and
+                        support initiatives that enhance environmental and social well-being.</p>
+                </div>
+                <img src="~/assets/images/sustainability-logo-piece.png" class="sus-decorative-logo" alt="Decor">
+            </div>
+
+            <div class="sus-grid-item sus-secondary-visuals">
+                <div class="sus-small-visual">
+                    <img src="~/assets/images/sustainability-transformer.jpg" alt="Sustainability Initiative 1">
+                </div>
+                <div class="sus-small-visual">
+                    <img src="~/assets/images/sustainability-workers.jpg" alt="Sustainability Initiative 2">
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Contact Section -->
+<section class="contact-section" id="contact">
+    <div class="container">
+        <div class="contact-layout">
+            <div class="contact-info">
+                <div class="contact-details">
+                    <div class="contact-item">
+                        <img src="~/assets/images/contact-bg-curve.png" class="contact-bg-arc" alt="Decor">
+
+                        <div class="container">
+                            <div class="contact-grid">
+                                <!-- Left Column: Info -->
+                                <div class="contact-info-col" data-reveal="left">
+                                    <div class="contact-header-content">
+                                        <p class="sus-label">Contact Us</p>
+                                        <h2 class="sus-title">We Are Here To Help You</h2>
+                                        <p class="contact-intro-text">
+                                            We'd love to hear from you! Whether you have a question, feedback,
+                                            or a project idea, our team is ready to help. Reach out and let's start the conversation.
+                                        </p>
+                                    </div>
+
+                                    <div class="contact-methods-list">
+                                        <!-- Email -->
+                                        <div class="contact-method">
+                                            <div class="contact-icon-box">
+                                                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                                    <path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z" />
+                                                    <path d="M22 6l-10 7L2 6" />
+                                                </svg>
+                                            </div>
+                                            <div class="contact-method-text">
+                                                <span class="method-label">Email</span>
+                                                <span class="method-value">gizapowerindustry@gmail.com</span>
+                                            </div>
+                                        </div>
+                                        <!-- Phone -->
+                                        <div class="contact-method">
+                                            <div class="contact-icon-box">
+                                                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                                    <path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z" />
+                                                </svg>
+                                            </div>
+                                            <div class="contact-method-text">
+                                                <span class="method-label">Phone Number</span>
+                                                <span class="method-value">+2 02 35390023</span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <!-- Right Column: Form Card -->
+                                <div class="contact-form-col" data-reveal="right">
+                                    <div class="contact-premium-card">
+                                        <h3 class="card-form-title">Let's Build the Future Together</h3>
+                                        <p class="card-form-subtitle">We're here to support your inquiries, partnership requests, and business needs.</p>
+
+                                        <!-- Success Banner -->
+                                        <div class="form-success-banner" id="formSuccess">
+                                            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#155724" stroke-width="2.5">
+                                                <polyline points="20 6 9 17 4 12"></polyline>
+                                            </svg>
+                                            <span>Thank you! Your message has been sent. We'll be in touch shortly.</span>
+                                        </div>
+
+                                        <form id="contactForm" class="premium-form" novalidate>
+                                            <div class="input-with-icon">
+                                                <span class="field-icon"><img src="~/assets/images/contact-icon-user.png" alt="User"></span>
+                                                <input type="text" id="name" name="name" placeholder="Full Name.." required>
+                                            </div>
+                                            <div class="input-with-icon">
+                                                <span class="field-icon"><img src="~/assets/images/contact-icon-email.png" alt="Email"></span>
+                                                <input type="email" id="email" name="email" placeholder="Email.." required>
+                                            </div>
+                                            <div class="input-with-icon">
+                                                <span class="field-icon">📋</span>
+                                                <select id="subject" name="subject" required>
+                                                    <option value="" disabled selected>Subject</option>
+                                                    <option value="Inquiry">Inquiry</option>
+                                                    <option value="Partnership">Partnership</option>
+                                                    <option value="Other">Other</option>
+                                                </select>
+                                            </div>
+                                            <div class="input-with-icon textarea-group">
+                                                <span class="field-icon"><img src="~/assets/images/contact-icon-calendar.png" alt="Calendar"></span>
+                                                <textarea id="message" name="message" placeholder="Your Message..." rows="4" required></textarea>
+                                            </div>
+                                            <div class="form-footer-action">
+                                                <button type="submit" class="btn btn-red-submit" id="submitBtn">
+                                                    Send Message <span class="arrow-circle-custom"><img src="~/assets/images/contact-icon-arrow.png" alt="Arrow"></span>
+                                                </button>
+                                            </div>
+                                        </form>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+@section Scripts {
+<script>
+(function () {
+  'use strict';
+
+  /* ── 1. SCROLL REVEAL ── */
+  const revealEls = document.querySelectorAll('[data-reveal], [data-reveal-group]');
+  const revealObserver = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+      if (entry.isIntersecting) {
+        entry.target.classList.add('is-visible');
+        revealObserver.unobserve(entry.target);
+      }
+    });
+  }, { threshold: 0.12, rootMargin: '0px 0px -60px 0px' });
+
+  revealEls.forEach(el => revealObserver.observe(el));
+
+  /* ── 2. ANIMATED STAT COUNTERS ── */
+  function animateCounter(el) {
+    const target = parseInt(el.dataset.counter, 10);
+    const suffix = el.dataset.suffix || '';
+    const duration = 1800;
+    const start = performance.now();
+    (function tick(now) {
+      const elapsed = now - start;
+      const progress = Math.min(elapsed / duration, 1);
+      // easeOutExpo
+      const eased = progress === 1 ? 1 : 1 - Math.pow(2, -10 * progress);
+      el.textContent = Math.floor(eased * target) + suffix;
+      if (progress < 1) requestAnimationFrame(tick);
+    })(start);
+  }
+
+  const counterObserver = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+      if (entry.isIntersecting) {
+        animateCounter(entry.target);
+        counterObserver.unobserve(entry.target);
+      }
+    });
+  }, { threshold: 0.5 });
+
+  document.querySelectorAll('[data-counter]').forEach(el => counterObserver.observe(el));
+
+  /* ── 3. READING PROGRESS BAR ── */
+  const progressBar = document.getElementById('progressBar');
+  function updateProgress() {
+    const scrollTop = window.scrollY;
+    const docHeight = document.documentElement.scrollHeight - window.innerHeight;
+    const pct = docHeight > 0 ? (scrollTop / docHeight) * 100 : 0;
+    if (progressBar) progressBar.style.width = pct + '%';
+  }
+  window.addEventListener('scroll', updateProgress, { passive: true });
+
+  /* ── 4. BACK TO TOP ── */
+  const backBtn = document.getElementById('back-to-top');
+  window.addEventListener('scroll', () => {
+    if (backBtn) {
+      backBtn.classList.toggle('visible', window.scrollY > 400);
+    }
+  }, { passive: true });
+  if (backBtn) {
+    backBtn.addEventListener('click', () => window.scrollTo({ top: 0, behavior: 'smooth' }));
+  }
+
+  /* ── 5. CONTACT FORM ── */
+  const form = document.getElementById('contactForm');
+  const submitBtn = document.getElementById('submitBtn');
+  const successBanner = document.getElementById('formSuccess');
+
+  if (form) {
+    form.addEventListener('submit', function (e) {
+      e.preventDefault();
+      if (!form.checkValidity()) { form.reportValidity(); return; }
+
+      submitBtn.classList.add('loading');
+      submitBtn.textContent = 'Sending…';
+
+      // Simulate async send (replace with real fetch/ajax call)
+      setTimeout(() => {
+        submitBtn.classList.remove('loading');
+        form.reset();
+        if (successBanner) {
+          successBanner.classList.add('show');
+          setTimeout(() => successBanner.classList.remove('show'), 6000);
+        }
+        // Restore button
+        submitBtn.innerHTML = 'Send Message <span class="arrow-circle-custom"><img src="/assets/images/contact-icon-arrow.png" alt="Arrow"></span>';
+      }, 1600);
+    });
+  }
+
+  /* ── 6. SMOOTH SCROLL for anchor links ── */
+  document.querySelectorAll('a[href^="#"]').forEach(link => {
+    link.addEventListener('click', function (e) {
+      const target = document.querySelector(this.getAttribute('href'));
+      if (target) {
+        e.preventDefault();
+        target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+      }
+    });
+  });
+
+})();
+</script>
+}

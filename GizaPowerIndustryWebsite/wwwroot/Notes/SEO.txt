@@ -1,0 +1,120 @@
+
+
+
+
+
+
+
+// ==================================================== First Step: Add SEO Meta Tags to Layout ====================================================
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <!-- Dynamic per-page SEO (مرر القيم دي من كل View) -->
+    <title>@ViewData["Title"] | Giza Power Industry (GPI)</title>
+    <meta name="description" content="@(ViewData["MetaDescription"] ?? "Giza Power Industry - Leading provider of sustainable energy and infrastructure solutions. Empowering businesses and communities to develop and flourish.")">
+    <meta name="keywords" content="@(ViewData["MetaKeywords"] ?? "Giza Power Industry, GPI, sustainable energy Egypt, infrastructure solutions, renewable energy")">
+    <meta name="robots" content="index, follow">
+    <meta name="author" content="Giza Power Industry" />
+
+    <!-- Canonical -->
+    <link rel="canonical" href="@($"https://www.yourdomain.com{Context.Request.Path}")" />
+
+    <!-- Language / Hreflang (لو عندك نسخة عربي وإنجليزي) -->
+    <link rel="alternate" hreflang="ar" href="https://www.yourdomain.com/ar@Context.Request.Path" />
+    <link rel="alternate" hreflang="en" href="https://www.yourdomain.com/en@Context.Request.Path" />
+    <link rel="alternate" hreflang="x-default" href="https://www.yourdomain.com" />
+
+    <!-- Open Graph -->
+    <meta property="og:type" content="website" />
+    <meta property="og:title" content="@ViewData["Title"] | GPI" />
+    <meta property="og:description" content="@(ViewData["MetaDescription"] ?? "Giza Power Industry - sustainable energy and infrastructure solutions.")" />
+    <meta property="og:url" content="@($"https://www.yourdomain.com{Context.Request.Path}")" />
+    <meta property="og:image" content="https://www.yourdomain.com/assets/Logos/og-image.png" />
+    <meta property="og:site_name" content="Giza Power Industry" />
+    <meta property="og:locale" content="ar_EG" />
+
+    <!-- Twitter Card -->
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content="@ViewData["Title"] | GPI" />
+    <meta name="twitter:description" content="@(ViewData["MetaDescription"] ?? "Giza Power Industry - sustainable energy solutions.")" />
+    <meta name="twitter:image" content="https://www.yourdomain.com/assets/Logos/og-image.png" />
+
+    <!-- Security headers -->
+    <meta http-equiv="X-XSS-Protection" content="1; mode=block" />
+    <meta http-equiv="X-Content-Type-Options" content="nosniff" />
+
+    <link rel="icon" href="~/assets/Logos/logo.png" type="image/png"/>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;700;800;900&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <link rel="stylesheet" href="~/assets/css/custom-font.css" />
+    <link rel="stylesheet" href="~/assets/cssdawyer/vendors.min.css" />
+    <link rel="stylesheet" href="~/assets/cssdawyer/style.css" />
+    <link rel="stylesheet" href="~/assets/cssdawyer/responsive.css" />
+    <link rel="stylesheet" href="~/assets/demos/recruitment/recruitment.css" />
+    <link rel="stylesheet" href="~/assets/rtl-css/style-rtl.css" id="rtlStyle" disabled>
+    <link rel="stylesheet" href="~/assets/cssdawyer/costume.css" />
+
+    <!-- Structured Data (JSON-LD) -->
+    <script type="application/ld+json">
+    {
+      "@@context": "https://schema.org",
+      "@@type": "Organization",
+      "name": "Giza Power Industry",
+      "url": "https://www.yourdomain.com",
+      "logo": "https://www.yourdomain.com/assets/Logos/logo.png",
+      "sameAs": [
+        "https://www.facebook.com/yourpage",
+        "https://www.linkedin.com/company/yourcompany"
+      ]
+    }
+    </script>
+</head>
+
+
+
+
+
+
+
+// ==================================================== Second Step: SEO Checklist for New Website ====================================================
+
+
+1
+اعمل robots.txt
+لازم يكون موجود على /robots.txt في جذر الموقع، يسمح لمحركات البحث تعمل crawl، ويشاور على مكان الـ sitemap. مثال: User-agent: * / Allow: / / Sitemap: https://www.yourdomain.com/sitemap.xml
+2
+اعمل sitemap.xml
+ملف XML فيه كل روابط صفحات الموقع (الرئيسية، من نحن، خدمات، تواصل، إلخ). في ASP.NET ممكن تولده ديناميكيًا بـ Controller Action بيرجع XML، أو تستخدم مكتبة زي SimpleMvcSitemap.
+3
+سجّل الموقع في Google Search Console
+روح على search.google.com/search-console، أضف الدومين، اعمل verify (عن طريق DNS record أو ملف HTML)، بعدين قدّم الـ sitemap.xml من هناك. ده أهم خطوة عشان جوجل يبدأ يعرف الموقع أصلاً موجود.
+4
+سجّل في Bing Webmaster Tools
+نفس فكرة Search Console بس لمحرك بينج، وبيغطي كمان نتائج ياهو. بياخد دقايق وبيوسع وصولك.
+5
+تأكد إن الموقع مش بيعمل Block لمحركات البحث
+لو الموقع لسه في بيئة تطوير أو staging، تأكد إن ملف robots.txt أو أي middleware مش عامل Disallow: / بالغلط، وده أكتر سبب شائع لعدم ظهور المواقع الجديدة.
+6
+استخدم Semantic HTML و Heading واحد H1 لكل صفحة
+كل صفحة المفروض فيها H1 واحد بس يوصف محتواها بوضوح، وH2/H3 تحتيها بالترتيب المنطقي. تأكد كمان إن كل صورة عندها attribute alt يوصفها.
+7
+حسّن سرعة تحميل الصفحة (Core Web Vitals)
+جوجل بيراعي سرعة الموقع في الترتيب. اختبر الموقع على PageSpeed Insights، واضغط الصور، واستخدم lazy loading، وقلل عدد ملفات CSS/JS اللي بتحملها لو ممكن.
+8
+اعمل Backlinks ومحتوى فريد
+سجل الشركة في Google Business Profile، وحط رابط الموقع في أي دليل شركات (business directories) أو سوشيال ميديا. المحتوى النصي في الصفحة المفروض يكون فريد وواضح، مش مجرد صور وشعارات.
+أهم 3 حاجات لازم تعملها الأول (بالترتيب)
+robots.txt + sitemap.xml — لو مش موجودين، محركات البحث أصلاً مش هتلاقي الموقع بسهولة.
+Google Search Console — سجّل الدومين وقدّم الـ sitemap. ده اللي فعليًا بيخلي جوجل "يشوف" الموقع.
+تأكد الموقع مفعّل عليه HTTPS ومفيش أي Disallow: / غلط في robots.txt — غلطة شائعة جدًا إن الموقع لسه فيه إعدادات من مرحلة التطوير بتمنع الفهرسة بالكامل.
+بعد كده الميتا تاجز والـ structured data اللي فوق هتحسّن جودة الظهور (rich snippets، og:image في المشاركات، إلخ)، لكن هي مش السبب في الظهور من الأساس — ده شغل الـ Search Console والـ sitemap.
+
+لو عايز أساعدك تعمل الـ sitemap.xml ديناميكي في ASP.NET Core أو ملف robots.txt جاهز، قولي.
+
+
+
+

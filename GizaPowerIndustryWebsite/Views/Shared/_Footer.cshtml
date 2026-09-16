@@ -1,0 +1,386 @@
+<style>
+    .main-footer {
+        position: sticky;
+        bottom: 0;
+        overflow: hidden;
+        z-index: 1; 
+        color: #ffffff;
+        padding: 35px 0 15px;
+        box-shadow: 0 -10px 30px rgba(0, 0, 0, 0.25);
+        background-color: #052437 !important;
+    }
+
+    /* Background Glow Effects */
+    .main-footer::before {
+        content: "";
+        position: absolute;
+        top: -50px;
+        right: -50px;
+        width: 300px;
+        height: 300px;
+        border-radius: 50%;
+        background: radial-gradient(circle, rgba(184, 32, 37, 0.18) 0%, rgba(184, 32, 37, 0) 70%);
+        pointer-events: none;
+    }
+
+    .main-footer::after {
+        content: "";
+        position: absolute;
+        bottom: -50px;
+        left: -50px;
+        width: 250px;
+        height: 250px;
+        border-radius: 50%;
+        background: radial-gradient(circle, rgba(6, 40, 63, 0.4) 0%, rgba(6, 40, 63, 0) 70%);
+        pointer-events: none;
+    }
+
+    /* Layout - 3 Columns Side-by-Side */
+    .footer-container {
+        display: grid;
+        grid-template-columns: 1.15fr 1.15fr 1fr;
+        gap: 35px;
+        position: relative;
+        z-index: 2;
+    }
+
+    /* Titles */
+    .footer-title {
+        color: #ffffff;
+        font-weight: 800;
+        font-size: 16px;
+        margin-bottom: 14px;
+        position: relative;
+        display: inline-block;
+        letter-spacing: 0.5px;
+    }
+
+    .footer-title::after {
+        content: "";
+        position: absolute;
+        bottom: -5px;
+        left: 0;
+        width: 30px;
+        height: 3px;
+        border-radius: 3px;
+        background: #B82025;
+        transition: width 0.3s ease;
+    }
+
+    .footer-col:hover .footer-title::after {
+        width: 45px;
+    }
+
+    [dir="rtl"] .footer-title::after {
+        left: auto;
+        right: 0;
+    }
+
+    /* 2 Columns inside Quick Links (3 items per column) */
+    .footer-links-grid {
+        display: grid;
+        grid-template-columns: repeat(2, 1fr);
+        gap: 6px 12px;
+        list-style: none;
+        padding: 0;
+        margin: 0;
+    }
+
+    .footer-links-grid li {
+        margin-bottom: 0;
+    }
+
+    .footer-links-grid a,
+    .footer-business-grid a {
+        display: flex;
+        align-items: center;
+        gap: 8px;
+        color: #B0C0CE;
+        text-decoration: none;
+        font-size: 13.5px;
+        font-weight: 500;
+        transition: all 0.25s ease;
+        padding: 3px 0;
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+    }
+
+    .footer-links-grid a i,
+    .footer-business-grid a i {
+        font-size: 10px;
+        color: #B82025;
+        transition: transform 0.25s ease;
+        flex-shrink: 0;
+    }
+
+    .footer-links-grid a:hover,
+    .footer-business-grid a:hover {
+        color: #ffffff;
+        transform: translateX(5px);
+    }
+
+    .footer-links-grid a:hover i,
+    .footer-business-grid a:hover i {
+        transform: scale(1.3);
+        color: #ff3b42;
+    }
+
+    [dir="rtl"] .footer-links-grid a:hover,
+    [dir="rtl"] .footer-business-grid a:hover {
+        transform: translateX(-5px);
+    }
+
+    /* 2 Columns inside Our Businesses */
+    .footer-business-grid {
+        display: grid;
+        grid-template-columns: repeat(2, 1fr);
+        gap: 6px 12px;
+    }
+
+    /* Contact Details */
+    .footer-contact-item {
+        display: flex;
+        align-items: center;
+        gap: 10px;
+        color: #B0C0CE;
+        font-size: 13px;
+        margin-bottom: 8px;
+        transition: color 0.3s ease;
+    }
+
+    .footer-contact-icon {
+        width: 30px;
+        height: 30px;
+        border-radius: 8px;
+        background: rgba(255, 255, 255, 0.07);
+        border: 1px solid rgba(255, 255, 255, 0.1);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        color: #B82025;
+        font-size: 12px;
+        flex-shrink: 0;
+        transition: all 0.3s ease;
+    }
+
+    .footer-contact-item:hover .footer-contact-icon {
+        background: #B82025;
+        color: #ffffff;
+        border-color: #B82025;
+        transform: translateY(-2px);
+        box-shadow: 0 4px 12px rgba(184, 32, 37, 0.35);
+    }
+
+    .footer-contact-item:hover {
+        color: #ffffff;
+    }
+
+    /* Social Icons */
+    .social-icons {
+        display: flex;
+        gap: 8px;
+        margin-top: 10px;
+    }
+
+    .social-icon {
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        width: 32px;
+        height: 32px;
+        border-radius: 8px;
+        text-decoration: none;
+        font-size: 13px;
+        transition: all 0.3s ease;
+        color: #ffffff;
+        background: rgba(255, 255, 255, 0.08);
+        border: 1px solid rgba(255, 255, 255, 0.12);
+        backdrop-filter: blur(4px);
+    }
+
+    .social-icon:hover {
+        transform: translateY(-3px);
+        box-shadow: 0 6px 15px rgba(0, 0, 0, 0.3);
+        border-color: transparent;
+    }
+
+    .fb-icon:hover { background: #1877F2; }
+    .ig-icon:hover { background: linear-gradient(45deg, #f09433 0%, #e6683c 25%, #dc2743 50%, #cc2366 75%, #bc1888 100%); }
+    .li-icon:hover { background: #0A66C2; }
+    .mail-icon:hover { background: #B82025; }
+
+    /* Bottom Copyright */
+    .footer-bottom {
+        position: relative;
+        z-index: 2;
+        border-top: 1px solid rgba(255, 255, 255, 0.1);
+        margin-top: 18px;
+        padding-top: 12px;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        font-size: 12.5px;
+        color: #8C9BAE;
+    }
+
+    .footer-bottom-links {
+        display: flex;
+        gap: 18px;
+    }
+
+    .footer-bottom-links a {
+        color: #8C9BAE;
+        text-decoration: none;
+        transition: color 0.3s ease;
+    }
+
+    .footer-bottom-links a:hover {
+        color: #B82025;
+    }
+
+    /* Animation */
+    .footer-col {
+        opacity: 0;
+        transform: translateY(15px);
+        transition: 0.5s ease;
+    }
+
+    .footer-col.show {
+        opacity: 1;
+        transform: translateY(0);
+    }
+
+    /* Responsive */
+    @@media (max-width: 992px) {
+        .footer-container {
+            grid-template-columns: repeat(2, 1fr);
+            gap: 25px;
+        }
+
+        .footer-bottom {
+            flex-direction: column;
+            gap: 10px;
+            text-align: center;
+        }
+    }
+
+    @@media (max-width: 650px) {
+        .main-footer {
+            padding: 25px 0 15px;
+        }
+
+        .footer-container {
+            grid-template-columns: 1fr;
+            gap: 20px;
+        }
+
+        .footer-links-grid,
+        .footer-business-grid {
+            grid-template-columns: repeat(2, 1fr);
+        }
+
+        .social-icons {
+            justify-content: flex-start;
+        }
+    }
+</style>
+
+<footer class="main-footer">
+    <div class="container footer-container">
+
+        <!-- Column 1: Quick Links (2 columns of 3) -->
+        <div class="footer-col">
+            <h3 class="footer-title">Quick Links</h3>
+            <ul class="footer-links-grid">
+                <li><a asp-controller="Pages" asp-action="About"><i class="fas fa-chevron-right"></i> About Us</a></li>
+                <li><a asp-controller="Pages" asp-action="News"><i class="fas fa-chevron-right"></i> Latest News</a></li>
+                <li><a asp-controller="Pages" asp-action="Products"><i class="fas fa-chevron-right"></i> Business Lines</a></li>
+                <li><a asp-controller="Pages" asp-action="Partners"><i class="fas fa-chevron-right"></i> Distributors</a></li>
+                <li><a asp-controller="Pages" asp-action="Sustainability"><i class="fas fa-chevron-right"></i> Sustainability</a></li>
+                <li><a asp-controller="Pages" asp-action="Careers"><i class="fas fa-chevron-right"></i> Careers</a></li>
+            </ul>
+        </div>
+
+        <!-- Column 2: Our Businesses (2 columns) -->
+        <div class="footer-col">
+            <h3 class="footer-title">Our Businesses</h3>
+            <div class="footer-business-grid">
+                <a asp-controller="Pages" asp-action="CablesWires"><i class="fas fa-bolt"></i> GPI Cables</a>
+                <a asp-controller="Pages" asp-action="Projects"><i class="fas fa-hard-hat"></i> EPC Projects</a>
+                <a asp-controller="Pages" asp-action="Lighting"><i class="fas fa-lightbulb"></i> GPI Lighting</a>
+                <a asp-controller="Pages" asp-action="QHSE"><i class="fas fa-shield-alt"></i> Quality & QHSE</a>
+                <a asp-controller="Pages" asp-action="Meters"><i class="fas fa-tachometer-alt"></i> Smart Meters</a>
+            </div>
+        </div>
+
+        <!-- Column 3: Get In Touch -->
+        <div class="footer-col">
+            <h3 class="footer-title">Get In Touch</h3>
+
+            <div class="footer-contact-item">
+                <div class="footer-contact-icon">
+                    <i class="fas fa-envelope"></i>
+                </div>
+                <span>gpi@gpi.com.eg</span>
+            </div>
+
+            <div class="footer-contact-item">
+                <div class="footer-contact-icon">
+                    <i class="fas fa-phone-alt"></i>
+                </div>
+                <span>+2 02 35390023</span>
+            </div>
+
+            <div class="footer-contact-item">
+                <div class="footer-contact-icon">
+                    <i class="fas fa-map-marker-alt"></i>
+                </div>
+                <span>Abo Rawash Industrial Zone, Giza</span>
+            </div>
+
+            <!-- Social Icons -->
+            <div class="social-icons">
+                <a href="https://www.facebook.com/GizaPowerIndustry" target="_blank" rel="noopener" aria-label="Facebook" class="social-icon fb-icon">
+                    <i class="fab fa-facebook-f"></i>
+                </a>
+                <a href="https://www.instagram.com/gizapowerindustry" target="_blank" rel="noopener" aria-label="Instagram" class="social-icon ig-icon">
+                    <i class="fab fa-instagram"></i>
+                </a>
+                <a href="https://www.linkedin.com/company/giza-power-industry" target="_blank" rel="noopener" aria-label="LinkedIn" class="social-icon li-icon">
+                    <i class="fab fa-linkedin-in"></i>
+                </a>
+                <a href="mailto:gpi@gpi.com.eg" aria-label="Email" class="social-icon mail-icon">
+                    <i class="fas fa-envelope"></i>
+                </a>
+            </div>
+        </div>
+
+    </div>
+
+    <!-- Bottom Copyright -->
+    <div class="container">
+        <div class="footer-bottom">
+            <div>
+                © <strong>2026</strong> Giza Power Industry (GPI). All Rights Reserved.
+            </div>
+            <div class="footer-bottom-links">
+                <a asp-controller="Pages" asp-action="Contact">Contact</a>
+                <a asp-controller="Pages" asp-action="QHSE">QHSE Policy</a>
+                <a asp-controller="Pages" asp-action="About">Overview</a>
+            </div>
+        </div>
+    </div>
+</footer>
+
+<script>
+    document.addEventListener("DOMContentLoaded", function () {
+        const items = document.querySelectorAll(".footer-col");
+        items.forEach((el, i) => {
+            setTimeout(() => {
+                el.classList.add("show");
+            }, i * 150);
+        });
+    });
+</script>
+

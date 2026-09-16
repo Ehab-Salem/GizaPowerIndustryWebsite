@@ -1,0 +1,692 @@
+﻿@{
+    ViewData["Title"] = "Cables & Wires Products";
+}
+<style>
+    .main-content {
+        padding-top: 90px; /* adjust this value as needed */
+    }
+
+    .products-page {
+        display: flex;
+        gap: 30px;
+        padding: 40px 0;
+        align-items: flex-start;
+    }
+
+    /* ===== SIDEBAR ===== */
+    .filter-sidebar {
+        width: 280px;
+        flex-shrink: 0;
+        background: #f8f9fa;
+        padding: 25px;
+        border-radius: 6px;
+    }
+
+        .filter-sidebar h3 {
+            font-size: 1.3rem;
+            font-weight: 600;
+            color: #333;
+            margin-bottom: 20px;
+        }
+
+    .filter-group {
+        border-bottom: 1px solid #e0e0e0;
+        padding-bottom: 15px;
+        margin-bottom: 15px;
+    }
+
+    .filter-group-header {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        cursor: pointer;
+        font-weight: 600;
+        color: #444;
+        margin-bottom: 12px;
+    }
+
+        .filter-group-header .toggle-icon {
+            font-size: 1.2rem;
+            line-height: 1;
+            transition: transform 0.2s;
+        }
+
+    .filter-group.collapsed .toggle-icon {
+        transform: rotate(-90deg);
+    }
+
+    .filter-options {
+        display: flex;
+        flex-direction: column;
+        gap: 10px;
+        overflow: hidden;
+        transition: max-height 0.3s ease;
+    }
+
+    .filter-group.collapsed .filter-options {
+        display: none;
+    }
+
+    .filter-option {
+        display: flex;
+        align-items: flex-start;
+        gap: 8px;
+        font-size: 0.92rem;
+        color: #555;
+        cursor: pointer;
+        flex-direction: row-reverse;
+    }
+
+        .filter-option input {
+            margin-top: 3px;
+            cursor: pointer;
+        }
+
+    .show-more {
+        color: #B82025;
+        font-weight: 600;
+        font-size: 0.9rem;
+        cursor: pointer;
+        text-decoration: none;
+        display: inline-block;
+        margin-top: 5px;
+    }
+
+    /* ===== MAIN LIST ===== */
+    .products-main {
+        flex: 1;
+        width: 100%;
+    }
+
+    .products-toolbar {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        flex-wrap: wrap;
+        gap: 15px;
+        padding-bottom: 20px;
+        border-bottom: 1px solid #e0e0e0;
+        margin-bottom: 10px;
+    }
+
+        .products-toolbar h2 {
+            color: #B82025;
+            font-size: 1.3rem;
+            font-weight: 700;
+            margin: 0;
+        }
+
+    .toolbar-controls {
+        display: flex;
+        align-items: center;
+        gap: 15px;
+        flex-wrap: wrap;
+    }
+
+        .toolbar-controls label {
+            font-weight: 600;
+            font-size: 0.85rem;
+            color: #555;
+            margin-right: 5px;
+        }
+
+        .toolbar-controls select {
+            padding: 6px 10px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+            font-size: 0.9rem;
+        }
+
+    .view-toggle {
+        display: flex;
+        gap: 5px;
+    }
+
+        .view-toggle button {
+            width: 38px;
+            height: 38px;
+            border: 1px solid #ccc;
+            background: #fff;
+            border-radius: 4px;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+            .view-toggle button.active {
+                background: #06283F;
+                color: #fff;
+                border-color: #06283F;
+            }
+
+    /* Product rows */
+    .product-list {
+        display: flex;
+        flex-direction: column;
+    }
+
+    .product-row {
+        display: flex;
+        align-items: center;
+        gap: 25px;
+        padding: 18px 0;
+        border-bottom: 1px solid #eee;
+    }
+
+        .product-row img {
+            width: 100px;
+            height: 70px;
+            object-fit: cover;
+            border-radius: 4px;
+            flex-shrink: 0;
+        }
+
+        .product-row .product-name {
+            flex: 1;
+            color: #06283F;
+            font-weight: 700;
+            font-size: 1rem;
+            text-decoration: none;
+        }
+
+        .product-row .btn-spec {
+            border: 1px solid #ccc;
+            border-radius: 4px;
+            background: #fff;
+            padding: 10px 18px;
+            font-size: 0.85rem;
+            color: #555;
+            text-decoration: none;
+            white-space: nowrap;
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+    /* Grid view */
+    .product-list.grid-view {
+        display: grid;
+        grid-template-columns: repeat(3, 1fr);
+        gap: 25px;
+    }
+
+        .product-list.grid-view .product-row {
+            flex-direction: column;
+            align-items: stretch;
+            text-align: center;
+            border: 1px solid #eee;
+            border-radius: 6px;
+            padding: 20px;
+        }
+
+            .product-list.grid-view .product-row img {
+                width: 100%;
+                height: 140px;
+            }
+
+    @@media (max-width: 992px) {
+        .products-page {
+            flex-direction: column;
+        }
+
+        .filter-sidebar {
+            width: 100%;
+        }
+
+        .product-list.grid-view {
+            grid-template-columns: repeat(2, 1fr);
+        }
+    }
+
+    @@media (max-width: 576px) {
+        .product-row {
+            flex-wrap: wrap;
+        }
+
+            .product-row .btn-spec {
+                width: 100%;
+                justify-content: center;
+            }
+
+        .product-list.grid-view {
+            grid-template-columns: 1fr;
+        }
+
+        .products-toolbar {
+            flex-direction: column;
+            align-items: flex-start;
+        }
+    }
+
+    /* ===== TWO‑IMAGE LAYOUT ===== */
+    .product-images {
+        display: flex;
+        gap: 10px;
+        align-items: center;
+        flex-shrink: 0;
+    }
+
+        .product-images img {
+            width: 80px;
+            height: 60px;
+            object-fit: cover;
+            border-radius: 4px;
+        }
+
+    /* In grid view, the product card stacks vertically – make images full width */
+    .product-list.grid-view .product-images {
+        width: 100%;
+        flex-direction: column;
+        gap: 10px;
+    }
+
+        .product-list.grid-view .product-images img {
+            width: 100%;
+            height: auto; /* maintain aspect ratio */
+            max-height: 140px; /* consistent with your existing grid image height */
+            object-fit: cover;
+        }
+
+    /* Mobile: stack images even in list view */
+    @@media (max-width: 576px) {
+        .product-images
+
+    {
+        flex-direction: column;
+        align-items: flex-start;
+    }
+
+    .product-images img {
+        width: 100px;
+        height: 70px;
+    }
+
+    
+
+    }
+</style>
+
+<style>
+    /* ===== FILTER SIDEBAR – Enhanced ===== */
+    /* … keep all your existing styles above, then replace the filter-option part … */
+
+    .filter-option {
+        display: flex;
+        align-items: flex-start;
+        gap: 8px;
+        font-size: 0.92rem;
+        color: #374151;
+        cursor: pointer;
+        flex-direction: row;
+        margin: 0;
+        min-height: 2.25rem; /* ensures uniform row height, checkboxes align */
+    }
+
+        /* Checkbox – fixed size, never shrinks */
+        .filter-option input[type="checkbox"] {
+            appearance: none;
+            -webkit-appearance: none;
+            width: 18px;
+            height: 18px;
+            border: 2px solid #d1d5db;
+            border-radius: 4px;
+            margin: 0;
+            cursor: pointer;
+            position: relative;
+            transition: all 0.2s;
+            flex-shrink: 0; /* critical – prevents shrinking */
+        }
+
+            .filter-option input[type="checkbox"]:checked {
+                background: #B82025;
+                border-color: #B82025;
+            }
+
+                .filter-option input[type="checkbox"]:checked::after {
+                    content: "";
+                    position: absolute;
+                    left: 5px;
+                    top: 2px;
+                    width: 5px;
+                    height: 10px;
+                    border: solid #fff;
+                    border-width: 0 2px 2px 0;
+                    transform: rotate(45deg);
+                }
+
+        /* Label text – wraps and takes available space */
+        .filter-option .option-label {
+            flex: 1 1 auto;
+            min-width: 0;
+            line-height: 1.4;
+        }
+
+        /* Count – stuck to the right, never wraps */
+        .filter-option .count {
+            flex: 0 0 auto;
+            color: #9ca3af;
+            font-size: 0.8rem;
+            white-space: nowrap;
+            margin-left: auto;
+        }
+</style>
+
+<div class="main-content">
+    <div class="container">
+        <div class="products-page">
+
+            <!-- ===== FILTER SIDEBAR ===== -->
+
+            <aside class="filter-sidebar" id="filterSidebar">
+                <div class="sidebar-header">
+                    <h3>Filter by</h3>
+                    <button class="btn-clear-filters" id="clearAllFilters" style="display:none;">Clear All</button>
+                    <button class="btn-close-sidebar d-md-none" onclick="closeMobileSidebar()">✕</button>
+                </div>
+
+                <!-- Core Type Group -->
+                <div class="filter-group">
+                    <div class="filter-group-header" onclick="toggleGroup(this)">
+                        <span>Core Type</span>
+                        <svg class="toggle-icon" width="16" height="16" viewBox="0 0 16 16"><polyline points="4,6 8,10 12,6" fill="none" stroke="currentColor" stroke-width="2" /></svg>
+                    </div>
+                    <div class="filter-options">
+                        <label class="filter-option">
+                            <input type="checkbox" data-filter="core" value="Single" />
+                            <span class="option-label">Single Core</span>
+                        </label>
+                        <label class="filter-option">
+                            <input type="checkbox" data-filter="core" value="Multi" />
+                            <span class="option-label">Multi Core</span>
+                        </label>
+                    </div>
+                </div>
+                <!-- Insulation Group -->
+                @* <div class="filter-group">
+                    <div class="filter-group-header" onclick="toggleGroup(this)">
+                        <span>Insulation</span>
+                        <svg class="toggle-icon" width="16" height="16" viewBox="0 0 16 16"><polyline points="4,6 8,10 12,6" fill="none" stroke="currentColor" stroke-width="2" /></svg>
+                    </div>
+                    <div class="filter-options">
+                        <label class="filter-option">
+                            <input type="checkbox" data-filter="insulation" value="XLPE" />
+                            <span class="option-label">XLPE</span>
+                        </label>
+                        <label class="filter-option">
+                            <input type="checkbox" data-filter="insulation" value="PVC" />
+                            <span class="option-label">PVC</span>
+                        </label>
+                    </div>
+                </div> *@
+
+                <!-- Armoring Group -->
+                <div class="filter-group">
+                    <div class="filter-group-header" onclick="toggleGroup(this)">
+                        <span>Armoring</span>
+                        <svg class="toggle-icon" width="16" height="16" viewBox="0 0 16 16"><polyline points="4,6 8,10 12,6" fill="none" stroke="currentColor" stroke-width="2" /></svg>
+                    </div>
+                    <div class="filter-options">
+                        <label class="filter-option">
+                            <input type="checkbox" data-filter="armor" value="Armored" />
+                            <span class="option-label">Armored</span>
+                        </label>
+                        <label class="filter-option">
+                            <input type="checkbox" data-filter="armor" value="Unarmored" />
+                            <span class="option-label">Unarmored</span>
+                        </label>
+                    </div>
+                </div>
+                <!-- Voltage Group -->
+                <div class="filter-group" style="    border-bottom: none;">
+                    <div class="filter-group-header" onclick="toggleGroup(this)">
+                        <span>Voltage</span>
+                        <svg class="toggle-icon" width="16" height="16" viewBox="0 0 16 16"><polyline points="4,6 8,10 12,6" fill="none" stroke="currentColor" stroke-width="2" /></svg>
+                    </div>
+                    <div class="filter-options">
+                        <label class="filter-option">
+                            <input type="checkbox" data-filter="voltage" value="3.6/6 kV" />
+                            <span class="option-label">3.6 / 6 (7.2) kV</span>
+                        </label>
+                        <label class="filter-option">
+                            <input type="checkbox" data-filter="voltage" value="6/10 kV" />
+                            <span class="option-label">6 / 10 (12) kV</span>
+                        </label>
+                        <label class="filter-option">
+                            <input type="checkbox" data-filter="voltage" value="8.7/15 kV" />
+                            <span class="option-label">8.7 / 15 (17.5) kV</span>
+                        </label>
+                        <label class="filter-option">
+                            <input type="checkbox" data-filter="voltage" value="12/20 kV" />
+                            <span class="option-label">12 / 20 (24) kV</span>
+                        </label>
+                        <label class="filter-option">
+                            <input type="checkbox" data-filter="voltage" value="18/30 kV" />
+                            <span class="option-label">18 / 30 (36) kV</span>
+                        </label>
+                    </div>
+                </div>
+            </aside>
+            <!-- ===== MAIN PRODUCT LIST ===== -->
+            <div class="products-main">
+                <div class="products-toolbar">
+                    <h2>Medium Voltage Cable</h2>
+
+                    <div class="toolbar-controls">
+
+                        <div class="view-toggle">
+                            <button class="active" id="listViewBtn" onclick="setView('list')" title="List view">☰</button>
+                            <button id="gridViewBtn" onclick="setView('grid')" title="Grid view">⊞</button>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="product-list" id="productList">
+                    @{
+                        var products = new[]
+                        {
+                                        new { Name = "Single core Copper & Aluminum Conductors 3.6 / 6 (7.2) KV",Action="MediumVoltageSecondTable",Short="3.6 1 CORE XLPE-PVC",Pdf="3.6 Single.pdf", Img = "1 CORE copper or Aluminium Unarmour2.jpg",Img1 = "1 CORE copper or Aluminium Unarmour.jpg" },
+                                        new { Name = "Single core Copper & Aluminum Tape Conductors 3.6 / 6 (7.2) KV",Action="MediumVoltageThirdTable",Short="3.6 1 CORE XLPE-ATA-PVC",Pdf="3.6 Single Tape.pdf", Img = "1 CORE copper  ATA  BLACK .jpg",Img1 = "1 CORE Aluminium ATA Black.jpg" },
+                                        new { Name = "Single core Copper & Aluminum Wire Conductors 3.6 / 6 (7.2) KV",Action="MediumVoltageThirdTable",Short="3.6 1 CORE XLPE-AWA-PVC",Pdf="3.6 Single Wire.pdf", Img = "1 CORE copper AWA Black.jpg",Img1 = "1 CORE  Aluminium  AWA  Black.jpg" },
+                                        new { Name = "Multicores Copper & Aluminum Conductors 3.6 / 6 (7.2) KV",Action="MediumVoltageFourthTable",Short="3.6 Multi CORES XLPE-PVC",Pdf="3.6 Multi.pdf", Img = "Multi core  copper  Black.jpg",Img1 = "Multi core Aluminium Black.png" },
+                                        new { Name = "Multicores Copper & Aluminum Steel Tape Conductors 3.6 / 6 (7.2) KV",Action="MediumVoltageFirstTable",Short="3.6 Multi CORES XLPE-STA-PVC",Pdf="3.6 Multi Tape.pdf", Img = "Multi core copper STA  Black.jpg",Img1 = "Multi core Aluminium  STA Black.png" },
+                                        new { Name = "Multicores Copper & Aluminum Steel Wires Conductors 3.6 / 6 (7.2) KV",Action="MediumVoltageFirstTable",Short="3.6 Multi CORES XLPE-SWA-PVC",Pdf="3.6 Multi Wire.pdf", Img = "Multi core copper or Aluminium SWA armour (1).jpg",Img1 = "Multi core  Aluminium SWA black.png" },
+                                        new { Name = "Single core Copper & Aluminum Conductors 6 / 10 (12) KV",Action="MediumVoltageSecondTable",Short="6 1 CORE XLPE-PVC",Pdf="6.10 Single.pdf", Img = "1 CORE copper or Aluminium Unarmour 3.jpg",Img1 = "1 CORE copper or Aluminium Unarmour4.jpg" },
+                                        new { Name = "Single core Copper & Aluminum Tape Conductors 6 / 10 (12) KV",Action="MediumVoltageThirdTable",Short="6 1 CORE XLPE-ATA-PVC",Pdf="6.10 Single Tape.pdf", Img = "1 CORE copper  ATA  BLACK .jpg",Img1 = "1 CORE   Aluminium ATA RED.jpg" },
+                                        new { Name = "Single core Copper & Aluminum Wire Conductors 6 / 10 (12) KV",Action="MediumVoltageThirdTable",Short="6 1 CORE XLPE-AWA-PVC",Pdf="6.10 Single Wire.pdf", Img = "1 CORE copper  AWA  RED.jpg",Img1 = "1 CORE Aluminium AWA  Red.jpg" },
+                                        new { Name = "Multicores Copper & Aluminum Conductors 6 / 10 (12) KV",Action="MediumVoltageFourthTable",Short="6 Multi CORES XLPE-PVC",Pdf="6.10 Multi.pdf",Img = "Multi core  copper  red.jpg",Img1 = "Multi  Aluminium red.png" },
+                                        new { Name = "Multicores Copper & Aluminum Steel Tape Conductors 6 / 10 (12) KV",Action="MediumVoltageFirstTable",Short="6  Multi CORES XLPE-STA-PVC",Pdf="6.10 Multi Tape.pdf", Img = "Multi core copper STA  Black.jpg",Img1 = "Multi core Aluminium  STA Red.png" },
+                                        new { Name = "Multicores Copper & Aluminum Steel Wires Conductors 6 / 10 (12) KV",Action="MediumVoltageFirstTable",Short="6 Multi CORES XLPE-SWA-PVC",Pdf="6.10 Multi Wire.pdf", Img = "Multi core  Aluminium SWA black.png",Img1 = "Multi core copper or Aluminium SWA armour (2).png" },
+                                        new { Name = "Single core Copper & Aluminum Conductors 8.7 / 15 (17.5) KV",Action="MediumVoltageSecondTable",Short="8 1 CORE XLPE-PVC",Pdf="8.7 Single.pdf", Img = "1 CORE copper or Aluminium Unarmour 3.jpg",Img1 = "1 CORE copper or Aluminium Unarmour4.jpg" },
+                                        new { Name = "Single core Copper & Aluminum Tape Conductors 8.7 / 15 (17.5) KV",Action="MediumVoltageThirdTable",Short="8 1 CORE XLPE-ATA-PVC",Pdf="8.7 Single Tape.pdf", Img = "1 CORE copper  ATA  RED .jpg",Img1 = "1 CORE   Aluminium ATA RED.jpg" },
+                                        new { Name = "Single core Copper & Aluminum Wire Conductors 8.7 / 15 (17.5) KV",Action="MediumVoltageThirdTable",Short="8 1 CORE XLPE-AWA-PVC",Pdf="8.7 Single Wire.pdf", Img = "1 CORE copper  AWA  RED.jpg",Img1 = "1 CORE Aluminium AWA  Red.jpg" },
+                                        new { Name = "Multicores Copper & Aluminum Conductors 8.7 / 15 (17.5) KV",Action="MediumVoltageFourthTable",Short="8 Multi CORES XLPE-PVC",Pdf="8.7 Multi.pdf", Img = "Multi core  copper  red.jpg",Img1 = "Multi  Aluminium red.png" },
+                                        new { Name = "Multicores Copper & Aluminum Steel Tape Conductors 8.7 / 15 (17.5) KV",Action="MediumVoltageFirstTable",Short="8 Multi CORES XLPE-STA-PVC",Pdf="8.7 Multi Tape.pdf",Img = "Multi core copper STA Red.jpg",Img1 = "Multi core Aluminium  STA Red.png" },
+                                        new { Name = "Multicores Copper & Aluminum Steel Wires Conductors 8.7 / 15 (17.5) KV",Action="MediumVoltageFirstTable",Short="8 Multi CORES XLPE-SWA-PVC",Pdf="8.7 Multi Wire.pdf", Img = "Multi core copper or Aluminium SWA armour (3).jpg",Img1 = "Multi core copper or Aluminium SWA armour (2).png" },
+                                        new { Name = "Single core Copper & Aluminum Conductors 12 / 20 (24) KV",Action="MediumVoltageSecondTable",Short="12 1 CORE XLPE-PVC",Pdf="12 Single.pdf", Img = "1 CORE copper or Aluminium Unarmour2.jpg",Img1 = "1 CORE copper or Aluminium Unarmour.jpg" },
+                                        new { Name = "Single core Copper & Aluminum Tape Conductors 12 / 20 (24) KV",Action="MediumVoltageThirdTable",Short="12 1 CORE XLPE-ATA-PVC",Pdf="12 Single Tape.pdf",Img = "1 CORE copper  ATA  BLACK .jpg",Img1 = "1 CORE Aluminium ATA Black.jpg" },
+                                        new { Name = "Single core Copper & Aluminum Wire Conductors 12 / 20 (24) KV",Action="MediumVoltageThirdTable",Short="12 1 CORE XLPE-AWA-PVC",Pdf="12 Single Wire.pdf", Img = "1 CORE copper AWA Black.jpg",Img1 = "1 CORE  Aluminium  AWA  Black.jpg" },
+                                        new { Name = "Multicores Copper & Aluminum Conductors 12 / 20 (24) KV",Action="MediumVoltageFourthTable",Short="12 Multi CORES XLPE-PVC",Pdf="12 Multi.pdf", Img = "Multi core  copper  Black.jpg",Img1 = "Multi core Aluminium Black.png" },
+                                        new { Name = "Multicores Copper & Aluminum Steel Tape Conductors 12 / 20 (24) KV",Action="MediumVoltageFirstTable",Short="12 CORES XLPE-STA-PVC",Pdf="18 Multi Tape.pdf", Img = "Multi core copper STA  Black.jpg",Img1 = "Multi core Aluminium  STA Black.png" },
+                                        new { Name = "Multicores Copper & Aluminum Steel Wires Conductors 12 / 20 (24) KV",Action="MediumVoltageFirstTable",Short="12 CORES XLPE-SWA-PVC",Pdf="18 Multi Wire.pdf", Img = "Multi core copper or Aluminium SWA armour (1).jpg",Img1 = "Multi core  Aluminium SWA black.png" },
+                                        new { Name = "Single core Copper & Aluminum Conductors 18 / 30 (36) KV",Action="MediumVoltageSecondTable",Short="18 1 CORE XLPE-PVC",Pdf="18 Single.pdf", Img = "1 CORE copper or Aluminium Unarmour2.jpg",Img1 = "1 CORE copper or Aluminium Unarmour.jpg" },
+                                        new { Name = "Single core Copper & Aluminum Tape Conductors 18 / 30 (36) KV",Action="MediumVoltageThirdTable",Short="18 1 CORE XLPE-ATA-PVC",Pdf="18 Single Tape.pdf", Img = "1 CORE copper  ATA  BLACK .jpg",Img1 = "1 CORE   Aluminium ATA RED.jpg" },
+                                        new { Name = "Single core Copper & Aluminum Wire Conductors C / 30 (36) KV",Action="MediumVoltageThirdTable",Short="18 1 CORE XLPE-AWA-PVC",Pdf="18 Single Wire.pdf", Img = "1 CORE copper AWA Black.jpg",Img1 = "1 CORE  Aluminium  AWA  Black.jpg" },
+                                        new { Name = "Multicores Copper & Aluminum Conductors 18 / 30 (36) KV",Action="MediumVoltageFourthTable",Short="18 Multi CORES XLPE-PVC",Pdf="18 Multi.pdf", Img = "Multi core  copper  Black.jpg",Img1 = "Multi core Aluminium Black.png" },
+                                        new { Name = "Multicores Copper & Aluminum Steel Tape Conductors 18 / 30 (36) KV",Action="MediumVoltageFirstTable",Short="18 Multi CORES XLPE-STA-PVC",Pdf="18 Multi Tape.pdf", Img = "Multi core copper STA  Black.jpg",Img1 = "Multi core Aluminium  STA Black.png" },
+                                        new { Name = "Multicores Copper & Aluminum Steel Wires Conductors 18 / 30 (36) KV",Action="MediumVoltageFirstTable",Short="18 Multi CORES XLPE-SWA-PVC",Pdf="18 Multi Wire.pdf", Img = "Multi core copper or Aluminium SWA armour (1).jpg",Img1 = "Multi core  Aluminium SWA black.png" },
+                                        };
+                    }
+                    @foreach (var product in products)
+                    {
+                        // Determine core type and voltage from the product name
+                        string coreType = product.Name.Contains("Single") ? "Single" : "Multi";
+                        string voltage = "";
+
+                        if (product.Name.Contains("3.6 / 6") || product.Name.Contains("3.6/6")) voltage = "3.6/6 kV";
+                        else if (product.Name.Contains("6 / 10") || product.Name.Contains("6/10")) voltage = "6/10 kV";
+                        else if (product.Name.Contains("8.7 / 15") || product.Name.Contains("8.7/15")) voltage = "8.7/15 kV";
+                        else if (product.Name.Contains("12 / 20") || product.Name.Contains("12/20")) voltage = "12/20 kV";
+                        else if (product.Name.Contains("18 / 30") || product.Name.Contains("18/30")) voltage = "18/30 kV";
+
+                        <div class="product-row" data-core="@coreType" data-voltage="@voltage" data-short="@product.Short">
+                            <div class="product-images">
+                                <img src="~/assets/3DImages/medium voltage/@product.Img" alt="@product.Name" />
+                              @*   @if (!string.IsNullOrEmpty(product.Img1))
+                                {
+                                    <img src="~/assets/3DImages/medium voltage/@product.Img1" alt="@product.Name" />
+                                } *@
+                            </div>
+                            <a asp-controller="Pages" asp-route-Short=@product.Short asp-route-img=@product.Img asp-route-img2=@product.Img1 asp-action=@product.Action class="product-name">@product.Name</a>
+                            <a href="~/assets/3DImages/medium voltage/Pdf/@product.Pdf" class="btn-spec" target="_blank">
+                                ⭳ Specifications PDF
+                            </a>
+                        </div>
+                    }
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+        // ===== Helper: parse insulation & armor from medium voltage short name =====
+    function parseInsulationAndArmorMedium(short) {
+        // Default values
+        let insulation = 'XLPE';   // all medium voltage cables are XLPE
+        let armor = 'Unarmored';
+
+        if (!short) return { insulation, armor };
+
+        // The short name format: "3.6 1 CORE XLPE-PVC" or "12 Multi CORES XLPE-SWA-PVC"
+        // Split by spaces, the last token is the cable code (e.g. "XLPE-PVC" or "XLPE-ATA-PVC")
+        const parts = short.split(' ');
+        const code = parts[parts.length - 1];  // e.g. "XLPE-PVC", "XLPE-ATA-PVC"
+        const segments = code.split('-');      // ['XLPE','PVC'] or ['XLPE','ATA','PVC']
+
+        // Insulation is the first segment
+        if (segments.length >= 1) {
+            insulation = segments[0].toUpperCase();
+        }
+
+        // Determine armoring: if there are 3 segments, the second is the armor type
+        if (segments.length === 3) {
+            // Armor types: ATA, AWA, STA, SWA
+            const armorType = segments[1].toUpperCase();
+            if (armorType !== 'PVC') {
+                armor = 'Armored';
+            }
+        } else {
+            // Only two segments → no armor (PVC sheath only)
+            armor = 'Unarmored';
+        }
+
+        return { insulation, armor };
+    }
+        function toggleGroup(header) {
+        const group = header.closest('.filter-group');
+        if (!group) return;
+        group.classList.toggle('collapsed');
+    }
+
+    function toggleShowMore(link) {
+        const container = link.closest('.filter-options');
+        const extras = container.querySelector('.extra-options');
+        if (!extras) return;
+        if (extras.style.display === 'none' || extras.style.display === '') {
+            extras.style.display = 'block';
+            link.textContent = '− Show Less';
+        } else {
+            extras.style.display = 'none';
+            link.textContent = '+ Show More';
+        }
+    }
+
+    // ===== Product filtering =====
+    // ===== Product filtering (updated) =====
+    function filterProducts() {
+        const selectedFilters = {};
+        document.querySelectorAll('.filter-option input[type="checkbox"]:checked').forEach(cb => {
+            const filterType = cb.getAttribute('data-filter');
+            const value = cb.value;
+            selectedFilters[filterType] = value;
+        });
+
+        const rows = document.querySelectorAll('.product-row');
+        rows.forEach(row => {
+            let visible = true;
+
+            // Existing filters
+            if (selectedFilters['core'] && row.getAttribute('data-core') !== selectedFilters['core']) visible = false;
+            if (selectedFilters['voltage'] && row.getAttribute('data-voltage') !== selectedFilters['voltage']) visible = false;
+
+            // New filters – derive insulation & armor from data-short
+            if (selectedFilters['insulation'] || selectedFilters['armor']) {
+                const short = row.getAttribute('data-short');
+                const { insulation, armor } = parseInsulationAndArmorMedium(short);
+                if (selectedFilters['insulation'] && insulation !== selectedFilters['insulation']) visible = false;
+                if (selectedFilters['armor'] && armor !== selectedFilters['armor']) visible = false;
+            }
+
+            row.style.display = visible ? 'flex' : 'none';
+        });
+    }
+    // Single selection inside each filter group + trigger filtering
+    document.addEventListener('change', function(e) {
+        if (!e.target.matches('.filter-option input[type="checkbox"]')) return;
+        const group = e.target.closest('.filter-group');
+        if (!group) return;
+        const allCheckboxes = group.querySelectorAll('.filter-option input[type="checkbox"]');
+        allCheckboxes.forEach(cb => {
+            if (cb !== e.target) cb.checked = false;
+        });
+        updateClearButton();
+        filterProducts();      // apply filter immediately
+    });
+
+    // Clear All button
+    function updateClearButton() {
+        const anyChecked = document.querySelectorAll('.filter-option input[type="checkbox"]:checked').length > 0;
+        const clearBtn = document.getElementById('clearAllFilters');
+        if (clearBtn) {
+            clearBtn.style.display = anyChecked ? 'inline-block' : 'none';
+        }
+    }
+
+    document.getElementById('clearAllFilters')?.addEventListener('click', function() {
+        document.querySelectorAll('.filter-option input[type="checkbox"]').forEach(cb => cb.checked = false);
+        updateClearButton();
+        filterProducts();      // show all
+    });
+
+    // Initial state
+    document.addEventListener('DOMContentLoaded', function() {
+        updateClearButton();
+        filterProducts();
+    });
+
+    // Mobile Sidebar Toggle
+    function openMobileSidebar() {
+        document.getElementById('filterSidebar')?.classList.add('open');
+    }
+    function closeMobileSidebar() {
+        document.getElementById('filterSidebar')?.classList.remove('open');
+    }
+
+    // View Toggle (List / Grid)
+    function setView(mode) {
+        const list = document.getElementById('productList');
+        const listBtn = document.getElementById('listViewBtn');
+        const gridBtn = document.getElementById('gridViewBtn');
+
+        if (mode === 'grid') {
+            list.classList.add('grid-view');
+            gridBtn.classList.add('active');
+            listBtn.classList.remove('active');
+        } else {
+            list.classList.remove('grid-view');
+            listBtn.classList.add('active');
+            gridBtn.classList.remove('active');
+        }
+    }
+</script>

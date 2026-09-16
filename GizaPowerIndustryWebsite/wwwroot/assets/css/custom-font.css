@@ -1,0 +1,125 @@
+/* Custom font adjustments */
+body, html {
+    font-family: 'Cairo', sans-serif !important;
+    font-size: 0.875rem; /* ~14px */
+    line-height: 1.5;
+}
+
+/* Ensure Font Awesome Icons are NEVER overridden by Cairo */
+.fa,
+.fas,
+.far,
+.fal,
+.fab,
+.fa-solid,
+.fa-regular,
+.fa-brands,
+.fa-light,
+.fa-thin,
+.fa-duotone,
+[class^="fa-"],
+[class*=" fa-"] {
+    font-family: "Font Awesome 6 Free", "Font Awesome 6 Brands", "FontAwesome" !important;
+}
+
+.fab,
+.fa-brands {
+    font-family: "Font Awesome 6 Brands" !important;
+}
+
+/* Ensure Arabic text displays correctly */
+[lang="ar"], .arabic {
+    direction: rtl;
+    text-align: right;
+}
+
+/* ==========================================================================
+   Distinctive Section Headers Styling across all Application Sections
+   ========================================================================== */
+
+/* Section Badges / Labels / Over-titles */
+.about-label,
+.section-badge,
+.section-tag,
+.sec-tag {
+    display: inline-flex !important;
+    align-items: center;
+    gap: 8px;
+    font-family: 'Cairo', sans-serif !important;
+    font-size: 13px !important;
+    font-weight: 800 !important;
+    text-transform: uppercase;
+    letter-spacing: 2px !important;
+    color: #B82025 !important;
+    background: linear-gradient(135deg, rgba(184, 32, 37, 0.08) 0%, rgba(184, 32, 37, 0.02) 100%) !important;
+    border: 1px solid rgba(184, 32, 37, 0.2) !important;
+    border-inline-start: 4px solid #B82025 !important;
+    padding: 6px 16px !important;
+    border-radius: 4px 12px 12px 4px !important;
+    margin-top: 10px !important;
+    margin-bottom: 14px !important;
+    box-shadow: 0 2px 10px rgba(184, 32, 37, 0.06);
+    transition: all 0.3s ease;
+    width: fit-content;
+}
+
+.about-label:hover,
+.section-badge:hover {
+    background: linear-gradient(135deg, rgba(184, 32, 37, 0.14) 0%, rgba(184, 32, 37, 0.05) 100%) !important;
+    transform: translateX(4px);
+    box-shadow: 0 4px 14px rgba(184, 32, 37, 0.12);
+}
+
+[dir="rtl"] .about-label:hover,
+[dir="rtl"] .section-badge:hover {
+    transform: translateX(-4px);
+}
+
+/* Section Main Heading / Hero Small Title */
+.hero-small.reveal-line,
+.section-title,
+.group-header h2,
+.history-header h2,
+.sc2-title,
+.section-heading-primary {
+    font-family: 'Cairo', sans-serif !important;
+    font-size: clamp(24px, 3.5vw, 36px) !important;
+    font-weight: 800 !important;
+    color: #06283F !important;
+    line-height: 1.25 !important;
+    letter-spacing: -0.01em;
+    position: relative;
+    display: block;
+    margin-top: 6px !important;
+    margin-bottom: 16px !important;
+}
+
+/* Section Subtitles and Descriptions */
+.about-text-regular,
+.section-desc,
+.history-intro,
+.sc2-subtitle {
+    font-family: 'Cairo', sans-serif !important;
+    font-size: 15.5px !important;
+    line-height: 1.8 !important;
+    color: #4A5568 !important;
+    font-weight: 400;
+/*    max-width: 860px;*/
+}
+
+/* Centered Header Variant */
+.text-center .about-label,
+.text-center .section-badge {
+    margin-left: auto !important;
+    margin-right: auto !important;
+    border-radius: 20px !important;
+    border-inline-start: 1px solid rgba(184, 32, 37, 0.2) !important;
+}
+
+.text-center .about-text-regular,
+.text-center .history-intro {
+    margin-left: auto !important;
+    margin-right: auto !important;
+}
+
+

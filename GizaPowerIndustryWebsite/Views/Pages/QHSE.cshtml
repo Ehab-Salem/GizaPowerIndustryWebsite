@@ -1,0 +1,548 @@
+﻿
+@{
+    ViewData["Title"] = "QHSE";
+}
+<style>
+    /* Ensure the grid container can scroll horizontally */
+    .qhse-cert-grid-new {
+        display: flex;
+        overflow-x: auto;
+        scroll-behavior: smooth;
+        gap: 24px; /* adjust as needed */
+        padding: 16px 0 24px 0; /* top/bottom padding for visual comfort */
+        scrollbar-width: thin; /* modern browsers */
+        -webkit-overflow-scrolling: touch;
+    }
+
+        /* Hide scrollbar for cleaner look (optional) */
+        .qhse-cert-grid-new::-webkit-scrollbar {
+            height: 6px;
+        }
+
+        .qhse-cert-grid-new::-webkit-scrollbar-track {
+            background: #f1f1f1;
+            border-radius: 10px;
+        }
+
+        .qhse-cert-grid-new::-webkit-scrollbar-thumb {
+            background: #888;
+            border-radius: 10px;
+        }
+
+    /* Card styling – make sure width is fixed so scrolling works */
+    .qhse-cert-card-new {
+        flex: 0 0 auto; /* prevent shrinking, allow fixed width */
+        width: 320px; /* adjust to your design */
+        position: relative;
+    }
+
+    /* Your existing card inner styles remain */
+    /* ===== Certificate Scroll Wrapper ===== */
+    .qhse-cert-scroll-wrapper {
+        position: relative;
+        width: 100%;
+    }
+
+    /* ===== Arrow Buttons ===== */
+    .slider-btn {
+        position: absolute;
+        top: 50%;
+        transform: translateY(-50%);
+        z-index: 10;
+        width: 44px;
+        height: 44px;
+        border-radius: 50%;
+        background: #ffffff;
+        border: 2px solid #e0e0e0;
+        color: #B82025;
+        font-size: 18px;
+        cursor: pointer;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        box-shadow: 0 4px 12px rgba(0,0,0,0.08);
+        transition: all 0.3s ease;
+        opacity: 0.85;
+    }
+
+        .slider-btn:hover {
+            background: #B82025;
+            color: #fff;
+            border-color: #B82025;
+            box-shadow: 0 6px 20px rgba(184,32,37,0.3);
+            opacity: 1;
+        }
+
+        .slider-btn.prev {
+            left: -10px;
+        }
+
+        .slider-btn.next {
+            right: -10px;
+        }
+
+    /* Add some padding to the grid so the cards don't hide under the arrows */
+    .qhse-cert-grid-new {
+        padding-left: 30px;
+        padding-right: 30px;
+    }
+</style>
+<style>
+    /* ===== Corporate Social Responsibility – Enhanced ===== */
+    .csr-section-enhanced {
+        padding: 80px 0;
+        background: #ffffff;
+    }
+
+    .csr-header {
+        text-align: center;
+        margin-bottom: 60px;
+    }
+
+    .csr-label {
+        display: block;
+        font-size: 14px;
+        font-weight: 700;
+        color: #B82025;
+        text-transform: uppercase;
+        letter-spacing: 3px;
+        margin-bottom: 15px;
+    }
+
+    .csr-title {
+        font-size: clamp(2rem, 5vw, 3.2rem);
+        font-weight: 800;
+        color: #06283F;
+        line-height: 1.2;
+        margin: 0 0 20px;
+    }
+
+        .csr-title .text-red {
+            color: #B82025;
+        }
+
+    .csr-intro {
+        font-size: 1.1rem;
+        color: #6B7280;
+        max-width: 700px;
+        margin: 0 auto;
+        line-height: 1.7;
+    }
+
+    /* Cards Grid */
+    .csr-cards-grid {
+        display: grid;
+        grid-template-columns: repeat(3, 1fr);
+        gap: 30px;
+        max-width: 1100px;
+        margin: 0 auto;
+        padding: 0 20px;
+    }
+
+    .csr-card {
+        background: #FFFFFF;
+        border: 1px solid #F3F4F6;
+        border-radius: 16px;
+        padding: 40px 30px;
+        text-align: center;
+        transition: transform 0.3s ease, box-shadow 0.3s ease;
+        position: relative;
+        overflow: hidden;
+        box-shadow: 0 4px 20px rgba(0,0,0,0.04);
+    }
+
+        .csr-card:hover {
+            transform: translateY(-8px);
+            box-shadow: 0 15px 35px rgba(0,0,0,0.08);
+        }
+
+        .csr-card.featured {
+            background: #ffffff;;
+            color: #fff;
+            border-color: #ffffff;;
+        }
+
+            .csr-card.featured h3,
+            .csr-card.featured p {
+                color: #fff;
+            }
+
+            .csr-card.featured .csr-card-icon svg circle[fill="none"] {
+                stroke: #fff;
+            }
+
+            .csr-card.featured .csr-card-icon svg path[stroke="#B82025"] {
+                stroke: #fff;
+            }
+
+            .csr-card.featured .csr-card-icon svg path[fill="#B82025"] {
+                fill: #fff;
+            }
+
+    /* Icon */
+    .csr-card-icon {
+        margin-bottom: 25px;
+        display: flex;
+        justify-content: center;
+    }
+
+    /* Title */
+    .csr-card-title {
+        font-size: 1.4rem;
+        font-weight: 800;
+        color: #06283F;
+        margin: 0 0 15px;
+        text-transform: uppercase;
+        letter-spacing: 0.5px;
+    }
+
+    /* Description */
+    .csr-card-desc {
+        font-size: 0.95rem;
+        line-height: 1.7;
+        color: #6B7280;
+        margin: 0;
+    }
+
+    /* Responsive */
+    @@media (max-width: 992px) {
+        .csr-cards-grid
+
+    {
+        grid-template-columns: repeat(2, 1fr);
+    }
+
+    }
+
+    @@media (max-width: 600px) {
+        .csr-cards-grid
+
+    {
+        grid-template-columns: 1fr;
+        padding: 0 15px;
+    }
+
+    .csr-card {
+        padding: 30px 25px;
+    }
+
+    .csr-section-enhanced {
+        padding: 60px 0;
+    }
+
+    }
+</style>
+<!-- Hero Section -->
+<section class="qa-hero" style="padding:7rem 0 2rem 0;">
+        <div class="qa-hero-image-container">
+            <img src="~/assets/GPI Website Visuals/About Us/QUALITY-ASSURANCE.jpg" alt="Quality Assurance & Certifications">
+            <div class="outline-text-sustainability">QHSE</div>
+        </div>
+</section>
+<section class="qhse-certified-systems">
+    <p class="about-label" style="font-weight: 900;    font-size: 40px;
+ color: #a3191e; margin-top:24px !important; margin-bottom:0px !important">
+        QUALITY ASSURANCE
+    </p>
+    <span class="hero-small reveal-line" style="font-size: 28px;
+    font-weight: 900;
+    color: #06283f;">
+        Quality is at the heart of everything we do at GPI. Our commitment to quality is reflected in our rigorous standards and continuous improvement practices.
+    </span>
+    <p class="about-text-regular" style="margin-bottom: 10px;">
+        Our products and systems have been awarded certifications from ISO, KEMA, CPRI and BASEC (British Approvals Service for Cables). Our products also comply with DIN , HD , NF, IEC, BS and ASTM standards.
+    </p>
+    <div class="qhse-cert-scroll-wrapper">
+        <!-- Left Arrow -->
+        <button class="slider-btn prev" aria-label="Scroll left">
+            <i class="fas fa-chevron-left"></i>
+        </button>
+
+        <!-- Scrollable Grid -->
+        <div class="qhse-cert-grid-new" id="certScrollContainer">
+            <!-- Cards will be injected here -->
+        </div>
+
+        <!-- Right Arrow -->
+        <button class="slider-btn next" aria-label="Scroll right">
+            <i class="fas fa-chevron-right"></i>
+        </button>
+    </div>
+</section>
+<!-- Corporate Social Responsibility Section -->
+<section class="csr-section-enhanced">
+    <div class="container">
+        <div class="csr-header">
+            <p class="about-label" style="font-weight: 900;    font-size: 40px;
+ color: #a3191e; margin-top:24px !important; margin-bottom:0px !important">
+                CORPORATE SOCIAL RESPONSIBILITY
+            </p>
+            <p class="about-text-regular" style="margin-bottom: 10px;">
+                At GPI, we are dedicated to making a positive impact on the environment and communities we operate in. Our CSR initiatives
+            </p>
+        </div>
+        <div class="csr-cards-grid">
+            <!-- Card 1: Sustainability -->
+            <div class="csr-card card-sustain" style="    height: 200px; text-align:left ;     box-shadow: 0 4px 16px rgba(0, 0, 0, 0.08) !important;">
+                <h3 class="csr-card-title">SUSTAINABILITY</h3>
+                <p class="csr-card-desc">
+                    Implementing eco‑friendly manufacturing processes and reducing our carbon footprint across all operations.
+                </p>
+            </div>
+
+            <!-- Card 2: Community Engagement (featured) -->
+            <div class="csr-card card-community featured" style="    height: 200px; text-align:left; box-shadow: 0 4px 16px rgba(0, 0, 0, 0.08) !important;">
+                <h3 class="csr-card-title" style="color:#06283f !important;">COMMUNITY<br>ENGAGEMENT</h3>
+                <p class="csr-card-desc" style="color:#6b7280 !important;">
+                    Supporting local communities through charitable initiatives, education programs, and volunteer work.
+                </p>
+            </div>
+
+            <!-- Card 3: Ethical Practices -->
+            <div class="csr-card card-ethics" style="    height: 200px; text-align:left; box-shadow: 0 4px 16px rgba(0, 0, 0, 0.08) !important;">
+                <h3 class="csr-card-title">ETHICAL<br>PRACTICES</h3>
+                <p class="csr-card-desc">
+                    Upholding the highest standards of integrity, transparency, and ethical behavior in all our business operations.
+                </p>
+            </div>
+        </div>
+    </div>
+</section>
+<!-- Our QHSE Commitments Section -->
+<!-- Our QHSE Commitments Section -->
+<section class="qhse-commitments-section">
+    <div class="qhse-commitments-grid">
+        <!-- Top Left Stack: Customer Sat & Env Efficiency -->
+        <div class="qhse-card-column-stack" style="grid-area: card1-3;">
+            <div class="qhse-commitment-card qhse-card-red" style="height: calc(50% - 16px); background: #ffffff !important;     box-shadow: 0 4px 16px rgba(0, 0, 0, 0.08) !important;">
+                <h3 style="color: #06283f !important; text-transform: none !important;">Customer<br>Satisfaction</h3>
+                <p style="color: #617685 !important;">
+                    We strive to exceed customer expectations through reliable, high-performance products and
+                    services.
+                </p>
+            </div>
+            <div class="qhse-commitment-card qhse-card-white" style="height: calc(50% - 16px);">
+                <div class="qhse-card-bg-icon">
+                    <img src="~/assets/images/qhse-icon-bg-leaf.png" alt="">
+                </div>
+                <h3 style="text-transform: none !important;">Environmental<br>Efficiency</h3>
+                <p>We minimize environmental impact by optimizing material and energy use.</p>
+            </div>
+        </div>
+
+        <!-- Center Top: Our QHSE Commitments -->
+        <div class="qhse-commitment-hero" style="grid-area: hero;">
+
+            <img src="~/assets/GPI Website Visuals/About Us/Our QHSE.jpg" alt="QHSE Background" class="qhse-hero-bg">
+            <div class="qhse-hero-overlay"></div>
+            <h2 class="qhse-hero-title" style="text-transform: none !important;">
+                <div style="font-weight: normal;">Our QHSE</div>
+                Commitments
+            </h2>
+        </div>
+
+        <!-- Circular Hero Hub (Placed outside to avoid mask clipping) -->
+        <div class="qhse-hero-cable" style="grid-area: hero; z-index: 100;">
+            <img src="~/assets/GPI Website Visuals/About Us/Our-QHSE-Commitments-2.jpg" alt="Cable">
+
+        </div>
+
+        <!-- Top Right: Continuous Improvement -->
+        <div class="qhse-commitment-card qhse-card-white" style="grid-area: card2;">
+            <div class="qhse-card-icon">
+                <svg width="40" height="40" viewBox="0 0 40 40" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <circle cx="20" cy="20" r="18" fill="#B82025" stroke="white" stroke-width="2" />
+                    <path d="M20 10V20L26 26" stroke="white" stroke-width="2" stroke-linecap="round" />
+                </svg>
+            </div>
+            <h3 style="text-transform: none !important;">Continuous<br>Improvement</h3>
+            <p>
+                We continuously enhance our systems to align with international QHSE standards and achieve
+                organizational goals.
+            </p>
+        </div>
+
+        <!-- Center Left: Highly Qualified Teams -->
+        <div class="qhse-commitment-card qhse-card-white qhse-card-qualified" style="grid-area: card5;">
+            <div class="qhse-card-icon-circle-red">
+                <img src="~/assets/images/qhse-card-icon-white.png" alt="Highly Qualified Teams Icon">
+            </div>
+            <h3 style="text-transform: none !important;">Highly Qualified<br>Teams</h3>
+            <p class="qhse-qualified-desc">
+                Our teams are trained on the latest technologies based on ISO 9001,
+                ISO 14001, and ISO 45001 frameworks.
+            </p>
+
+        </div>
+
+        <!-- Bottom Center Left: Transparent QHSE Communication -->
+        <div class="qhse-commitment-card qhse-card-white qhse-card-cutout-left" style="grid-area: card6;     justify-content: flex-end;
+">
+            <div class="qhse-card-icon">
+                <svg width="60" height="60" viewBox="0 0 60 60" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <circle cx="30" cy="30" r="30" fill="#B82025" />
+                    <rect x="18" y="22" width="24" height="3" rx="1.5" fill="white" />
+                    <rect x="18" y="28" width="24" height="3" rx="1.5" fill="white" />
+                    <rect x="18" y="34" width="16" height="3" rx="1.5" fill="white" />
+                </svg>
+            </div>
+            <h3 style="text-transform: none !important;">Transparent QHSE<br>Communication</h3>
+            <p>We communicate QHSE policies clearly across employees and stakeholders.</p>
+        </div>
+
+        <!-- Bottom Center: Safe Workplace for All -->
+        <div class="qhse-commitment-card qhse-card-white qhse-card-cutout-right" style="grid-area: card7;     justify-content: flex-end;
+">
+            <div class="qhse-card-icon">
+                <svg width="60" height="60" viewBox="0 0 60 60" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <circle cx="30" cy="30" r="30" fill="#B82025" />
+                    <path d="M30 18L38 22V28C38 33.5 35 38.5 30 40C25 38.5 22 33.5 22 28V22L30 18Z"
+                          stroke="white" stroke-width="2" fill="none" />
+                    <path d="M26 29L28.5 31.5L34 26" stroke="white" stroke-width="2" stroke-linecap="round"
+                          stroke-linejoin="round" />
+                </svg>
+            </div>
+            <h3 style="text-transform: none !important;">Safe Workplace<br>for All</h3>
+            <p>We ensure safety measures for workers, neighbors, customers, contractors, and visitors.</p>
+        </div>
+
+        <!-- Right Column Stack: Risk & BASEC -->
+        <div class="qhse-card-column-stack" style="grid-area: card-stack-right;">
+            <!-- Middle Right: Risk & Opportunity Management -->
+            <div class="qhse-commitment-card" style="background-color:#06283F;height: calc(50% - 16px);">
+                <div class="qhse-card-bg-icon">
+                    <img src="~/assets/images/qhse-icon-bg-checkmark.png" alt="">
+                </div>
+                <h3 style="color:white; text-transform: none !important;">Risk & Opportunity<br>Management</h3>
+                <p style="color:white">We take proactive actions to manage risks and maximize safety and quality opportunities.</p>
+            </div>
+            <!-- Bottom Center Right: BASEC PCR Compliance -->
+            <div class="qhse-commitment-card qhse-card-white" style="height: calc(50% - 16px);">
+                <div class="qhse-card-bg-icon">
+                    <img src="~/assets/images/qhse-icon-bg-checkmark.png" alt="">
+                </div>
+                <h3 style="text-transform: none !important;">BASEC PCR<br>Compliance</h3>
+                <p>We meet BASEC PCR requirements by applying strict quality, health, and safety measures.</p>
+            </div>
+        </div>
+
+
+        <!-- Bottom Left: System Documentation & Maintenance -->
+        <div class="qhse-commitment-card qhse-card-white qhse-card-last-wide">
+            <div class="qhse-card-bg-icon">
+                <img src="~/assets/images/qhse-bg-calendar.png" alt="">
+            </div>
+            <div class="qhse-card-icon">
+                <img src="~/assets/images/qhse-icon-calendar-red.png" alt="Calendar Icon"
+                     style="width: 100%; height: 50%; object-fit: contain;">
+            </div>
+            <h3 style="text-transform: none !important;">System Documentation &<br>Maintenance</h3>
+            <p style="    width: 300px;
+">We document, implement, and maintain all QHSE policies and performance objectives.</p>
+        </div>
+
+        <!-- Bottom Center: Regular System Audits -->
+        <div class="qhse-commitment-card qhse-card-navy qhse-card-last-regular grid-area-card10">
+            <div class="qhse-card-bg-icon" style="    opacity: 0.9;
+    width: 140px;
+    height: 145px;
+    bottom: 0px;
+    right: 0px;">
+                <img src="~/assets/images/qhse-bg-search.png" alt="">
+            </div>
+            <h3 style="text-transform: none !important;">Regular System<br>Audits</h3>
+            <p>We conduct ongoing audits to ensure consistent effectiveness and improvement.</p>
+        </div>
+
+        <!-- Bottom Right: Legal & Regulatory Compliance -->
+        <div class="qhse-commitment-card qhse-card-white qhse-card-last-regular grid-area-card11 with-border">
+            <h3 style="text-transform: none !important;">Legal & Regulatory<br>Compliance</h3>
+            <p>We adhere to all legal and legislative requirements governing our operations.</p>
+        </div>
+    </div>
+</section>
+<script>
+    // Your certificate data (from C# or JS)
+    const certificates = [
+      { Title: "Environmental Management System<br>System", IsoTag: "ISO 14001", BadgeImg: "~/assets/ISOCertificates/14001.jpg", PdfUrl: "~/assets/ISOCertificates/14001.pdf" },
+      { Title: "Quality Management<br>System", IsoTag: "ISO 9001", BadgeImg: "~/assets/ISOCertificates/9001.jpg", PdfUrl: "~/assets/ISOCertificates/9001.pdf" },
+      { Title: "Occupational Health & Safety Management<br>System ", IsoTag: "ISO 45001", BadgeImg: "~/assets/ISOCertificates/45001.jpg", PdfUrl: "~/assets/ISOCertificates/45001.pdf" },
+      { Title: "Energy Management <br> System ", IsoTag: "ISO 50001", BadgeImg: "~/assets/ISOCertificates/50001.jpg", PdfUrl: "~/assets/ISOCertificates/50001.pdf" },
+      { Title: "BASEC PCR", IsoTag: "BASEC PCR-147", BadgeImg: "~/assets/ISOCertificates/Basec.jpg", PdfUrl: "~/assets/ISOCertificates/Basec.pdf" },
+      { Title: "BASEC 13501-6:2014 certificate 1", IsoTag: "BASEC T1CPRT2376-1", BadgeImg: "~/assets/ISOCertificates/Basec2.jpg", PdfUrl: "~/assets/ISOCertificates/Basec2.pdf" },
+      { Title: "BASEC 13501-6:2014 certificate 2", IsoTag: "BASEC T1CPRT2376-2", BadgeImg: "~/assets/ISOCertificates/Basec3.jpg", PdfUrl: "~/assets/ISOCertificates/Basec3.pdf" },
+      { Title: "BASEC 13501-6:2014 certificate 3", IsoTag: "BASEC T1CPRT2376-3", BadgeImg: "~/assets/ISOCertificates/Basec4.jpg", PdfUrl: "~/assets/ISOCertificates/Basec4.pdf" },
+      { Title: "BASEC 13501-6:2014 certificate 4", IsoTag: "BASEC T1CPRT2376-4", BadgeImg: "~/assets/ISOCertificates/Basec5.jpg", PdfUrl: "~/assets/ISOCertificates/Basec5.pdf" },
+      { Title: "Certificate of Product Approval", IsoTag: "BASEC 254/001/001", BadgeImg: "~/assets/ISOCertificates/Basec7.jpg", PdfUrl: "~/assets/ISOCertificates/Basec7.pdf" },
+      { Title: "Types and Ranges Approval", IsoTag: "BASEC 254/001/001", BadgeImg: "~/assets/ISOCertificates/Basec8.jpg", PdfUrl: "~/assets/ISOCertificates/Basec8.pdf" },
+      { Title: "CENTRAL POWER RESEARCH INSTITUTE", IsoTag: "CPRI", BadgeImg: "~/assets/ISOCertificates/cpri.jpg", PdfUrl: "~/assets/ISOCertificates/cpri.pdf" },
+      { Title: "Arab Republic of Egypt", IsoTag: "EGAC", BadgeImg: "~/assets/ISOCertificates/arab.jpg", PdfUrl: "~/assets/ISOCertificates/arab.pdf" },
+      { Title: "KEMA REPORT OF PERFORMANCE", IsoTag: "KEMA 1491-21", BadgeImg: "~/assets/ISOCertificates/kema2.jpg", PdfUrl: "~/assets/ISOCertificates/kema2.pdf" },
+      { Title: "KEMA REPORT OF PERFORMANCE", IsoTag: "KEMA 1492-21", BadgeImg: "~/assets/ISOCertificates/kema.jpg", PdfUrl: "~/assets/ISOCertificates/kema.pdf" },
+      { Title: "KEMA REPORT OF PERFORMANCE", IsoTag: "KEMA Labs 1491-21", BadgeImg: "~/assets/ISOCertificates/kemalab2.jpg", PdfUrl: "~/assets/ISOCertificates/kemalab2.pdf" },
+      { Title: "KEMA REPORT OF PERFORMANCE", IsoTag: "KEMA Labs 1492-21", BadgeImg: "~/assets/ISOCertificates/kemalab.jpg", PdfUrl: "~/assets/ISOCertificates/kemalab.pdf" }
+    ];
+
+    // Function to render cards inside the grid
+    function renderCertificates() {
+      const container = document.getElementById('certScrollContainer');
+      if (!container) return;
+
+      let html = '';
+      for (const cert of certificates) {
+        html += `
+          <div class="qhse-cert-card-new">
+            <img src="${cert.BadgeImg.replace(/^~/, '')}" alt="${cert.IsoTag}" class="cert-bg">
+            <div class="cert-overlay">
+              <div class="cert-top">
+              </div>
+              <div class="cert-bottom">
+                <h3>${cert.Title}</h3>
+                <div class="cert-footer">
+                  <span class="iso-tag">${cert.IsoTag}</span>
+                  <a href="${cert.PdfUrl.replace(/^~/, '')}" class="cert-arrow-btn" target="_blank">
+                        <i class="fas fa-download"></i>
+                    </a>
+                </div>
+              </div>
+            </div>
+          </div>
+        `;
+      }
+      container.innerHTML = html;
+    }
+
+    // Scroll functionality
+    function initSlider() {
+      const container = document.getElementById('certScrollContainer');
+      const prevBtn = document.querySelector('.slider-btn.prev');
+      const nextBtn = document.querySelector('.slider-btn.next');
+
+      if (!container || !prevBtn || !nextBtn) return;
+
+      // Scroll amount = one card width + gap
+      const getScrollAmount = () => {
+        const card = container.querySelector('.qhse-cert-card-new');
+        if (!card) return 300; // fallback
+        const cardWidth = card.offsetWidth;
+        const gap = parseInt(getComputedStyle(container).gap) || 24;
+        return cardWidth + gap;
+      };
+
+      prevBtn.addEventListener('click', () => {
+        const amount = getScrollAmount();
+        container.scrollBy({ left: -amount, behavior: 'smooth' });
+      });
+
+      nextBtn.addEventListener('click', () => {
+        const amount = getScrollAmount();
+        container.scrollBy({ left: amount, behavior: 'smooth' });
+      });
+    }
+
+    // Run when page loads
+    document.addEventListener('DOMContentLoaded', () => {
+      renderCertificates();
+      initSlider();
+    });
+</script>

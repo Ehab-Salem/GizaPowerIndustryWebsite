@@ -1,0 +1,555 @@
+﻿@{
+    ViewData["Title"] = "Cables & Wires Products";
+}
+
+<style>
+    .main-content {
+        padding-top: 90px; /* adjust this value as needed */
+    }
+
+    .products-page {
+        display: flex;
+        gap: 30px;
+        padding: 40px 0;
+        align-items: flex-start;
+    }
+
+    /* ===== SIDEBAR ===== */
+    .filter-sidebar {
+        width: 280px;
+        flex-shrink: 0;
+        background: #f8f9fa;
+        padding: 25px;
+        border-radius: 6px;
+    }
+
+        .filter-sidebar h3 {
+            font-size: 1.3rem;
+            font-weight: 600;
+            color: #333;
+            margin-bottom: 20px;
+        }
+
+    .filter-group {
+        border-bottom: 1px solid #e0e0e0;
+        padding-bottom: 15px;
+        margin-bottom: 15px;
+    }
+
+    .filter-group-header {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        cursor: pointer;
+        font-weight: 600;
+        color: #444;
+        margin-bottom: 12px;
+    }
+
+        .filter-group-header .toggle-icon {
+            font-size: 1.2rem;
+            line-height: 1;
+            transition: transform 0.2s;
+        }
+
+    .filter-group.collapsed .toggle-icon {
+        transform: rotate(-90deg);
+    }
+
+    .filter-options {
+        display: flex;
+        flex-direction: column;
+        gap: 10px;
+        overflow: hidden;
+        transition: max-height 0.3s ease;
+    }
+
+    .filter-group.collapsed .filter-options {
+        display: none;
+    }
+
+    .filter-option {
+        display: flex;
+        align-items: flex-start;
+        gap: 8px;
+        font-size: 0.92rem;
+        color: #555;
+        cursor: pointer;
+        flex-direction: row-reverse;
+    }
+
+        .filter-option input {
+            margin-top: 3px;
+            cursor: pointer;
+        }
+
+    .show-more {
+        color: #B82025;
+        font-weight: 600;
+        font-size: 0.9rem;
+        cursor: pointer;
+        text-decoration: none;
+        display: inline-block;
+        margin-top: 5px;
+    }
+
+    /* ===== MAIN LIST ===== */
+    .products-main {
+        flex: 1;
+        width: 100%;
+    }
+
+    .products-toolbar {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        flex-wrap: wrap;
+        gap: 15px;
+        padding-bottom: 20px;
+        border-bottom: 1px solid #e0e0e0;
+        margin-bottom: 10px;
+    }
+
+        .products-toolbar h2 {
+            color: #B82025;
+            font-size: 1.3rem;
+            font-weight: 700;
+            margin: 0;
+        }
+
+    .toolbar-controls {
+        display: flex;
+        align-items: center;
+        gap: 15px;
+        flex-wrap: wrap;
+    }
+
+        .toolbar-controls label {
+            font-weight: 600;
+            font-size: 0.85rem;
+            color: #555;
+            margin-right: 5px;
+        }
+
+        .toolbar-controls select {
+            padding: 6px 10px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+            font-size: 0.9rem;
+        }
+
+    .view-toggle {
+        display: flex;
+        gap: 5px;
+    }
+
+        .view-toggle button {
+            width: 38px;
+            height: 38px;
+            border: 1px solid #ccc;
+            background: #fff;
+            border-radius: 4px;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+            .view-toggle button.active {
+                background: #06283F;
+                color: #fff;
+                border-color: #06283F;
+            }
+
+    /* Product rows */
+    .product-list {
+        display: flex;
+        flex-direction: column;
+    }
+
+    .product-row {
+        display: flex;
+        align-items: center;
+        gap: 25px;
+        padding: 18px 0;
+        border-bottom: 1px solid #eee;
+    }
+
+        .product-row img {
+            width: 100px;
+            height: 70px;
+            object-fit: cover;
+            border-radius: 4px;
+            flex-shrink: 0;
+        }
+
+        .product-row .product-name {
+            flex: 1;
+            color: #06283F;
+            font-weight: 700;
+            font-size: 1rem;
+            text-decoration: none;
+        }
+
+        .product-row .btn-spec {
+            border: 1px solid #ccc;
+            border-radius: 4px;
+            background: #fff;
+            padding: 10px 18px;
+            font-size: 0.85rem;
+            color: #555;
+            text-decoration: none;
+            white-space: nowrap;
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+    /* Grid view */
+    .product-list.grid-view {
+        display: grid;
+        grid-template-columns: repeat(3, 1fr);
+        gap: 25px;
+    }
+
+        .product-list.grid-view .product-row {
+            flex-direction: column;
+            align-items: stretch;
+            text-align: center;
+            border: 1px solid #eee;
+            border-radius: 6px;
+            padding: 20px;
+        }
+
+            .product-list.grid-view .product-row img {
+                width: 100%;
+                height: 140px;
+            }
+
+    /* ===== RESPONSIVE ===== */
+    @@media (max-width: 992px) {
+        .products-page {
+            flex-direction: column;
+        }
+
+        .filter-sidebar {
+            width: 100%;
+        }
+
+        .product-list.grid-view {
+            grid-template-columns: repeat(2, 1fr);
+        }
+    }
+
+    @@media (max-width: 576px) {
+        .product-row {
+            flex-wrap: wrap;
+        }
+
+            .product-row .btn-spec {
+                width: 100%;
+                justify-content: center;
+            }
+
+        .product-list.grid-view {
+            grid-template-columns: 1fr;
+        }
+
+        .products-toolbar {
+            flex-direction: column;
+            align-items: flex-start;
+        }
+    }
+</style>
+
+<style>
+    /* ===== FILTER SIDEBAR – Enhanced ===== */
+    /* … keep all your existing styles above, then replace the filter-option part … */
+
+    .filter-option {
+        display: flex;
+        align-items: flex-start;
+        gap: 8px;
+        font-size: 0.92rem;
+        color: #374151;
+        cursor: pointer;
+        flex-direction: row;
+        margin: 0;
+        min-height: 2.25rem; /* ensures uniform row height, checkboxes align */
+    }
+
+        /* Checkbox – fixed size, never shrinks */
+        .filter-option input[type="checkbox"] {
+            appearance: none;
+            -webkit-appearance: none;
+            width: 18px;
+            height: 18px;
+            border: 2px solid #d1d5db;
+            border-radius: 4px;
+            margin: 0;
+            cursor: pointer;
+            position: relative;
+            transition: all 0.2s;
+            flex-shrink: 0; /* critical – prevents shrinking */
+        }
+
+            .filter-option input[type="checkbox"]:checked {
+                background: #B82025;
+                border-color: #B82025;
+            }
+
+                .filter-option input[type="checkbox"]:checked::after {
+                    content: "";
+                    position: absolute;
+                    left: 5px;
+                    top: 2px;
+                    width: 5px;
+                    height: 10px;
+                    border: solid #fff;
+                    border-width: 0 2px 2px 0;
+                    transform: rotate(45deg);
+                }
+
+        /* Label text – wraps and takes available space */
+        .filter-option .option-label {
+            flex: 1 1 auto;
+            min-width: 0;
+            line-height: 1.4;
+        }
+
+        /* Count – stuck to the right, never wraps */
+        .filter-option .count {
+            flex: 0 0 auto;
+            color: #9ca3af;
+            font-size: 0.8rem;
+            white-space: nowrap;
+            margin-left: auto;
+        }
+</style>
+<div class="main-content">
+    <div class="container">
+        <div class="products-page">
+
+
+            <!-- ===== FILTER SIDEBAR ===== -->
+            <aside class="filter-sidebar" id="filterSidebar">
+                <div class="sidebar-header">
+                    <h3>Filter by</h3>
+                    <button class="btn-clear-filters" id="clearAllFilters" style="display:none;">Clear All</button>
+                    <button class="btn-close-sidebar d-md-none" onclick="closeMobileSidebar()">✕</button>
+                </div>
+
+                <!-- Voltage Group -->
+                <div class="filter-group">
+                    <div class="filter-group-header" onclick="toggleGroup(this)">
+                        <span>Voltage</span>
+                        <svg class="toggle-icon" width="16" height="16" viewBox="0 0 16 16"><polyline points="4,6 8,10 12,6" fill="none" stroke="currentColor" stroke-width="2" /></svg>
+                    </div>
+                    <div class="filter-options">
+                        <label class="filter-option">
+                            <input type="checkbox" data-filter="voltage" value="26/45 kV" />
+                            <span class="option-label">26 / 45 (52) kV</span>
+                        </label>
+                        <label class="filter-option">
+                            <input type="checkbox" data-filter="voltage" value="38/66 kV" />
+                            <span class="option-label">38 / 66 (72.5) kV</span>
+                        </label>
+                        <label class="filter-option">
+                            <input type="checkbox" data-filter="voltage" value="76/132 kV" />
+                            <span class="option-label">76 / 132 (145) kV</span>
+                        </label>
+                        <label class="filter-option">
+                            <input type="checkbox" data-filter="voltage" value="127/220 kV" />
+                            <span class="option-label">127 / 220 (245) kV</span>
+                        </label>
+                    </div>
+                </div>
+
+                <!-- Sheath Type Group -->
+                <div class="filter-group" style="    border-bottom: none;">
+                    <div class="filter-group-header" onclick="toggleGroup(this)">
+                        <span>Metallic Screen</span>
+                        <svg class="toggle-icon" width="16" height="16" viewBox="0 0 16 16"><polyline points="4,6 8,10 12,6" fill="none" stroke="currentColor" stroke-width="2" /></svg>
+                    </div>
+                    <div class="filter-options">
+                        <label class="filter-option">
+                            <input type="checkbox" data-filter="sheath" value="CW" />
+                            <span class="option-label">Copper Wire Screen</span>
+                        </label>
+                        <label class="filter-option">
+                            <input type="checkbox" data-filter="sheath" value="Lead" />
+                            <span class="option-label">Lead Sheath</span>
+                        </label>
+                    </div>
+                </div>
+            </aside>
+
+            <!-- ===== MAIN PRODUCT LIST ===== -->
+            <div class="products-main">
+                <div class="products-toolbar">
+                    <h2>High Voltage Cable</h2>
+
+                    <div class="toolbar-controls">
+
+                        <div class="view-toggle">
+                            <button class="active" id="listViewBtn" onclick="setView('list')" title="List view">☰</button>
+                            <button id="gridViewBtn" onclick="setView('grid')" title="Grid view">⊞</button>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="product-list" id="productList">
+                    @{
+                        var products = new[]
+                        {
+                                        //first table
+                                        new { Name = "Single Core Copper Conductor, XLPE insulated 26 / 45 (52) KV CW",Action="HighVoltageDetailsFirstTable",Short="26-45 KV CW" ,Img = "26-45KV CW   66KV CW    132kv CW  220KV CW   .jpg",Pdf="26 single.pdf" },
+                                        new { Name = "Single Core Copper Conductor, XLPE insulated 38 / 66 (72.5) KV CW",Action="HighVoltageDetailsFirstTable",Short= "66 KV CW",Img = "26-45KV CW   66KV CW    132kv CW  220KV CW   .jpg" ,Pdf="38 wire.pdf"},
+                                        new { Name = "Single Core Copper Conductor, XLPE insulated 38 / 66 (72.5) KV Lead",Action="HighVoltageDetailsFirstTable",Short= "66 KV Lead", Img = "66 KV Lead   132 KV Lead   220 KV Lead.jpg",Pdf="38 lead.pdf" },
+                                        new { Name = "Single Core Copper Conductor, XLPE insulated 76 / 132 (145) KV CW",Action="HighVoltageDetailsFirstTable",Short= "132 KV CW",Img = "26-45KV CW   66KV CW    132kv CW  220KV CW   .jpg",Pdf="76 wire.pdf" },
+                                        new { Name = "Single Core Copper Conductor, XLPE insulated 76 / 132 (145) KV Lead",Action="HighVoltageDetailsFirstTable", Short= "132 KV Lead",Img = "66 KV Lead   132 KV Lead   220 KV Lead.jpg",Pdf="76 lead.pdf" },
+                                        //second table
+                                        new { Name = "Single Core Copper Conductor, XLPE insulated 127 / 220 (245) KV CW",Action="HighVoltageDetailsSecondTable", Short= "220 KV CW",Img = "26-45KV CW   66KV CW    132kv CW  220KV CW   .jpg",Pdf="127 wire.pdf" },
+                                        new { Name = "Single Core Copper Conductor, XLPE insulated 127 / 220 (245) KV Lead",Action="HighVoltageDetailsSecondTable", Short= "220 KV Lead",Img = "66 KV Lead   132 KV Lead   220 KV Lead.jpg",Pdf="127 lead.pdf" },
+                                        };
+                    }
+
+                    @foreach (var product in products)
+                    {
+                        // Determine sheath type from the Short field (or name)
+                        string sheath = "";
+                        string voltage = "";
+
+                        if (product.Short.Contains("CW") && !product.Short.Contains("Lead"))
+                            sheath = "CW";
+                        else if (product.Short.Contains("Lead"))
+                            sheath = "Lead";
+
+                        // Extract voltage category
+                        if (product.Name.Contains("26/45") || product.Short.Contains("26-45"))
+                            voltage = "26/45 kV";
+                        else if (product.Name.Contains("38/66") || product.Short.Contains("66 KV CW") || product.Short.Contains("66 KV Lead"))
+                            voltage = "38/66 kV";
+                        else if (product.Name.Contains("76/132") || product.Short.Contains("132 KV"))
+                            voltage = "76/132 kV";
+                        else if (product.Name.Contains("127/220") || product.Short.Contains("220 KV") || product.Short.Contains("132 KV Lead"))
+                            voltage = "127/220 kV";
+
+                        <div class="product-row"
+                             data-voltage="@voltage"
+                             data-sheath="@sheath">
+                            <img src="~/assets/3DImages/high voltage/@product.Img" alt="@product.Name" />
+                            <a asp-controller="Pages" asp-route-Short="@product.Short"
+                               asp-route-img="@product.Img" asp-action="@product.Action" class="product-name">@product.Name</a>
+                            <a href="~/assets/3DImages/high voltage/@product.Pdf" class="btn-spec" target="_blank">
+                                ⭳ Specifications PDF
+                            </a>
+                        </div>
+                    }
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    function toggleGroup(header) {
+        const group = header.closest('.filter-group');
+        if (!group) return;
+        group.classList.toggle('collapsed');
+    }
+
+    function toggleShowMore(link) {
+        const container = link.closest('.filter-options');
+        const extras = container.querySelector('.extra-options');
+        if (!extras) return;
+        if (extras.style.display === 'none' || extras.style.display === '') {
+            extras.style.display = 'block';
+            link.textContent = '− Show Less';
+        } else {
+            extras.style.display = 'none';
+            link.textContent = '+ Show More';
+        }
+    }
+
+    // ===== Product filtering =====
+    function filterProducts() {
+        const selectedFilters = {};
+        document.querySelectorAll('.filter-option input[type="checkbox"]:checked').forEach(cb => {
+            const filterType = cb.getAttribute('data-filter');
+            const value = cb.value;
+            selectedFilters[filterType] = value;
+        });
+
+        const rows = document.querySelectorAll('.product-row');
+        rows.forEach(row => {
+            let visible = true;
+            if (selectedFilters['voltage']) {
+                if (row.getAttribute('data-voltage') !== selectedFilters['voltage']) visible = false;
+            }
+            if (selectedFilters['sheath']) {
+                if (row.getAttribute('data-sheath') !== selectedFilters['sheath']) visible = false;
+            }
+            row.style.display = visible ? 'flex' : 'none';
+        });
+    }
+
+    // Single selection inside each filter group + trigger filtering
+    document.addEventListener('change', function(e) {
+        if (!e.target.matches('.filter-option input[type="checkbox"]')) return;
+        const group = e.target.closest('.filter-group');
+        if (!group) return;
+        // Uncheck all other checkboxes inside the same group
+        const allCheckboxes = group.querySelectorAll('.filter-option input[type="checkbox"]');
+        allCheckboxes.forEach(cb => {
+            if (cb !== e.target) cb.checked = false;
+        });
+        updateClearButton();
+        filterProducts();      // 👈 added – applies the filter
+    });
+
+    // Clear All button
+    function updateClearButton() {
+        const anyChecked = document.querySelectorAll('.filter-option input[type="checkbox"]:checked').length > 0;
+        const clearBtn = document.getElementById('clearAllFilters');
+        if (clearBtn) {
+            clearBtn.style.display = anyChecked ? 'inline-block' : 'none';
+        }
+    }
+
+    document.getElementById('clearAllFilters')?.addEventListener('click', function() {
+        document.querySelectorAll('.filter-option input[type="checkbox"]').forEach(cb => cb.checked = false);
+        updateClearButton();
+        filterProducts();      // 👈 added – show all products
+    });
+
+    // Initial state – show all, update clear button
+    document.addEventListener('DOMContentLoaded', function() {
+        updateClearButton();
+        filterProducts();
+    });
+
+    // Mobile Sidebar Toggle
+    function openMobileSidebar() {
+        document.getElementById('filterSidebar')?.classList.add('open');
+    }
+    function closeMobileSidebar() {
+        document.getElementById('filterSidebar')?.classList.remove('open');
+    }
+
+    // View Toggle (List / Grid)
+    function setView(mode) {
+        const list = document.getElementById('productList');
+        const listBtn = document.getElementById('listViewBtn');
+        const gridBtn = document.getElementById('gridViewBtn');
+
+        if (mode === 'grid') {
+            list.classList.add('grid-view');
+            gridBtn.classList.add('active');
+            listBtn.classList.remove('active');
+        } else {
+            list.classList.remove('grid-view');
+            listBtn.classList.add('active');
+            gridBtn.classList.remove('active');
+        }
+    }</script>

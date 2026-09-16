@@ -1,0 +1,257 @@
+﻿@model GizaPowerIndustryWebsite.Models.VacancyApplicationViewModel
+
+@{
+    ViewData["Title"] = "Apply - " + Model.JobTitle;
+}
+
+<section class="job-hero" style="padding:7rem 4rem 2rem 2rem; margin-top:45px">
+    <div class="container-fluid">
+        <div class="job-hero-container">
+            <div class="job-hero-bg">
+                <img src="~/assets/images/job-details-hero.jpg" style="object-fit:cover" alt="@Model.JobTitle">
+            </div>
+            <div class="job-hero-overlay"></div>
+            <div class="job-hero-content">
+                <h1 class="job-hero-title">Apply for @Model.JobTitle</h1>
+            </div>
+        </div>
+    </div>
+</section>
+
+<section class="job-details-section">
+    <div class="container">
+        <div class="apply-form-wrapper">
+
+            <div class="apply-form-meta">
+                <span class="apply-meta-pill"><i class="fas fa-briefcase"></i> @Model.DepartmentName</span>
+                <a asp-action="JobDetails" asp-route-id="@Model.VacancyId" class="apply-back-link">
+                    <i class="fas fa-arrow-left"></i> Back to job details
+                </a>
+            </div>
+
+            @if (!ViewData.ModelState.IsValid)
+            {
+                <div class="apply-error-banner">
+                    <i class="fas fa-exclamation-circle"></i>
+                    Please fix the highlighted fields below and try again.
+                </div>
+            }
+
+            <form asp-action="ApplyJob" asp-route-id="@Model.VacancyId" method="post" enctype="multipart/form-data" class="apply-form">
+                @Html.AntiForgeryToken()
+                <input type="hidden" asp-for="VacancyId" />
+                <input type="hidden" asp-for="DepartmentId" />
+                <input type="hidden" asp-for="JobTitle" />
+                <input type="hidden" asp-for="DepartmentName" />
+
+                <div class="apply-form-grid">
+
+                    <div class="apply-field">
+                        <label asp-for="Name" class="apply-label"></label>
+                        <input asp-for="Name" class="apply-input" placeholder="e.g. Ahmed Mostafa" />
+                        <span asp-validation-for="Name" class="apply-field-error"></span>
+                    </div>
+
+                    <div class="apply-field">
+                        <label asp-for="Email" class="apply-label"></label>
+                        <input asp-for="Email" class="apply-input" placeholder="name@example.com" />
+                        <span asp-validation-for="Email" class="apply-field-error"></span>
+                    </div>
+
+                    <div class="apply-field">
+                        <label asp-for="Phone" class="apply-label"></label>
+                        <input asp-for="Phone" class="apply-input" placeholder="+20 1xx xxx xxxx" />
+                        <span asp-validation-for="Phone" class="apply-field-error"></span>
+                    </div>
+
+                    <div class="apply-field">
+                        <label asp-for="Address" class="apply-label"></label>
+                        <input asp-for="Address" class="apply-input" placeholder="City, Country" />
+                        <span asp-validation-for="Address" class="apply-field-error"></span>
+                    </div>
+
+                    <div class="apply-field">
+                        <label asp-for="Experience" class="apply-label"></label>
+                        <input asp-for="Experience" type="number" min="0" max="60" class="apply-input" />
+                        <span asp-validation-for="Experience" class="apply-field-error"></span>
+                    </div>
+
+                    <div class="apply-field">
+                        <label asp-for="CurrentSalary" class="apply-label"></label>
+                        <input asp-for="CurrentSalary" class="apply-input" placeholder="e.g. 15,000 EGP" />
+                        <span asp-validation-for="CurrentSalary" class="apply-field-error"></span>
+                    </div>
+
+                    <div class="apply-field">
+                        <label asp-for="ExpectedSalary" class="apply-label"></label>
+                        <input asp-for="ExpectedSalary" type="number" min="0" step="0.01" class="apply-input" />
+                        <span asp-validation-for="ExpectedSalary" class="apply-field-error"></span>
+                    </div>
+
+                    <div class="apply-field apply-field-full">
+                        <label asp-for="CvFile" class="apply-label"></label>
+                        <label for="CvFile" class="apply-file-drop" id="cvDropLabel">
+                            <i class="fas fa-cloud-upload-alt"></i>
+                            <span id="cvFileText">Choose a file or drag it here — PDF or Word, max 5MB</span>
+                        </label>
+                        <input asp-for="CvFile" type="file" accept=".pdf,.doc,.docx" class="apply-file-input" id="CvFile" />
+                        <span asp-validation-for="CvFile" class="apply-field-error"></span>
+                    </div>
+
+                </div>
+
+                <button type="submit" class="btn-sidebar-apply apply-submit-btn">
+                    Submit Application
+                    <span class="icon-circle">
+                        <i class="fas fa-arrow-right"></i>
+                    </span>
+                </button>
+            </form>
+        </div>
+    </div>
+</section>
+
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+    <script>
+        const cvInput = document.getElementById('CvFile');
+        const cvText = document.getElementById('cvFileText');
+        cvInput.addEventListener('change', function () {
+            cvText.textContent = this.files.length ? this.files[0].name : 'Choose a file or drag it here — PDF or Word, max 5MB';
+        });
+    </script>
+}
+
+<style>
+    .apply-form-wrapper {
+        max-width: 760px;
+        margin: 0 auto;
+    }
+
+    .apply-form-meta {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        margin-bottom: 1.5rem;
+        flex-wrap: wrap;
+        gap: .75rem;
+    }
+
+    .apply-meta-pill {
+        background: #fdeceb;
+        color: #c0392b;
+        font-size: .85rem;
+        font-weight: 600;
+        padding: .4rem .9rem;
+        border-radius: 999px;
+    }
+
+    .apply-back-link {
+        color: #1a2b4c;
+        font-size: .9rem;
+        font-weight: 600;
+        text-decoration: none;
+    }
+
+        .apply-back-link:hover {
+            color: #c0392b;
+        }
+
+    .apply-error-banner, .alert-success-banner {
+        border-radius: 8px;
+        padding: .9rem 1.1rem;
+        margin-bottom: 1.5rem;
+        font-weight: 500;
+    }
+
+    .apply-error-banner {
+        background: #fdeceb;
+        color: #c0392b;
+        border: 1px solid #f3b8b3;
+    }
+
+    .alert-success-banner {
+        background: #e9f7ef;
+        color: #1e7e42;
+        border: 1px solid #b7e4c7;
+    }
+
+    .apply-form-grid {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 1.25rem 1.5rem;
+    }
+
+    .apply-field-full {
+        grid-column: 1 / -1;
+    }
+
+    .apply-label {
+        display: block;
+        font-weight: 600;
+        color: #1a2b4c;
+        margin-bottom: .4rem;
+        font-size: .9rem;
+    }
+
+    .apply-input {
+        width: 100%;
+        padding: .7rem .9rem;
+        border: 1px solid #d9dde3;
+        border-radius: 8px;
+        font-size: .95rem;
+        transition: border-color .15s ease, box-shadow .15s ease;
+    }
+
+        .apply-input:focus {
+            outline: none;
+            border-color: #c0392b;
+            box-shadow: 0 0 0 3px rgba(192,57,43,.12);
+        }
+
+    .apply-field-error {
+        color: #c0392b;
+        font-size: .8rem;
+        margin-top: .3rem;
+        display: block;
+    }
+
+    .apply-file-input {
+        display: none;
+    }
+
+    .apply-file-drop {
+        display: flex;
+        align-items: center;
+        gap: .6rem;
+        border: 1.5px dashed #c7ccd4;
+        border-radius: 8px;
+        padding: 1rem;
+        cursor: pointer;
+        color: #5a6472;
+        font-size: .9rem;
+        transition: border-color .15s ease, background .15s ease;
+    }
+
+        .apply-file-drop:hover {
+            border-color: #c0392b;
+            background: #fdf6f5;
+        }
+
+        .apply-file-drop i {
+            color: #c0392b;
+            font-size: 1.2rem;
+        }
+
+    .apply-submit-btn {
+        margin-top: 2rem;
+        border: none;
+        cursor: pointer;
+    }
+
+    @@media (max-width: 640px) {
+        .apply-form-grid {
+            grid-template-columns: 1fr;
+        }
+    }
+</style>

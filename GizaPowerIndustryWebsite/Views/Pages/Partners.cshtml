@@ -1,0 +1,984 @@
+@{
+    ViewData["Title"] = "Partners";
+    //https://forms.gle/PnD9Pn27RmfxL9mp9
+}
+<style>
+
+    .partner-cards {
+        display: flex;
+        flex-wrap: wrap;
+        justify-content: center;
+        align-items: stretch;
+        gap: 20px;
+        margin-top: 40px;
+        padding-top: 15px;
+        padding-bottom: 15px;
+        width: 100%;
+    }
+
+    .partner-card {
+        background: #fff;
+        border-radius: 20px;
+        padding: 20px;
+        min-height: 140px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        border: 1px solid #ececec;
+        box-shadow: 0 8px 25px rgba(0,0,0,0.06);
+        transition: all 0.4s ease;
+        position: relative;
+        flex: 1 1 calc(25% - 20px);
+        min-width: 160px;
+        max-width: 250px;
+    }
+
+        .partner-card::before {
+            content: "";
+            position: absolute;
+            inset: 0;
+            background: linear-gradient( 135deg, rgba(200,0,0,0.05), rgba(255,255,255,0) );
+            opacity: 0;
+            transition: 0.4s;
+            border-radius: 20px;
+        }
+
+        .partner-card:hover {
+            transform: translateY(-8px);
+            box-shadow: 0 15px 35px rgba(0,0,0,0.12);
+            border-color: #c8102e;
+        }
+
+            .partner-card:hover::before {
+                opacity: 1;
+            }
+
+    .partner-logo-box {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        width: 100%;
+        height: 100px;
+    }
+
+        .partner-logo-box img {
+            max-width: 100%;
+            max-height: 100%;
+            object-fit: contain;
+            transition: all 0.4s ease;
+            image-rendering: high-quality;
+        }
+
+    /* Main Logo */
+    .logo-main {
+        opacity: 1;
+        transform: scale(1);
+    }
+
+    /* Colored Logo */
+    .logo-alternate {
+        opacity: 0;
+        transform: scale(0.9);
+        display: none;
+    }
+
+    /* Hover Effect */
+    .partner-card:hover .logo-main {
+        transform: scale(1.05);
+    }
+
+    /* Business Visual Height Fix */
+    .business-visual {
+        width: 100%;
+        max-height: 450px;
+        overflow: hidden;
+        margin-top: 30px;
+    }
+
+        .business-visual img {
+            width: 100%;
+            height: 100%;
+            max-height: 450px;
+            object-fit: cover;
+            object-position: center;
+        }
+    /* ── Partner Logo Scroll Strip ── */
+    .partner-scroll-section {
+        position: relative;
+        width: 100%;
+        padding: 20px 0;
+        overflow: hidden;
+    }
+
+    /* Scroll buttons */
+    .partner-scroll-btn {
+        position: absolute;
+        top: 50%;
+        transform: translateY(-50%);
+        z-index: 10;
+        width: 48px;
+        height: 48px;
+        border-radius: 50%;
+        background: #06283F;
+        border: none;
+        color: #fff;
+        font-size: 16px;
+        cursor: pointer;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        box-shadow: 0 4px 16px rgba(6,40,63,0.25);
+        transition: background 0.3s ease, transform 0.3s ease;
+    }
+
+        .partner-scroll-btn:hover {
+            background: #B82025;
+            transform: translateY(-50%) scale(1.08);
+        }
+
+    .partner-scroll-left {
+        left: 12px;
+    }
+
+    .partner-scroll-right {
+        right: 12px;
+    }
+
+    /* Scrollable wrapper */
+    .partner-scroll-wrapper {
+        overflow-x: auto;
+        -webkit-overflow-scrolling: touch;
+        scrollbar-width: none;
+        padding: 16px 64px;
+    }
+
+        .partner-scroll-wrapper::-webkit-scrollbar {
+            display: none;
+        }
+
+    /* Track — all cards in one row */
+    .partner-scroll-track {
+        display: flex;
+        gap: 20px;
+        width: max-content;
+        align-items: center;
+    }
+
+    /* Individual logo card */
+    .partner-logo-card {
+        flex: 0 0 auto;
+        width: 160px;
+        height: 100px;
+        background: #fff;
+        border-radius: 16px;
+        border: 1px solid #E6EAEC;
+        box-shadow: 0 4px 16px rgba(0,0,0,0.05);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        padding: 16px;
+        transition: all 0.3s ease;
+    }
+
+        .partner-logo-card:hover {
+            border-color: #B82025;
+            box-shadow: 0 8px 24px rgba(184,32,37,0.12);
+            transform: translateY(-4px);
+        }
+
+        .partner-logo-card img {
+            width: 100%;
+            height: 100%;
+            object-fit: contain;
+            filter: grayscale(100%);
+            opacity: 0.65;
+            transition: all 0.3s ease;
+        }
+
+        .partner-logo-card:hover img {
+            filter: grayscale(0%);
+            opacity: 1;
+        }
+
+    /* Responsive */
+    @@media (max-width: 768px) {
+        .partner-logo-card {
+            width: 120px;
+            height: 80px;
+            padding: 12px;
+        }
+
+        .partner-scroll-wrapper {
+            padding: 12px 52px;
+        }
+    }
+
+    .market-title {
+        font-size: clamp(2rem, 6vw, 3rem) !important;
+    }
+
+    /* Benefits Card Layout */
+    .benefits-list {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+        gap: 28px;
+        margin-top: 50px;
+    }
+
+    .benefit-item-card {
+        background: linear-gradient(135deg, #fff 0%, #f9fafb 100%);
+        border-radius: 20px;
+        padding: 40px 32px;
+        border: 2px solid #e8eaed;
+        box-shadow: 0 8px 24px rgba(0,0,0,0.08);
+        transition: all 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+        position: relative;
+        overflow: hidden;
+        display: flex;
+        flex-direction: column;
+        min-height: 280px;
+    }
+
+        .benefit-item-card::before {
+            content: "";
+            position: absolute;
+            left: 0;
+            top: 0;
+            width: 0;
+            height: 100%;
+            background: linear-gradient(135deg, rgba(184, 32, 37, 0.08), rgba(184, 32, 37, 0.02));
+            transition: width 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+            z-index: 0;
+        }
+
+        .benefit-item-card::after {
+            content: "";
+            position: absolute;
+            top: 0;
+            right: 0;
+            width: 80px;
+            height: 80px;
+            background: radial-gradient(circle, rgba(184, 32, 37, 0.05), transparent 70%);
+            opacity: 0;
+            transition: opacity 0.4s ease;
+        }
+
+        .benefit-item-card:hover {
+            transform: translateY(-12px);
+            border-color: #B82025;
+            box-shadow: 0 18px 48px rgba(184, 32, 37, 0.18);
+        }
+
+            .benefit-item-card:hover::before {
+                width: 100%;
+            }
+
+            .benefit-item-card:hover::after {
+                opacity: 1;
+            }
+
+        .benefit-item-card > * {
+            position: relative;
+            z-index: 1;
+        }
+
+    .benefit-card-number {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        width: 56px;
+        height: 56px;
+        border-radius: 12px;
+        background: linear-gradient(135deg, #B82025 0%, #8b1820 100%);
+        color: white;
+        font-size: 1.8rem;
+        font-weight: 800;
+        margin-bottom: 20px;
+        box-shadow: 0 4px 15px rgba(184, 32, 37, 0.25);
+        transition: all 0.4s ease;
+    }
+
+    .benefit-item-card:hover .benefit-card-number {
+        transform: scale(1.1) rotate(-5deg);
+        box-shadow: 0 8px 25px rgba(184, 32, 37, 0.35);
+    }
+
+    .benefit-item-card h4 {
+        color: #06283F;
+        font-size: 1.35rem;
+        font-weight: 700;
+        margin: 0 0 16px 0;
+        padding: 0;
+        line-height: 1.4;
+    }
+
+    .benefit-item-card p {
+        color: #6b7280;
+        font-size: 0.98rem;
+        line-height: 1.7;
+        margin: 0;
+        padding: 0;
+        flex-grow: 1;
+    }
+
+    .benefit-bullet {
+        display: flex;
+        align-items: flex-start;
+        gap: 12px;
+        margin-bottom: 8px;
+    }
+
+        .benefit-bullet::before {
+            content: "●";
+            color: #B82025;
+            font-size: 1.2rem;
+            flex-shrink: 0;
+            line-height: 1.4;
+        }
+
+    /* Distributors Grid Section */
+    .distributors-grid-container {
+        margin-top: 50px;
+        background: linear-gradient(135deg, rgba(184, 32, 37, 0.02) 0%, rgba(6, 40, 63, 0.02) 100%), url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><defs><pattern id="map" x="0" y="0" width="100" height="100" patternUnits="userSpaceOnUse"><rect width="100" height="100" fill="%23f8f9fa"/><path d="M10 20 Q 30 15 50 25 T 90 30" stroke="%23e0e4e8" stroke-width="0.5" fill="none" opacity="0.3"/><path d="M20 40 L 40 50 L 60 45" stroke="%23e0e4e8" stroke-width="0.5" fill="none" opacity="0.3"/><circle cx="30" cy="50" r="1" fill="%23B82025" opacity="0.1"/><circle cx="70" cy="60" r="0.8" fill="%23B82025" opacity="0.1"/><circle cx="50" cy="30" r="0.6" fill="%23B82025" opacity="0.1"/></pattern></defs><rect width="100" height="100" fill="white"/><rect width="100" height="100" fill="url(%23map)"/></svg>') repeat;
+        background-size: auto, 400px 400px;
+        background-position: 0 0, 0 0;
+        border-radius: 20px;
+        padding: 40px 30px;
+        position: relative;
+    }
+
+        .distributors-grid-container::before {
+            content: "";
+            position: absolute;
+            inset: 0;
+            background: radial-gradient(circle at 20% 50%, rgba(184, 32, 37, 0.02), transparent 50%), radial-gradient(circle at 80% 80%, rgba(6, 40, 63, 0.02), transparent 50%);
+            pointer-events: none;
+            border-radius: 20px;
+            z-index: 0;
+        }
+
+        .distributors-grid-container > * {
+            position: relative;
+            z-index: 1;
+        }
+
+    .distributors-logo-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+        gap: 20px;
+        margin-bottom: 50px;
+        background-image: url('/assets/Logos/logos-bg.png');
+        background-size: auto, 400px 400px;
+        background-position: 0 0, 0 0;
+        padding: 20px;
+        border-radius: 16px;
+    }
+
+    .distributor-grid-item {
+        background: #fff;
+        border-radius: 16px;
+        padding: 20px;
+        height: 120px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        border: 2px solid #e8eaed;
+        box-shadow: 0 4px 16px rgba(0,0,0,0.05);
+        transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+        position: relative;
+        overflow: hidden;
+    }
+
+        .distributor-grid-item::before {
+            content: "";
+            position: absolute;
+            inset: 0;
+            background: linear-gradient(135deg, rgba(184, 32, 37, 0.08), rgba(184, 32, 37, 0.02));
+            opacity: 0;
+            transition: opacity 0.4s ease;
+            z-index: 0;
+        }
+
+        .distributor-grid-item:hover {
+            border-color: #B82025;
+            transform: translateY(-8px);
+            box-shadow: 0 12px 32px rgba(184, 32, 37, 0.15);
+        }
+
+            .distributor-grid-item:hover::before {
+                opacity: 1;
+            }
+
+        .distributor-grid-item img {
+            width: 100%;
+            height: 100%;
+            object-fit: contain;
+            filter: grayscale(60%);
+            opacity: 0.75;
+            transition: all 0.4s ease;
+            position: relative;
+            z-index: 1;
+        }
+
+        .distributor-grid-item:hover img {
+            filter: grayscale(0%);
+            opacity: 1;
+        }
+
+    /* Action Buttons */
+    .distributor-action-buttons {
+        display: flex;
+        gap: 20px;
+        justify-content: center;
+        flex-wrap: wrap;
+        margin-top: 40px;
+        padding-top: 30px;
+        border-top: 2px solid #e8eaed;
+    }
+
+    .btn-distributor-action {
+        display: inline-flex;
+        align-items: center;
+        gap: 10px;
+        padding: 14px 32px;
+        border-radius: 12px;
+        font-size: 1rem;
+        font-weight: 600;
+        text-decoration: none;
+        transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+        border: 2px solid transparent;
+        cursor: pointer;
+        box-shadow: 0 4px 16px rgba(0,0,0,0.08);
+    }
+
+        .btn-distributor-action i {
+            font-size: 1.2rem;
+            transition: transform 0.3s ease;
+        }
+
+        .btn-distributor-action:hover i {
+            transform: scale(1.1);
+        }
+
+    .btn-locate-distributors {
+        background: linear-gradient(135deg, #B82025 0%, #8b1820 100%);
+        color: white;
+    }
+
+        .btn-locate-distributors:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 8px 28px rgba(184, 32, 37, 0.25);
+        }
+
+    .btn-apply-partnership {
+        background: #fff;
+        color: #B82025;
+        border-color: #B82025;
+    }
+
+        .btn-apply-partnership:hover {
+            background: #B82025;
+            color: white;
+            transform: translateY(-4px);
+            box-shadow: 0 8px 28px rgba(184, 32, 37, 0.25);
+        }
+
+    @@media (max-width: 768px) {
+        .distributors-logo-grid
+
+    {
+        grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
+        gap: 15px;
+    }
+
+    .distributor-grid-item {
+        height: 100px;
+        padding: 15px;
+    }
+
+    .distributor-action-buttons {
+        flex-direction: column;
+    }
+
+    .btn-distributor-action {
+        width: 100%;
+        justify-content: center;
+    }
+
+    }
+
+    .sustainability-hero {
+        position: relative;
+        width: 100%;
+        height: 70vh;
+        overflow: hidden;
+        padding-top: 0 !important;
+    }
+
+    .sustainability-hero-bg {
+        position: absolute;
+        inset: 0;
+        width: 100%;
+        height: 100%;
+    }
+
+        .sustainability-hero-bg img {
+            width: 800%;
+            height: 100%;
+            object-fit: cover;
+            display: block;
+        }
+
+    .sustainability-hero-overlay {
+        position: absolute;
+        inset: 0;
+        background: linear-gradient(to bottom, rgb(6 40 63 / 30%), rgb(17 39 54 / 80%));
+        z-index: 1;
+    }
+
+    .sustainability-hero-content {
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        z-index: 3;
+        text-align: center;
+        width: 100%;
+    }
+
+    .sustainability-hero-title {
+        color: #fff;
+        font-size: 72px;
+        font-weight: 700;
+        letter-spacing: 6px;
+        font-family: Arial, sans-serif;
+    }
+
+    @@media (max-width: 768px) {
+        .sustainability-hero-title {
+            font-size: 42px;
+        }
+    }
+    /* Responsive adjustment */
+    @@media (max-width: 768px) {
+        .sustainability-hero {
+            height: 55vh;
+        }
+
+        .sustainability-hero-title {
+            font-size: 2.2rem;
+        }
+
+        .sustainability-hero-subtitle {
+            font-size: 1rem;
+        }
+    }
+    /* Main title – bold, sentence case */
+    .sustainability-hero-title {
+        font-size: clamp(2.5rem, 6vw, 4.5rem);
+        font-weight: 800;
+        color: #fff;
+        margin: 0 0 1rem;
+        line-height: 1.1;
+        text-transform: none; 
+    }
+
+    /*Subtitle–light,supportive*/
+    .sustainability-hero-subtitle {
+        font-size: clamp(1rem, 2.5vw, 1.4rem);
+        font-weight: 300;
+        color: rgba(255, 255, 255, 0.9);
+        margin: 0;
+        line-height: 1.6;
+        text-transform: none;
+    }
+    /*Responsive adjustment*/
+    @@media (max-width: 768px) {
+        .sustainability-hero {
+            height: 55vh;
+        }
+
+        .sustainability-hero-title {
+            font-size: 2.2rem;
+        }
+
+        .sustainability-hero-subtitle {
+            font-size: 1rem;
+        }
+    }
+</style>
+<!-- Hero Section -->
+<section class="sustainability-hero" style="border-radius:0px">
+    <!-- Background Image -->
+    <div class="sustainability-hero-bg">
+        <img src="~/assets/GPI Website Visuals/Our Partners/Partners Banner.jpg" alt="Partner">
+    </div>
+    <!-- Dark overlay for readability -->
+    <div class="sustainability-hero-overlay"></div>
+
+    <!-- Centred text content -->
+    <div class="sustainability-hero-content">
+        <h1 class="sustainability-hero-title">Our Partners</h1>
+        <p class="sustainability-hero-subtitle">
+            Our trust and collaboration with our valued clients and distributors fuel our growth and success. 
+        </p>
+    </div>
+</section>
+
+<!-- Market Reach Section -->
+<section class="market-section" id="partners" style="padding-top:0px; padding-bottom:0px">
+    <div class="container">
+        <div class="about-header">
+            <P class="about-label" style="font-weight: 900;    color: #a3191e;margin-top:24px !important; margin-bottom:0px !important">
+                OUR CLIENTS
+            </P>
+
+            <span class="hero-small reveal-line" style="font-size: 20px;
+    font-weight: 900;
+    color: #06283f;">
+                A Diverse Range Of Industries Including Local, Regional And Global Industry Giants And Key Players.
+            </span>
+            <p class="market-description">
+                At GPI, we recognize that our journey of excellence is intertwined with the trust and collaboration of our valued clients. In this section, we take great pride in showcasing the relationships that have fueled our growth and success.
+                GPI serves a diverse range of industries including telecommunications, energy, Oil&Gas, petrochemicals, healthcare, and more. We understand that each industry demands tailored solutions, and we leverage our deep industry knowledge and technical expertise to provide solutions that meet and exceed our clients' expectations.
+                Explore our list of clients who have inspired us and continue to drive us forward.
+            </p>
+        </div>
+    </div>
+</section>
+<section class="market-section" id="partners" style="padding-top:0px; padding-bottom:0px">
+    <!-- Partner Logos Scroll Strip -->
+    <div class="partner-scroll-section">
+
+        <!-- Left Button -->
+        <button type="button" class="partner-scroll-btn partner-scroll-left" aria-label="Scroll left">
+            <i class="fas fa-chevron-left"></i>
+        </button>
+
+        <div class="partner-scroll-wrapper" id="partnerScrollWrapper">
+            <div class="partner-scroll-track" id="partnerScrollTrack">
+
+                <div class="partner-logo-card">
+                    <img src="~/assets/Logos/logo1.webp" alt="Partner Logo">
+                </div>
+                <div class="partner-logo-card">
+                    <img src="~/assets/Logos/logo2.png" alt="Partner Logo">
+                </div>
+                <div class="partner-logo-card">
+                    <img src="~/assets/Logos/logo3.webp" alt="Partner Logo">
+                </div>
+                <div class="partner-logo-card">
+                    <img src="~/assets/Logos/logo4.webp" alt="Partner Logo">
+                </div>
+                <div class="partner-logo-card">
+                    <img src="~/assets/Logos/logo5.webp" alt="Partner Logo">
+                </div>
+                <div class="partner-logo-card">
+                    <img src="~/assets/Logos/logo6.webp" alt="Partner Logo">
+                </div>
+                <div class="partner-logo-card">
+                    <img src="~/assets/Logos/logo7.webp" alt="Partner Logo">
+                </div>
+                <div class="partner-logo-card">
+                    <img src="~/assets/Logos/logo8.webp" alt="Partner Logo">
+                </div>
+                <div class="partner-logo-card">
+                    <img src="~/assets/Logos/logo9.webp" alt="Partner Logo">
+                </div>
+                <div class="partner-logo-card">
+                    <img src="~/assets/Logos/logo10.webp" alt="Partner Logo">
+                </div>
+                <div class="partner-logo-card">
+                    <img src="~/assets/Logos/logo11.png" alt="Partner Logo">
+                </div>
+                <div class="partner-logo-card">
+                    <img src="~/assets/Logos/logo12.webp" alt="Partner Logo">
+                </div>
+                <div class="partner-logo-card">
+                    <img src="~/assets/Logos/logo13.webp" alt="Partner Logo">
+                </div>
+                <div class="partner-logo-card">
+                    <img src="~/assets/Logos/logo14.png" alt="Partner Logo">
+                </div>
+                <div class="partner-logo-card">
+                    <img src="~/assets/Logos/logo15.webp" alt="Partner Logo">
+                </div>
+                <div class="partner-logo-card">
+                    <img src="~/assets/Logos/logo16.webp" alt="Partner Logo">
+                </div>
+                <div class="partner-logo-card">
+                    <img src="~/assets/Logos/logo17.jpg" alt="Partner Logo">
+                </div>
+                <div class="partner-logo-card">
+                    <img src="~/assets/Logos/logo18.webp" alt="Partner Logo">
+                </div>
+                <div class="partner-logo-card">
+                    <img src="~/assets/Logos/logo20.webp" alt="Partner Logo">
+                </div>
+                <div class="partner-logo-card">
+                    <img src="~/assets/Logos/logo21.webp" alt="Partner Logo">
+                </div>
+                <div class="partner-logo-card">
+                    <img src="~/assets/Logos/logo22.png" alt="Partner Logo">
+                </div>
+                <div class="partner-logo-card">
+                    <img src="~/assets/Logos/logo23.webp" alt="Partner Logo">
+                </div>
+                <div class="partner-logo-card">
+                    <img src="~/assets/Logos/logo24.webp" alt="Partner Logo">
+                </div>
+                <div class="partner-logo-card">
+                    <img src="~/assets/Logos/logo25.webp" alt="Partner Logo">
+                </div>
+                <div class="partner-logo-card">
+                    <img src="~/assets/Logos/logo26.webp" alt="Partner Logo">
+                </div>
+                <div class="partner-logo-card">
+                    <img src="~/assets/Logos/logo27.webp" alt="Partner Logo">
+                </div>
+                <div class="partner-logo-card">
+                    <img src="~/assets/Logos/logo28.webp" alt="Partner Logo">
+                </div>
+                <div class="partner-logo-card">
+                    <img src="~/assets/Logos/logo29.webp" alt="Partner Logo">
+                </div>
+                <div class="partner-logo-card">
+                    <img src="~/assets/Logos/logo30.webp" alt="Partner Logo">
+                </div>
+                <div class="partner-logo-card">
+                    <img src="~/assets/Logos/logo31.webp" alt="Partner Logo">
+                </div>
+                <div class="partner-logo-card">
+                    <img src="~/assets/Logos/logo32.webp" alt="Partner Logo">
+                </div>
+                <div class="partner-logo-card">
+                    <img src="~/assets/Logos/logo33.webp" alt="Partner Logo">
+                </div>
+                <div class="partner-logo-card">
+                    <img src="~/assets/Logos/logo34.png" alt="Partner Logo">
+                </div>
+                <div class="partner-logo-card">
+                    <img src="~/assets/Logos/logo35.jpg" alt="Partner Logo">
+                </div>
+                <div class="partner-logo-card">
+                    <img src="~/assets/Logos/logo36.png" alt="Partner Logo">
+                </div>
+                <div class="partner-logo-card">
+                    <img src="~/assets/Logos/logo37.png" alt="Partner Logo">
+                </div>
+            </div>
+        </div>
+
+        <!-- Right Button -->
+        <button type="button" class="partner-scroll-btn partner-scroll-right" aria-label="Scroll right">
+            <i class="fas fa-chevron-right"></i>
+        </button>
+
+    </div>
+</section>
+<!-- Market Reach Section -->
+<section class="market-section" id="partners" style="padding-top:0px; padding-bottom:0px">
+    <div class="container">
+        <div class="about-header">
+            <P class="about-label" style="font-weight: 900;    color: #a3191e;margin-top:24px !important; margin-bottom:0px !important">
+                OUR DISTRIBUTORS
+            </P>
+            <span class="hero-small reveal-line" style="font-size: 20px;
+    font-weight: 900;
+    color: #06283f;">
+                EXPANDING OUR MARKET REACH THROUGH A STRONG NETWORK OF RELIABLE AND EXPERIENCED DISTRIBUTORS
+            </span>
+            <p class="market-description">
+                Our distributors are instrumental in expanding GPI’s market reach. We have built a strong network of reliable and experienced distributors who share our commitment to excellence. By leveraging their local knowledge and established customer relationships, we can effectively penetrate new markets and grow our global footprint.
+                To build trust and reliability with end customers, we maintain stringent quality control measures to ensure consistency across our distribution network.
+            </p>
+            <div class="purpose-image" style="margin-top:30px;border-radius: 30px;">
+                <img src="~/assets/GPI Website Visuals/Our Partners/Our Distributors.jpg" alt="Our Vision" data-no-retina="">
+            </div>
+        </div>
+    </div>
+</section>
+<!-- Distributorship Benefits Section -->
+<section class="market-section" id="distributorship-benefits" style="padding-top:0px; padding-bottom:0px">
+    <div class="container" style="margin-bottom: 30px;">
+        <div class="about-header">
+            <P class="about-label" style="font-weight: 900;    color: #a3191e;margin-top:24px !important; margin-bottom:0px !important">
+                PARTNERSHIP OPPORTUNITY
+            </P>
+
+            <span class="hero-small reveal-line" style="font-size: 20px;
+    font-weight: 900;
+    color: #06283f;">
+                WHY TO APPLY FOR GPI’s
+                Why to apply for GPI’s DISTRIBUTORSHIP?
+            </span>
+            <p class="market-description">
+                We view our distributors as strategic partners and we are keen on maintaining win-win partnerships. We work closely with them to understand market demands and customer needs while ensuring that they earn profitable returns through high-quality and reliable solutions and products. Such collaborative approach ensures that our products are well-represented and effectively marketed in various regions.
+            </p>
+        </div>
+
+        <!-- Benefits Cards Grid -->
+        <div class="benefits-list">
+            <div class="benefit-item-card">
+                <div class="benefit-card-number">01</div>
+                <h4>Rewarding Quality-Price Mix</h4>
+                <p>
+                    With our growing focus on forward integration, we provide our distributors a quality-price mix that allows them to earn profitable returns.
+                </p>
+            </div>
+
+            <div class="benefit-item-card">
+                <div class="benefit-card-number">02</div>
+                <h4>Stock Availability</h4>
+                <p>
+                    We ensure consistent stock availability across our key product lines to support fast-moving project demands. Through efficient inventory management and production planning, our distributors can rely on uninterrupted supply and immediate access to essential cable solutions.
+                </p>
+            </div>
+            <div class="benefit-item-card">
+                <div class="benefit-card-number">03</div>
+                <h4>Timely Deliveries</h4>
+                <p>
+                    At GPI, we understand that timing is critical in every project. Our streamlined logistics and distribution network enable us to deliver orders on schedule, ensuring our partners meet deadlines without compromise or delay.
+                </p>
+            </div>
+            <div class="benefit-item-card">
+                <div class="benefit-card-number">04</div>
+                <h4>Comprehensive Support</h4>
+                <p>GPI provides comprehensive support to our distributors to empower them to represent GPI with confidence and expertise. Our support includes product orientation, sales strategies, marketing and merchandising support, and customer service best practices.</p>
+            </div>
+            <div class="benefit-item-card">
+                <div class="benefit-card-number">05</div>
+                <h4>Quality Assurance</h4>
+                <p>We maintain stringent quality control measures to ensure that our distributors receive products that meet our exacting standards. This consistency helps build trust and reliability with end customers.</p>
+            </div>
+        </div>
+    </div>
+</section>
+
+
+<!-- Distributors Grid -->
+@* <div class="distributors-grid-container">
+    <div class="distributors-logo-grid">
+        <div class="distributor-grid-item"><img src="~/assets/Logos/logo1.webp" alt="Partner Logo"></div>
+        <div class="distributor-grid-item"><img src="~/assets/Logos/logo2.png" alt="Partner Logo"></div>
+        <div class="distributor-grid-item"><img src="~/assets/Logos/logo3.webp" alt="Partner Logo"></div>
+        <div class="distributor-grid-item"><img src="~/assets/Logos/logo4.webp" alt="Partner Logo"></div>
+        <div class="distributor-grid-item"><img src="~/assets/Logos/logo5.webp" alt="Partner Logo"></div>
+        <div class="distributor-grid-item"><img src="~/assets/Logos/logo6.webp" alt="Partner Logo"></div>
+        <div class="distributor-grid-item"><img src="~/assets/Logos/logo7.webp" alt="Partner Logo"></div>
+        <div class="distributor-grid-item"><img src="~/assets/Logos/logo8.webp" alt="Partner Logo"></div>
+        <div class="distributor-grid-item"><img src="~/assets/Logos/logo9.webp" alt="Partner Logo"></div>
+        <div class="distributor-grid-item"><img src="~/assets/Logos/logo10.webp" alt="Partner Logo"></div>
+        <div class="distributor-grid-item"><img src="~/assets/Logos/logo11.png" alt="Partner Logo"></div>
+        <div class="distributor-grid-item"><img src="~/assets/Logos/logo12.webp" alt="Partner Logo"></div>
+        <div class="distributor-grid-item"><img src="~/assets/Logos/logo13.webp" alt="Partner Logo"></div>
+        <div class="distributor-grid-item"><img src="~/assets/Logos/logo14.png" alt="Partner Logo"></div>
+        <div class="distributor-grid-item"><img src="~/assets/Logos/logo15.webp" alt="Partner Logo"></div>
+        <div class="distributor-grid-item"><img src="~/assets/Logos/logo16.webp" alt="Partner Logo"></div>
+        <div class="distributor-grid-item"><img src="~/assets/Logos/logo17.jpg" alt="Partner Logo"></div>
+        <div class="distributor-grid-item"><img src="~/assets/Logos/logo18.webp" alt="Partner Logo"></div>
+        <div class="distributor-grid-item"><img src="~/assets/Logos/logo20.webp" alt="Partner Logo"></div>
+        <div class="distributor-grid-item"><img src="~/assets/Logos/logo21.webp" alt="Partner Logo"></div>
+        <div class="distributor-grid-item"><img src="~/assets/Logos/logo22.png" alt="Partner Logo"></div>
+        <div class="distributor-grid-item"><img src="~/assets/Logos/logo23.webp" alt="Partner Logo"></div>
+        <div class="distributor-grid-item"><img src="~/assets/Logos/logo24.webp" alt="Partner Logo"></div>
+        <div class="distributor-grid-item"><img src="~/assets/Logos/logo25.webp" alt="Partner Logo"></div>
+        <div class="distributor-grid-item"><img src="~/assets/Logos/logo26.webp" alt="Partner Logo"></div>
+        <div class="distributor-grid-item"><img src="~/assets/Logos/logo27.webp" alt="Partner Logo"></div>
+        <div class="distributor-grid-item"><img src="~/assets/Logos/logo28.webp" alt="Partner Logo"></div>
+        <div class="distributor-grid-item"><img src="~/assets/Logos/logo29.webp" alt="Partner Logo"></div>
+        <div class="distributor-grid-item"><img src="~/assets/Logos/logo30.webp" alt="Partner Logo"></div>
+        <div class="distributor-grid-item"><img src="~/assets/Logos/logo31.webp" alt="Partner Logo"></div>
+        <div class="distributor-grid-item"><img src="~/assets/Logos/logo32.webp" alt="Partner Logo"></div>
+        <div class="distributor-grid-item"><img src="~/assets/Logos/logo33.webp" alt="Partner Logo"></div>
+        <div class="distributor-grid-item"><img src="~/assets/Logos/logo34.png" alt="Partner Logo"></div>
+        <div class="distributor-grid-item"><img src="~/assets/Logos/logo35.jpg" alt="Partner Logo"></div>
+        <div class="distributor-grid-item"><img src="~/assets/Logos/logo36.png" alt="Partner Logo"></div>
+        <div class="distributor-grid-item"><img src="~/assets/Logos/logo37.png" alt="Partner Logo"></div>
+    </div>
+
+    <!-- Action Buttons -->
+    <div class="distributor-action-buttons">
+        <a  class="btn-distributor-action btn-locate-distributors">
+            <i class="fas fa-map-marker-alt"></i>
+            Locate Distributors Near You
+        </a>
+        <a  class="btn-distributor-action btn-apply-partnership">
+            <i class="fas fa-handshake"></i>
+            Apply for Partnership
+        </a>
+    </div>
+</div> *@
+
+<script>
+
+    // Partner Logos Scroll Functionality
+    document.addEventListener('DOMContentLoaded', function () {
+    // ── Partner logo strip: seamless loop + auto-scroll + manual buttons ──
+    const partnerWrapper = document.getElementById("partnerScrollWrapper");
+
+    if (partnerWrapper) {
+        const partnerTrack = document.getElementById("partnerScrollTrack");
+
+        // 1. Clone all cards for seamless loop
+        const originalCards = Array.from(
+            partnerTrack.querySelectorAll(".partner-logo-card")
+        );
+        originalCards.forEach(card => {
+            const clone = card.cloneNode(true);
+            clone.setAttribute("aria-hidden", "true");
+            partnerTrack.appendChild(clone);
+        });
+
+        const scrollSpeed  = 0.7;   // px per tick
+        const tickInterval = 16;    // ms (~60fps)
+        const scrollAmount = 500;   // px per button click
+        let isPaused           = false;
+        let isManualScrolling  = false;
+        let manualTimeout      = null;
+        let autoTimer          = null;
+
+        // 2. Auto-scroll loop
+        function startPartnerAutoScroll() {
+            autoTimer = setInterval(() => {
+                if (isPaused || isManualScrolling) return;
+
+                partnerWrapper.scrollLeft += scrollSpeed;
+
+                // Seamless jump at midpoint
+                const halfWidth = partnerTrack.scrollWidth / 2;
+                if (partnerWrapper.scrollLeft >= halfWidth) {
+                    partnerWrapper.scrollLeft -= halfWidth;
+                }
+            }, tickInterval);
+        }
+
+        startPartnerAutoScroll();
+
+        // 3. Manual buttons
+        function manualPartnerScroll(direction) {
+            isManualScrolling = true;
+            clearTimeout(manualTimeout);
+            partnerWrapper.scrollBy({ left: direction * scrollAmount, behavior: "smooth" });
+            manualTimeout = setTimeout(() => {
+                isManualScrolling = false;
+            }, 1500);
+        }
+
+        document.querySelector(".partner-scroll-left")
+            ?.addEventListener("click", () => manualPartnerScroll(-1));
+        document.querySelector(".partner-scroll-right")
+            ?.addEventListener("click", () => manualPartnerScroll(1));
+
+        // 4. Pause on hover / touch
+        partnerWrapper.addEventListener("mouseenter", () => isPaused = true);
+        partnerWrapper.addEventListener("mouseleave", () => isPaused = false);
+        partnerWrapper.addEventListener("touchstart", () => {
+            isPaused = true;
+        }, { passive: true });
+        partnerWrapper.addEventListener("touchend", () => {
+            setTimeout(() => isPaused = false, 1000);
+        }, { passive: true });
+    }
+    });
+</script>

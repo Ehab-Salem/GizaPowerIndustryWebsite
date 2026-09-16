@@ -1,0 +1,123 @@
+/* <style> */
+/* body{
+    margin:0;
+    padding:40px;
+    background:#f5f5f5;
+    font-family:Arial, sans-serif;
+    text-align:center;
+  } */
+.supply-chain-page {
+    width: 100%;
+}
+
+svg {
+    max-width: 100% !important;
+    height: auto !important;
+}
+.svg{
+    display: none;
+}
+
+svg.svg > image {
+    pointer-events: none;
+}
+
+#titleText {
+    pointer-events: none;
+}
+
+/* SVG hotspots */
+.hotspot {
+    fill: rgba(255, 0, 0, 0) !important;
+    cursor: pointer !important;
+    pointer-events: all !important;
+    transition: fill .5s !important;
+}
+
+.hotspot:hover {
+    fill: rgba(189, 152, 152, 0.3) !important;
+}
+
+body.hotspot-popup-open {
+    overflow: hidden;
+}
+
+body.hotspot-popup-open::before {
+    content: '';
+    position: fixed;
+    inset: 0;
+    background: rgba(0, 0, 0, 0.55);
+    z-index: 1040;
+}
+
+#hotspot-popup.hotspot-popup-active {
+    display: block !important;
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    z-index: 1045;
+    width: min(95vw, 1140px);
+    max-height: 92vh;
+    overflow: auto;
+}
+
+/* Modal */
+.modal-backdrop {
+    position: fixed;
+    inset: 0;
+    background: rgba(0, 0, 0, 0.55);
+    display: none;
+    align-items: center;
+    justify-content: center;
+    z-index: 9999;
+    padding: 16px;
+}
+
+.modal {
+    width: min(520px, 92vw);
+    background: #fff;
+    border-radius: 16px;
+    box-shadow: 0 20px 60px rgba(0, 0, 0, 0.25);
+    overflow: hidden;
+    text-align: left;
+}
+
+.modal-header {
+    padding: 16px 18px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    border-bottom: 1px solid #eee;
+}
+
+.modal-title {
+    font-size: 18px;
+    margin: 0;
+}
+
+.modal-close {
+    border: none;
+    background: #f0f0f0;
+    width: 36px;
+    height: 36px;
+    border-radius: 10px;
+    cursor: pointer;
+    font-size: 18px;
+    line-height: 36px;
+}
+
+.modal-body {
+    padding: 18px;
+    color: #333;
+    font-size: 14px;
+    line-height: 1.5;
+}
+
+.hint {
+    margin-top: 12px;
+    color: #777;
+    font-size: 12px;
+}
+
+/* </style> */

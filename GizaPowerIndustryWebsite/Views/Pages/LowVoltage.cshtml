@@ -1,0 +1,686 @@
+﻿@{
+    ViewData["Title"] = "Cables & Wires Products";
+}
+
+<style>
+    .main-content {
+        padding-top: 90px; /* adjust this value as needed */
+    }
+    .products-page {
+        display: flex;
+        gap: 30px;
+        padding: 40px 0;
+        align-items: flex-start;
+    }
+
+    /* ===== SIDEBAR ===== */
+    .filter-sidebar {
+        width: 280px;
+        flex-shrink: 0;
+        background: #f8f9fa;
+        padding: 25px;
+        border-radius: 6px;
+    }
+
+        .filter-sidebar h3 {
+            font-size: 1.3rem;
+            font-weight: 600;
+            color: #333;
+            margin-bottom: 20px;
+        }
+
+    .filter-group {
+        border-bottom: 1px solid #e0e0e0;
+        padding-bottom: 15px;
+        margin-bottom: 15px;
+    }
+
+    .filter-group-header {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        cursor: pointer;
+        font-weight: 600;
+        color: #444;
+        margin-bottom: 12px;
+    }
+
+        .filter-group-header .toggle-icon {
+            font-size: 1.2rem;
+            line-height: 1;
+            transition: transform 0.2s;
+        }
+
+    .filter-group.collapsed .toggle-icon {
+        transform: rotate(-90deg);
+    }
+
+    .filter-options {
+        display: flex;
+        flex-direction: column;
+        gap: 10px;
+        overflow: hidden;
+        transition: max-height 0.3s ease;
+    }
+
+    .filter-group.collapsed .filter-options {
+        display: none;
+    }
+
+    .filter-option {
+        display: flex;
+        align-items: flex-start;
+        gap: 8px;
+        font-size: 0.92rem;
+        color: #555;
+        cursor: pointer;
+        flex-direction: row-reverse;
+    }
+
+        .filter-option input {
+            margin-top: 3px;
+            cursor: pointer;
+        }
+
+    .show-more {
+        color: #B82025;
+        font-weight: 600;
+        font-size: 0.9rem;
+        cursor: pointer;
+        text-decoration: none;
+        display: inline-block;
+        margin-top: 5px;
+    }
+
+    /* ===== MAIN LIST ===== */
+    .products-main {
+        flex: 1;
+    }
+
+    .products-toolbar {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        flex-wrap: wrap;
+        gap: 15px;
+        padding-bottom: 20px;
+        border-bottom: 1px solid #e0e0e0;
+        margin-bottom: 10px;
+    }
+
+        .products-toolbar h2 {
+            color: #B82025;
+            font-size: 1.3rem;
+            font-weight: 700;
+            margin: 0;
+        }
+
+    .toolbar-controls {
+        display: flex;
+        align-items: center;
+        gap: 15px;
+        flex-wrap: wrap;
+    }
+
+        .toolbar-controls label {
+            font-weight: 600;
+            font-size: 0.85rem;
+            color: #555;
+            margin-right: 5px;
+        }
+
+        .toolbar-controls select {
+            padding: 6px 10px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+            font-size: 0.9rem;
+        }
+
+    .view-toggle {
+        display: flex;
+        gap: 5px;
+    }
+
+        .view-toggle button {
+            width: 38px;
+            height: 38px;
+            border: 1px solid #ccc;
+            background: #fff;
+            border-radius: 4px;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+            .view-toggle button.active {
+                background: #06283F;
+                color: #fff;
+                border-color: #06283F;
+            }
+
+    /* Product rows */
+    .product-list {
+        display: flex;
+        flex-direction: column;
+    }
+
+    .product-row {
+        display: flex;
+        align-items: center;
+        gap: 25px;
+        padding: 18px 0;
+        border-bottom: 1px solid #eee;
+    }
+
+        .product-row img {
+            width: 100px;
+            height: 70px;
+            object-fit: cover;
+            border-radius: 4px;
+            flex-shrink: 0;
+        }
+
+        .product-row .product-name {
+            flex: 1;
+            color: #06283F;
+            font-weight: 700;
+            font-size: 1rem;
+            text-decoration: none;
+        }
+
+        .product-row .btn-spec {
+            border: 1px solid #ccc;
+            border-radius: 4px;
+            background: #fff;
+            padding: 10px 18px;
+            font-size: 0.85rem;
+            color: #555;
+            text-decoration: none;
+            white-space: nowrap;
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+    /* Grid view */
+    .product-list.grid-view {
+        display: grid;
+        grid-template-columns: repeat(3, 1fr);
+        gap: 25px;
+    }
+
+        .product-list.grid-view .product-row {
+            flex-direction: column;
+            align-items: stretch;
+            text-align: center;
+            border: 1px solid #eee;
+            border-radius: 6px;
+            padding: 20px;
+        }
+
+            .product-list.grid-view .product-row img {
+                width: 100%;
+                height: 140px;
+            }
+
+    /* ===== RESPONSIVE ===== */
+    @@media (max-width: 992px) {
+        .products-page {
+            flex-direction: column;
+        }
+
+        .filter-sidebar {
+            width: 100%;
+        }
+
+        .product-list.grid-view {
+            grid-template-columns: repeat(2, 1fr);
+        }
+    }
+
+    @@media (max-width: 576px) {
+        .product-row {
+            flex-wrap: wrap;
+        }
+
+            .product-row .btn-spec {
+                width: 100%;
+                justify-content: center;
+            }
+
+        .product-list.grid-view {
+            grid-template-columns: 1fr;
+        }
+
+        .products-toolbar {
+            flex-direction: column;
+            align-items: flex-start;
+        }
+    }
+</style>
+
+<style>
+    /* ===== FILTER SIDEBAR – Enhanced ===== */
+    /* … keep all your existing styles above, then replace the filter-option part … */
+
+    .filter-option {
+        display: flex;
+        align-items: flex-start;
+        gap: 8px;
+        font-size: 0.92rem;
+        color: #374151;
+        cursor: pointer;
+        flex-direction: row;
+        margin: 0;
+        min-height: 2.25rem; /* ensures uniform row height, checkboxes align */
+    }
+
+        /* Checkbox – fixed size, never shrinks */
+        .filter-option input[type="checkbox"] {
+            appearance: none;
+            -webkit-appearance: none;
+            width: 18px;
+            height: 18px;
+            border: 2px solid #d1d5db;
+            border-radius: 4px;
+            margin: 0;
+            cursor: pointer;
+            position: relative;
+            transition: all 0.2s;
+            flex-shrink: 0; /* critical – prevents shrinking */
+        }
+
+            .filter-option input[type="checkbox"]:checked {
+                background: #B82025;
+                border-color: #B82025;
+            }
+
+                .filter-option input[type="checkbox"]:checked::after {
+                    content: "";
+                    position: absolute;
+                    left: 5px;
+                    top: 2px;
+                    width: 5px;
+                    height: 10px;
+                    border: solid #fff;
+                    border-width: 0 2px 2px 0;
+                    transform: rotate(45deg);
+                }
+
+        /* Label text – wraps and takes available space */
+        .filter-option .option-label {
+            flex: 1 1 auto;
+            min-width: 0;
+            line-height: 1.4;
+        }
+
+        /* Count – stuck to the right, never wraps */
+        .filter-option .count {
+            flex: 0 0 auto;
+            color: #9ca3af;
+            font-size: 0.8rem;
+            white-space: nowrap;
+            margin-left: auto;
+        }
+</style>
+
+<div class="main-content">
+    <div class="container">
+        <div class="products-page">
+            <!-- ===== FILTER SIDEBAR ===== -->
+
+            <aside class="filter-sidebar" id="filterSidebar">
+                <div class="sidebar-header">
+                    <h3>Filter by</h3>
+                    <button class="btn-clear-filters" id="clearAllFilters" style="display:none;">Clear All</button>
+                    <button class="btn-close-sidebar d-md-none" onclick="closeMobileSidebar()">✕</button>
+                </div>
+                <!-- Core Type Group -->
+                <div class="filter-group">
+                    <div class="filter-group-header" onclick="toggleGroup(this)">
+                        <span>Core Type</span>
+                        <svg class="toggle-icon" width="16" height="16" viewBox="0 0 16 16"><polyline points="4,6 8,10 12,6" fill="none" stroke="currentColor" stroke-width="2" /></svg>
+                    </div>
+                    <div class="filter-options">
+                        <label class="filter-option">
+                            <input type="checkbox" data-filter="core" value="Single" />
+                            <span class="option-label">Single Core</span>
+                        </label>
+                        <label class="filter-option">
+                            <input type="checkbox" data-filter="core" value="Multi" />
+                            <span class="option-label">Multi Core</span>
+                        </label>
+                    </div>
+                </div>
+                <!-- Conductor Type Group -->
+                <div class="filter-group">
+                    <div class="filter-group-header" onclick="toggleGroup(this)">
+                        <span>Conductor Type</span>
+                        <svg class="toggle-icon" width="16" height="16" viewBox="0 0 16 16"><polyline points="4,6 8,10 12,6" fill="none" stroke="currentColor" stroke-width="2" /></svg>
+                    </div>
+                    <div class="filter-options">
+                        <label class="filter-option">
+                            <input type="checkbox" data-filter="conductor" value="Copper" />
+                            <span class="option-label">Copper</span>
+                        </label>
+                        <label class="filter-option">
+                            <input type="checkbox" data-filter="conductor" value="Aluminum" />
+                            <span class="option-label">Aluminum</span>
+                        </label>
+                    </div>
+                </div>
+                <!-- Insulation Group -->
+                <div class="filter-group">
+                    <div class="filter-group-header" onclick="toggleGroup(this)">
+                        <span>Insulation</span>
+                        <svg class="toggle-icon" width="16" height="16" viewBox="0 0 16 16"><polyline points="4,6 8,10 12,6" fill="none" stroke="currentColor" stroke-width="2" /></svg>
+                    </div>
+                    <div class="filter-options">
+                        <label class="filter-option">
+                            <input type="checkbox" data-filter="insulation" value="PVC" />
+                            <span class="option-label">PVC</span>
+                        </label>
+                        <label class="filter-option">
+                            <input type="checkbox" data-filter="insulation" value="XLPE" />
+                            <span class="option-label">XLPE</span>
+                        </label>
+                    </div>
+                </div>
+
+                <!-- Armoring Group -->
+                <div class="filter-group">
+                    <div class="filter-group-header" onclick="toggleGroup(this)">
+                        <span>Armoring</span>
+                        <svg class="toggle-icon" width="16" height="16" viewBox="0 0 16 16"><polyline points="4,6 8,10 12,6" fill="none" stroke="currentColor" stroke-width="2" /></svg>
+                    </div>
+                    <div class="filter-options">
+                        <label class="filter-option">
+                            <input type="checkbox" data-filter="armor" value="Armored" />
+                            <span class="option-label">Armored</span>
+                        </label>
+                        <label class="filter-option">
+                            <input type="checkbox" data-filter="armor" value="Unarmored" />
+                            <span class="option-label">Unarmored</span>
+                        </label>
+                    </div>
+                </div>
+                <!-- Voltage Group -->
+                <div class="filter-group" style="    border-bottom: none;">
+                    <div class="filter-group-header" onclick="toggleGroup(this)">
+                        <span>Voltage</span>
+                        <svg class="toggle-icon" width="16" height="16" viewBox="0 0 16 16"><polyline points="4,6 8,10 12,6" fill="none" stroke="currentColor" stroke-width="2" /></svg>
+                    </div>
+                    <div class="filter-options">
+                        <label class="filter-option">
+                            <input type="checkbox" data-filter="voltage" value="300/500V" />
+                            <span class="option-label">300/500 V</span>
+                        </label>
+                        <label class="filter-option">
+                            <input type="checkbox" data-filter="voltage" value="450/750V" />
+                            <span class="option-label">450/750 V</span>
+                        </label>
+                        <label class="filter-option">
+                            <input type="checkbox" data-filter="voltage" value="0.6/1kV" />
+                            <span class="option-label">0.6 / 1 (1.2) KV</span>
+                        </label>
+                    </div>
+                </div>
+
+                <!-- Temperature Group -->
+               @*  <div class="filter-group">
+                    <div class="filter-group-header" onclick="toggleGroup(this)">
+                        <span>Temperature</span>
+                        <svg class="toggle-icon" width="16" height="16" viewBox="0 0 16 16"><polyline points="4,6 8,10 12,6" fill="none" stroke="currentColor" stroke-width="2" /></svg>
+                    </div>
+                    <div class="filter-options">
+                        <label class="filter-option">
+                            <input type="checkbox" data-filter="degree" value="70°C" />
+                            <span class="option-label">70° C</span>
+                        </label>
+                        <label class="filter-option">
+                            <input type="checkbox" data-filter="degree" value="90°C" />
+                            <span class="option-label">90° C</span>
+                        </label>
+                    </div>
+                </div> *@
+
+
+            </aside>
+            <!-- ===== MAIN PRODUCT LIST ===== -->
+            <div class="products-main">
+                <div class="products-toolbar">
+                    <h2>Low Voltage Cable</h2>
+
+                    <div class="toolbar-controls">
+                        <div class="view-toggle">
+                            <button class="active" id="listViewBtn" onclick="setView('list')" title="List view">☰</button>
+                            <button id="gridViewBtn" onclick="setView('grid')" title="Grid view">⊞</button>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="product-list" id="productList">
+                    @{
+                        var products = new[]
+                        {
+                                        // --- first TABLE ---
+                                        new { Name = "Single-core non-sheathed cable 300/500 V With (Solid / Stranded / Flexible)",Short= "300-500 V Single", Img = "450-750 V Single.jpg", Action = "LowVoltageFirstTable",Pdf="Low 300-500.pdf" },
+                                        new { Name = "Single-core non-sheathed cable 450/750 V With stranded conductor",Short= "450-750 V Single", Img = "450-750 V Single.jpg", Action = "LowVoltageFirstTable",Pdf="450 CU-PVC.pdf" },
+                                        new { Name = "Single-core non-sheathed cable 450/750 V with Flexible conductor",Short= "450-750 V flex. Single", Img = "450-750 V flex. Single.jpg", Action = "LowVoltageFirstTable" ,Pdf="450 Flex.pdf"},
+                                        new { Name = "Single-core non-sheathed cable 450/750 V with stranded conductor",Short="450-750 V Stran. Single (AL)", Img = "450-750 V Stran. Single (AL).jpg", Action = "LowVoltageFirstTable",Pdf="450 AL-PVC.pdf" },
+                                        // --- second TABLE ---
+                                        new { Name = "Single Core Cables 0.6 / 1 (1.2) 70º C KV With Stranded Circular Copper",Short="1 CORE CU-PVC-PVC", Img = "1 CORE CU-PVC-PVC_1 CORE CU-XLPE-PVC Edit 02.jpg", Action = "LowVoltageSecondTable",Pdf="Single 0.6 CU-PVC-PVC.pdf" },
+                                        new { Name = "Single Core Cables 0.6 / 1 (1.2) 90º C KV With Stranded Circular Copper",Short="1 CORE CU-XLPE-PVC", Img = "1 CORE CU-PVC-PVC_1 CORE CU-XLPE-PVC Edit 02.jpg", Action = "LowVoltageSecondTable" ,Pdf="Single 0.6 CU-XLPE-PVC.pdf"},
+                                        new { Name = "Single Core Cables 0.6 / 1 (1.2) 70º KV With Stranded Circular Aluminum",Short="1 CORE AL-PVC-PVC", Img = "1 CORE AL-PVC-PVC_1 CORE Al-XLPE-PVC Edit 02.jpg", Action = "LowVoltageSecondTable",Pdf="Single 0.6 AL-PVC-PVC.pdf" },
+                                        new { Name = "Single Core Cables 0.6 / 1 (1.2) 90º KV With Stranded Circular Aluminum",Short="1 CORE AL-XLPE-PVC", Img = "1 CORE AL-PVC-PVC_1 CORE Al-XLPE-PVC Edit 02.jpg", Action = "LowVoltageSecondTable",Pdf="Single 0.6 AL-XLPE-PVC.pdf" },
+                                        // --- third table ---
+                                        new { Name = "Single Core Cables 0.6 / 1 (1.2) 70º KV with Stranded Circular Copper",Short="1 CORE CU-PVC-ATA-PVC",Img = "1 CORE CU-PVC-ATA-PVC_1 CORE CU-XLPE-ATA-PVC.jpg", Action = "LowVoltageThirdTable" ,Pdf="Single 0.6 CU-PVC-ATA-PVC.pdf"},
+                                        new { Name = "Single Core Cables 0.6 / 1 (1.2) 90º KV with Stranded Circular Copper",Short="1 CORE CU-XLPE-ATA-PVC", Img = "1 CORE CU-PVC-ATA-PVC_1 CORE CU-XLPE-ATA-PVC.jpg", Action = "LowVoltageThirdTable" ,Pdf="Single 0.6 CU-XLPE-ATA-PVC.pdf"},
+                                        new { Name = "Single Core Cables 0.6 / 1 (1.2) KV 70º C with Stranded Aluminium",Short="1 CORE AL-PVC-ATA-PVC", Img = "1 CORE AL-PVC-ATA-PVC_1 CORE AL-XLPE-ATA-PVC.jpg", Action = "LowVoltageThirdTable" ,Pdf="Single 0.6 AL-PVC-ATA-PVC.pdf"},
+                                        new { Name = "Single Core Cables 0.6 / 1 (1.2) KV 90º with Stranded Aluminium",Short="1 CORE AL-XLPE-ATA-PVC", Img = "1 CORE AL-PVC-ATA-PVC_1 CORE AL-XLPE-ATA-PVC.jpg", Action = "LowVoltageThirdTable",Pdf="Single 0.6 AL-XLPE-ATA-PVC.pdf" },
+                                        new { Name = "Single Core Cables 0.6 / 1 (1.2) KV 70º C with Stranded Circular Copper",Short="1 CORE CU-PVC-AWA-PVC", Img = "1 CORE AL-PVC-AWA-PVC_1 CORE AL-XLPE-AWA-PVC2.jpg", Action = "LowVoltageThirdTable" ,Pdf="Single 0.6 CU-PVC-AWT-PVC.pdf"},
+                                        new { Name = "Single Core Cables 0.6 / 1 (1.2) KV 70º C with Stranded Circular Aluminium",Short="1 CORE AL-PVC-AWA-PVC", Img = "1 CORE AL-PVC-AWA-PVC_1 CORE AL-XLPE-AWA-PVC.jpg", Action = "LowVoltageThirdTable" ,Pdf="Single 0.6 AL-PVC-AWA-PVC.pdf"},
+                                        new { Name = "Single Core Cables 0.6 / 1 (1.2) KV 90º C with Stranded Circular Copper",Short="1 CORE CU-XLPE-AWA-PVC", Img = "1 CORE AL-PVC-AWA-PVC_1 CORE AL-XLPE-AWA-PVC2.jpg", Action = "LowVoltageThirdTable" ,Pdf="Single 0.6 CU-XLPE-AWA-PVC.pdf"},
+                                        new { Name = "Single Core Cables 0.6 / 1 (1.2) KV 90º C with Stranded Circular Aluminium",Short="1 CORE AL-XLPE-AWA-PVC", Img = "1 CORE AL-PVC-AWA-PVC_1 CORE AL-XLPE-AWA-PVC.jpg", Action = "LowVoltageThirdTable" ,Pdf="Single 0.6 AL-XLPE-AWA-PVC.pdf"},
+                                        // --- fourth table ---
+                                        new { Name = "Multi Core Cables 0.6 / 1 (1.2) KV 70º C with Stranded Circular or Sector Copper",Short="Multi CORES CU-PVC-PVC", Img = "Multi CORES CU-PVC-PVC.jpg", Action = "LowVoltageFourthTable" ,Pdf="Multi 0.6 CU-PVC-PVC.pdf"},
+                                        new { Name = "Multi Core Cables 0.6 / 1 (1.2) KV 70º C with Stranded Circular or Sector Aluminum",Short="Multi CORES AL-PVC-PVC", Img = "Multi CORES AL-PVC-PVC.jpg", Action = "LowVoltageFourthTable" ,Pdf="Multi 0.6 AL-PVC-PVC.pdf"},
+                                        new { Name = "Multi Core Cables 0.6 / 1 (1.2) KV 90º C with Stranded Circular or Sector Copper",Short="Multi CORES CU-XLPE-PVC", Img = "Multi CORES CU-PVC-PVC.jpg", Action = "LowVoltageFourthTable" ,Pdf="Multi 0.6 CU-XLPE-PVC.pdf"},
+                                        new { Name = "Multi Core Cables 0.6 / 1 (1.2) KV 90º C with Stranded Circular or Sector Aluminum",Short="Multi CORES AL-XLPE-PVC", Img = "Multi CORES AL-PVC-PVC.jpg", Action = "LowVoltageFourthTable" ,Pdf="Multi 0.6 AL-XLPE-PVC.pdf"},
+                                        new { Name = "Multi Core Cables 0.6 / 1 (1.2) KV 70º C with Stranded Circular or Sector Copper",Short="Multi CORES CU-PVC-STA-PVC", Img = "Multi CORES CU-PVC-STA-PVC.jpg", Action = "LowVoltageFourthTable" ,Pdf="Multi 0.6 CU-PVC-STA-PVC.pdf"},
+                                        new { Name = "Multi Core Cables 0.6 / 1 (1.2) KV 90º C with Stranded Circular or Sector Copper",Short="Multi CORES CU-XLPE-SWA-PVC", Img = "Multi CORES CU-PVC-SWA-PVC.jpg", Action = "LowVoltageFourthTable" ,Pdf="Multi 0.6 CU-XLPE-STW-PVC.pdf"},
+                                        // --- fifth table ---
+                                        new { Name = "Multi Core Cables 0.6 / 1 (1.2) KV 70º C with Stranded Circular or Sector Aluminum",Short="Multi CORES AL-PVC-STA-PVC", Img = "Multi CORES AL-PVC-STA-PVC.jpg", Action = "LowVoltageFiveTable" ,Pdf="Multi 0.6 AL-PVC-STA-PVC.pdf"},
+                                        new { Name = "Multi Core Cables 0.6 / 1 (1.2) KV 90º C with Stranded Circular or Sector Copper",Short="Multi CORES CU-XLPE-STA-PVC", Img = "Multi CORES CU-PVC-STA-PVC.jpg", Action = "LowVoltageFiveTable" ,Pdf="Multi 0.6 CU-XLPE-STA-PVC.pdf"},
+                                        new { Name = "Multi Core Cables 0.6 / 1 (1.2) KV 90º C with Stranded Circular or Sector Aluminum",Short="Multi CORES AL-XLPE-STA-PVC", Img = "Multi CORES AL-PVC-STA-PVC.jpg", Action = "LowVoltageFiveTable" ,Pdf="Multi 0.6 AL-XLPE-STA-PVC.pdf"},
+                                        new { Name = "Multi Core Cables 0.6 / 1 (1.2) KV 70º C with Stranded Circular or Sector Copper",Short="Multi CORES CU-PVC-SWA-PVC", Img = "Multi CORES CU-PVC-SWA-PVC.jpg", Action = "LowVoltageFiveTable" ,Pdf="Multi 0.6 CU-PVC-STW-PVC.pdf"},
+                                        new { Name = "Multi Core Cables 0.6 / 1 (1.2) KV 70º C with Stranded Circular or Sector Aluminum",Short="Multi CORES AL-PVC-SWA-PVC", Img = "Multi CORES AL-PVC-SWA-PVC.jpg", Action = "LowVoltageFiveTable" ,Pdf="Multi 0.6 AL-PVC-STW-PVC.pdf"},
+                                        new { Name = "Multi Core Cables 0.6 / 1 (1.2) KV 90º C with Stranded Circular or Sector Aluminum",Short="Multi CORES AL-XLPE-SWA-PVC",Img = "Multi CORES AL-PVC-SWA-PVC.jpg", Action = "LowVoltageFiveTable",Pdf="Multi 0.6 AL-XLPE-STW-PVC.pdf" }
+                                        };
+                    }
+
+                    @foreach (var product in products)
+                    {
+                        // Determine data attributes from the product name
+                        string voltage = "", degree = "", core = "", conductor = "";
+                        var name = product.Name;
+
+                        if (name.Contains("300/500")) voltage = "300/500V";
+                        else if (name.Contains("450/750")) voltage = "450/750V";
+                        else if (name.Contains("0.6 / 1") || name.Contains("0.6/1")) voltage = "0.6/1kV";
+
+                        if (name.Contains("Copper")) conductor = "Copper";
+                        else if (name.Contains("Aluminum") || name.Contains("Aluminium")) conductor = "Aluminum";
+
+                        if (name.Contains("70º") || name.Contains("70°")) degree = "70°C";
+                        else if (name.Contains("90º") || name.Contains("90°")) degree = "90°C";
+
+                        if (name.StartsWith("Single") || name.Contains("Single Core")) core = "Single";
+                        else if (name.StartsWith("Multi") || name.Contains("Multi Core")) core = "Multi";
+
+                        <div class="product-row"
+                             data-voltage="@voltage"
+                             data-degree="@degree"
+                             data-conductor="@conductor"
+                             data-short="@product.Short"
+                             data-core="@core">
+                            <img src="~/assets/3DImages/low voltage/@product.Img" alt="@product.Name" />
+                            <a asp-controller="Pages" asp-action="@product.Action"
+                               asp-route-Short="@product.Short"
+                               asp-route-img="@product.Img"
+                               class="product-name">@product.Name</a>
+                            <a href="~/assets/3DImages/low voltage/@product.Pdf" class="btn-spec" target="_blank">
+                                ⭳ Specifications PDF
+                            </a>
+                        </div>
+                    }
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+        function parseInsulationAndArmor(short) {
+        // Default values
+        let insulation = 'PVC';
+        let armor = 'Unarmored';
+
+        // Pattern: "1 CORE CU-PVC-PVC" or "Multi CORES AL-XLPE-SWA-PVC"
+        if (short && (short.startsWith('1 CORE') || short.startsWith('Multi CORES'))) {
+            // Split by spaces, last part is "XX-YY-ZZ" (or "XX-YY-ZZ-??" sometimes)
+            const parts = short.split(' ');
+            const code = parts[parts.length - 1];  // e.g. "CU-PVC-PVC"
+            const segments = code.split('-');      // ['CU','PVC','PVC']
+
+            // Insulation is the second segment (PVC or XLPE)
+            if (segments.length >= 2) {
+                const ins = segments[1].toUpperCase();
+                if (ins === 'XLPE') insulation = 'XLPE';
+                else insulation = 'PVC';  // default to PVC for any other variation
+            }
+
+            // Armoring is the third segment (PVC, ATA, AWA, STA, SWA)
+            if (segments.length >= 3) {
+                const arm = segments[2].toUpperCase();
+                if (arm === 'PVC') armor = 'Unarmored';
+                else armor = 'Armored';  // anything else (ATA, AWA, STA, SWA) is armored
+            }
+        }
+        // else: for non-sheathed cables (e.g. "300-500 V Single"), keep defaults PVC / Unarmored
+
+        return { insulation, armor };
+    }
+        /* ===== Collapse / Expand Filter Group ===== */
+    function toggleGroup(header) {
+        const group = header.closest('.filter-group');
+        if (!group) return;
+        group.classList.toggle('collapsed');
+    }
+
+    /* ===== Show More / Show Less (if needed) ===== */
+    function toggleShowMore(link) {
+        const container = link.closest('.filter-options');
+        const extras = container.querySelector('.extra-options');
+        if (!extras) return;
+        if (extras.style.display === 'none' || extras.style.display === '') {
+            extras.style.display = 'block';
+            link.textContent = '− Show Less';
+        } else {
+            extras.style.display = 'none';
+            link.textContent = '+ Show More';
+        }
+    }
+
+    /* ===== Single selection inside each filter group ===== */
+    document.addEventListener('change', function(e) {
+        if (!e.target.matches('.filter-option input[type="checkbox"]')) return;
+        const group = e.target.closest('.filter-group');
+        if (!group) return;
+        // Uncheck all other checkboxes inside the same group
+        const allCheckboxes = group.querySelectorAll('.filter-option input[type="checkbox"]');
+        allCheckboxes.forEach(cb => {
+            if (cb !== e.target) cb.checked = false;
+        });
+        updateClearButton();
+        filterProducts();
+    });
+
+    /* ===== Clear All filters ===== */
+    function updateClearButton() {
+        const anyChecked = document.querySelectorAll('.filter-option input[type="checkbox"]:checked').length > 0;
+        const clearBtn = document.getElementById('clearAllFilters');
+        if (clearBtn) {
+            clearBtn.style.display = anyChecked ? 'inline-block' : 'none';
+        }
+    }
+
+    document.getElementById('clearAllFilters')?.addEventListener('click', function() {
+        document.querySelectorAll('.filter-option input[type="checkbox"]').forEach(cb => cb.checked = false);
+        updateClearButton();
+        filterProducts();
+    });
+
+    /* ===== Product filtering ===== */
+    function filterProducts() {
+        const selectedFilters = {};
+        document.querySelectorAll('.filter-option input[type="checkbox"]:checked').forEach(cb => {
+            const filterType = cb.getAttribute('data-filter');
+            const value = cb.value;
+            selectedFilters[filterType] = value;
+        });
+
+        const rows = document.querySelectorAll('.product-row');
+        rows.forEach(row => {
+            let visible = true;
+
+            // Existing filters
+            if (selectedFilters['voltage'] && row.getAttribute('data-voltage') !== selectedFilters['voltage']) visible = false;
+            if (selectedFilters['degree'] && row.getAttribute('data-degree') !== selectedFilters['degree']) visible = false;
+            if (selectedFilters['core'] && row.getAttribute('data-core') !== selectedFilters['core']) visible = false;
+            if (selectedFilters['conductor'] && row.getAttribute('data-conductor') !== selectedFilters['conductor']) visible = false;
+
+            // New filters – parse from the short name
+            if (selectedFilters['insulation'] || selectedFilters['armor']) {
+                const short = row.getAttribute('data-short');
+                const { insulation, armor } = parseInsulationAndArmor(short);
+                if (selectedFilters['insulation'] && insulation !== selectedFilters['insulation']) visible = false;
+                if (selectedFilters['armor'] && armor !== selectedFilters['armor']) visible = false;
+            }
+
+            row.style.display = visible ? 'flex' : 'none';
+        });
+    }
+
+    // Initial state
+    document.addEventListener('DOMContentLoaded', function() {
+        updateClearButton();
+        filterProducts(); // show all by default
+    });
+
+    /* ===== Mobile Sidebar Toggle ===== */
+    function openMobileSidebar() {
+        document.getElementById('filterSidebar')?.classList.add('open');
+    }
+    function closeMobileSidebar() {
+        document.getElementById('filterSidebar')?.classList.remove('open');
+    }
+
+    /* ===== View Toggle (List / Grid) ===== */
+    function setView(mode) {
+        const list = document.getElementById('productList');
+        const listBtn = document.getElementById('listViewBtn');
+        const gridBtn = document.getElementById('gridViewBtn');
+
+        if (mode === 'grid') {
+            list.classList.add('grid-view');
+            gridBtn.classList.add('active');
+            listBtn.classList.remove('active');
+        } else {
+            list.classList.remove('grid-view');
+            listBtn.classList.add('active');
+            gridBtn.classList.remove('active');
+        }
+    }
+</script>

@@ -1,0 +1,828 @@
+@{
+    ViewData["Title"] = "Contact Us";
+}
+
+<style>
+    /* ============================================================
+       CONTACT US PAGE — STYLES
+       ============================================================ */
+
+    /* ── Hero Banner ── */
+    .contact-hero {
+        position: relative;
+        width: 100%;
+        height: 60vh;
+        min-height: 380px;
+        overflow: hidden;
+        margin-top: 70px;
+        border-radius: 0 !important;
+    }
+
+    .contact-hero-bg {
+        position: absolute;
+        inset: 0;
+        width: 100%;
+        height: 100%;
+    }
+
+        .contact-hero-bg img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            display: block;
+        }
+
+    .contact-hero-overlay {
+        position: absolute;
+        inset: 0;
+        background: linear-gradient(to bottom, rgba(6, 40, 63, 0.55), rgba(6, 40, 63, 0.85));
+        z-index: 1;
+    }
+
+    .contact-hero-content {
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        z-index: 2;
+        text-align: center;
+        width: 100%;
+        padding: 0 2rem;
+    }
+
+    .contact-hero-title {
+        font-size: clamp(2.5rem, 6vw, 4.5rem);
+        font-weight: 800;
+        color: #fff;
+        margin: 0 0 1rem;
+        line-height: 1.1;
+    }
+
+    .contact-hero-subtitle {
+        font-size: clamp(1rem, 2.5vw, 1.35rem);
+        font-weight: 300;
+        color: rgba(255, 255, 255, 0.9);
+        margin: 0 auto;
+        max-width: 750px;
+        line-height: 1.6;
+    }
+
+    /* ── Section Headers Matching Site Standards ── */
+    .about-label {
+        font-weight: 900;
+        font-size: 40px;
+        color: #a3191e;
+        margin-top: 0 !important;
+        margin-bottom: 0px !important;
+        line-height: 1.2;
+    }
+
+    .hero-small {
+        font-size: 24px;
+        font-weight: 700;
+        color: #06283f;
+        display: block;
+        line-height: 1.3;
+        margin-top: 6px;
+    }
+
+    /* ── Contact Info Cards Grid (4 Columns) ── */
+    .contact-cards-section {
+        padding: 60px 0 30px;
+        background: #fbfcfd;
+    }
+
+    .contact-cards-grid {
+        display: grid;
+        grid-template-columns: repeat(4, 1fr);
+        gap: 24px;
+        margin-top: -90px;
+        position: relative;
+        z-index: 10;
+    }
+
+    .contact-info-card {
+        position: relative;
+        background: #ffffff;
+        border: 1px solid #edf1f5;
+        border-radius: 18px;
+        padding: 34px 26px;
+        box-shadow: 0 10px 30px rgba(6, 40, 63, 0.06);
+        overflow: hidden;
+        display: flex;
+        flex-direction: column;
+        align-items: flex-start;
+        transition: all 0.35s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+    }
+
+    /* Red Accent Top Border */
+    .contact-info-card::before {
+        content: "";
+        position: absolute;
+        top: 0;
+        left: 0;
+        right: 0;
+        height: 4px;
+        background: linear-gradient(90deg, #B82025 0%, #E63946 100%);
+        border-radius: 18px 18px 0 0;
+        transition: height 0.3s ease, box-shadow 0.3s ease;
+    }
+
+    .contact-info-card:hover {
+        transform: translateY(-8px);
+        box-shadow: 0 18px 40px rgba(184, 32, 37, 0.1), 0 4px 16px rgba(0, 0, 0, 0.04);
+        border-color: rgba(184, 32, 37, 0.25);
+    }
+
+    .contact-info-card:hover::before {
+        height: 6px;
+        box-shadow: 0 2px 10px rgba(184, 32, 37, 0.4);
+    }
+
+    .card-icon-wrapper {
+        width: 58px;
+        height: 58px;
+        border-radius: 14px;
+        background: rgba(184, 32, 37, 0.08);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        color: #B82025;
+        font-size: 22px;
+        margin-bottom: 20px;
+        transition: all 0.3s ease;
+    }
+
+    .contact-info-card:hover .card-icon-wrapper {
+        background: #B82025;
+        color: #ffffff;
+        transform: scale(1.08) rotate(3deg);
+        box-shadow: 0 6px 18px rgba(184, 32, 37, 0.3);
+    }
+
+    .contact-info-card h4 {
+        font-size: 1.15rem;
+        font-weight: 800;
+        color: #06283F;
+        margin: 0 0 10px;
+        text-transform: uppercase;
+        letter-spacing: 0.5px;
+        transition: color 0.3s ease;
+    }
+
+    .contact-info-card:hover h4 {
+        color: #B82025;
+    }
+
+    .contact-info-card p {
+        font-size: 0.925rem;
+        color: #586F7E;
+        line-height: 1.65;
+        margin: 0 0 12px;
+    }
+
+    .contact-card-link {
+        font-size: 0.95rem;
+        font-weight: 700;
+        color: #B82025;
+        text-decoration: none;
+        display: inline-flex;
+        align-items: center;
+        gap: 6px;
+        margin-top: auto;
+        transition: gap 0.2s ease, color 0.2s ease;
+    }
+
+    .contact-card-link:hover {
+        color: #8b1317;
+        gap: 10px;
+    }
+
+    /* ── Main Form & Map Section ── */
+    .contact-main-section {
+        padding: 50px 0 80px;
+        background: #fbfcfd;
+    }
+
+    .contact-grid-split {
+        display: grid;
+        grid-template-columns: 1.15fr 1fr;
+        gap: 40px;
+        align-items: stretch;
+    }
+
+    /* Form Container */
+    .contact-form-wrapper {
+        background: #ffffff;
+        border: 1px solid #edf1f5;
+        border-radius: 20px;
+        padding: 45px 40px;
+        box-shadow: 0 12px 35px rgba(6, 40, 63, 0.05);
+    }
+
+    .form-group-custom {
+        margin-bottom: 22px;
+        position: relative;
+    }
+
+    .form-label-custom {
+        display: block;
+        font-size: 0.875rem;
+        font-weight: 700;
+        color: #06283F;
+        margin-bottom: 8px;
+        letter-spacing: 0.3px;
+    }
+
+    .input-icon-wrapper {
+        position: relative;
+    }
+
+    .input-icon-wrapper i {
+        position: absolute;
+        left: 18px;
+        top: 50%;
+        transform: translateY(-50%);
+        color: #9CA3AF;
+        font-size: 15px;
+        transition: color 0.25s ease;
+        pointer-events: none;
+    }
+
+    .input-icon-wrapper.textarea-wrapper i {
+        top: 20px;
+        transform: none;
+    }
+
+    .form-control-custom {
+        width: 100%;
+        padding: 14px 18px 14px 48px;
+        font-size: 0.95rem;
+        color: #06283F;
+        background: #F9FAFB;
+        border: 1.5px solid #E5E7EB;
+        border-radius: 12px;
+        outline: none;
+        transition: all 0.25s ease;
+        font-family: inherit;
+    }
+
+    .form-control-custom:focus {
+        background: #ffffff;
+        border-color: #B82025;
+        box-shadow: 0 0 0 4px rgba(184, 32, 37, 0.1);
+    }
+
+    .form-control-custom:focus + i,
+    .form-group-custom:focus-within .input-icon-wrapper i {
+        color: #B82025;
+    }
+
+    textarea.form-control-custom {
+        min-height: 130px;
+        resize: vertical;
+    }
+
+    .form-row-2col {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 20px;
+    }
+
+    .btn-submit-contact {
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        gap: 12px;
+        background: #B82025;
+        color: #ffffff;
+        padding: 16px 36px;
+        font-size: 1rem;
+        font-weight: 700;
+        border-radius: 50px;
+        border: none;
+        cursor: pointer;
+        transition: all 0.3s ease;
+        box-shadow: 0 6px 20px rgba(184, 32, 37, 0.25);
+        width: 100%;
+    }
+
+    .btn-submit-contact:hover {
+        background: #8b1317;
+        transform: translateY(-2px);
+        box-shadow: 0 10px 25px rgba(184, 32, 37, 0.35);
+        color: #ffffff;
+    }
+
+    .btn-submit-contact i {
+        transition: transform 0.2s ease;
+    }
+
+    .btn-submit-contact:hover i {
+        transform: translateX(5px);
+    }
+
+    /* Right Column: Map & Fast Inquiry Card */
+    .contact-side-info {
+        display: flex;
+        flex-direction: column;
+        gap: 24px;
+    }
+
+    .map-card-wrapper {
+        background: #ffffff;
+        border: 1px solid #edf1f5;
+        border-radius: 20px;
+        overflow: hidden;
+        box-shadow: 0 12px 35px rgba(6, 40, 63, 0.05);
+        flex: 1;
+        min-height: 320px;
+        position: relative;
+    }
+
+    .map-card-wrapper iframe {
+        width: 100%;
+        height: 100%;
+        min-height: 320px;
+        border: 0;
+        display: block;
+    }
+
+    .fast-inquiry-box {
+        background: #06283F;
+        border-radius: 20px;
+        padding: 35px 30px;
+        color: #ffffff;
+        box-shadow: 0 12px 35px rgba(6, 40, 63, 0.12);
+        position: relative;
+        overflow: hidden;
+    }
+
+    .fast-inquiry-box::before {
+        content: "";
+        position: absolute;
+        top: -40px;
+        right: -40px;
+        width: 160px;
+        height: 160px;
+        border-radius: 50%;
+        background: radial-gradient(circle, rgba(184, 32, 37, 0.35) 0%, rgba(184, 32, 37, 0) 70%);
+        pointer-events: none;
+    }
+
+    .fast-inquiry-box h4 {
+        color: #ffffff;
+        font-size: 1.3rem;
+        font-weight: 800;
+        margin: 0 0 10px;
+        text-transform: uppercase;
+    }
+
+    .fast-inquiry-box p {
+        color: rgba(255, 255, 255, 0.85);
+        font-size: 0.95rem;
+        line-height: 1.6;
+        margin: 0 0 20px;
+    }
+
+    .inquiry-badges {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 10px;
+    }
+
+    .inquiry-badge-item {
+        display: inline-flex;
+        align-items: center;
+        gap: 8px;
+        background: rgba(255, 255, 255, 0.08);
+        border: 1px solid rgba(255, 255, 255, 0.15);
+        padding: 8px 16px;
+        border-radius: 50px;
+        font-size: 0.85rem;
+        color: #ffffff;
+        font-weight: 600;
+        transition: all 0.25s ease;
+        text-decoration: none;
+    }
+
+    .inquiry-badge-item:hover {
+        background: #B82025;
+        border-color: #B82025;
+        transform: translateY(-2px);
+        color: #ffffff;
+    }
+
+    .inquiry-badge-item i {
+        color: #B82025;
+    }
+
+    .inquiry-badge-item:hover i {
+        color: #ffffff;
+    }
+
+    /* ── Bottom Partner & Network CTA Banner ── */
+    .network-cta-section {
+        background: linear-gradient(135deg, #052437 0%, #06283F 100%);
+        padding: 50px 0;
+        color: #ffffff;
+        position: relative;
+        overflow: hidden;
+    }
+
+    .network-cta-section::before {
+        content: "";
+        position: absolute;
+        left: 5%;
+        bottom: -50px;
+        width: 250px;
+        height: 250px;
+        background: radial-gradient(circle, rgba(184, 32, 37, 0.2) 0%, transparent 70%);
+        pointer-events: none;
+    }
+
+    .network-cta-inner {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        gap: 30px;
+    }
+
+    .network-cta-text h3 {
+        font-size: 1.8rem;
+        font-weight: 800;
+        color: #ffffff;
+        margin: 0 0 8px;
+    }
+
+    .network-cta-text p {
+        color: rgba(255, 255, 255, 0.8);
+        font-size: 1rem;
+        margin: 0;
+        max-width: 650px;
+    }
+
+    .btn-network-cta {
+        display: inline-flex;
+        align-items: center;
+        gap: 10px;
+        background: #B82025;
+        color: #ffffff;
+        padding: 14px 32px;
+        border-radius: 50px;
+        text-decoration: none;
+        font-weight: 700;
+        font-size: 0.95rem;
+        white-space: nowrap;
+        flex-shrink: 0;
+        transition: all 0.3s ease;
+        box-shadow: 0 6px 20px rgba(184, 32, 37, 0.3);
+    }
+
+    .btn-network-cta:hover {
+        background: #8b1317;
+        transform: translateY(-2px);
+        box-shadow: 0 10px 25px rgba(184, 32, 37, 0.45);
+        color: #ffffff;
+    }
+
+    /* ── Toast Notification ── */
+    #contactToast {
+        position: fixed;
+        bottom: 30px;
+        right: 30px;
+        background: #06283F;
+        color: #fff;
+        padding: 16px 24px;
+        border-radius: 12px;
+        box-shadow: 0 10px 30px rgba(0,0,0,0.25);
+        border-left: 4px solid #10B981;
+        display: none;
+        align-items: center;
+        gap: 12px;
+        z-index: 9999;
+        font-weight: 600;
+        font-size: 0.95rem;
+        animation: slideInToast 0.3s ease;
+    }
+
+    @@keyframes slideInToast {
+        from { transform: translateX(100%); opacity: 0; }
+        to { transform: translateX(0); opacity: 1; }
+    }
+
+    /* ── Responsive Breakpoints ── */
+    @@media (max-width: 1024px) {
+        .contact-cards-grid {
+            grid-template-columns: repeat(2, 1fr);
+            margin-top: -60px;
+        }
+
+        .contact-grid-split {
+            grid-template-columns: 1fr;
+        }
+
+        .network-cta-inner {
+            flex-direction: column;
+            text-align: center;
+        }
+    }
+
+    @@media (max-width: 768px) {
+        .contact-hero {
+            height: 50vh;
+        }
+
+        .contact-cards-grid {
+            grid-template-columns: 1fr;
+            margin-top: -40px;
+            gap: 16px;
+        }
+
+        .form-row-2col {
+            grid-template-columns: 1fr;
+            gap: 0;
+        }
+
+        .contact-form-wrapper {
+            padding: 30px 20px;
+        }
+
+        .about-label {
+            font-size: 30px !important;
+        }
+
+        .hero-small {
+            font-size: 18px !important;
+        }
+    }
+</style>
+
+<!-- 1. Hero Section -->
+<section class="contact-hero">
+    <div class="contact-hero-bg">
+        <img src="~/assets/GPI Website Visuals/Contact Us/Contact-Us.jpg" alt="GPI Contact Us">
+    </div>
+    <div class="contact-hero-overlay"></div>
+    <div class="contact-hero-content">
+        <h1 class="contact-hero-title">Contact Us</h1>
+        <p class="contact-hero-subtitle">
+            We are here to power your projects with world-class electrical and infrastructure solutions. Reach out to our expert team today.
+        </p>
+    </div>
+</section>
+
+<!-- 2. Contact Information Cards -->
+<section class="contact-cards-section">
+    <div class="container">
+        <div class="contact-cards-grid">
+            
+            <!-- Card 1: Head Office & Factory -->
+            <div class="contact-info-card">
+                <div class="card-icon-wrapper">
+                    <i class="fas fa-industry"></i>
+                </div>
+                <h4>Head Office &amp; Plant</h4>
+                <p>
+                    Abo Rawash Industrial Zone, KM 28 Cairo-Alexandria Desert Road, Giza, Egypt.
+                </p>
+                <a href="#mapSection" class="contact-card-link">
+                    View on Map <i class="fas fa-arrow-right"></i>
+                </a>
+            </div>
+
+            <!-- Card 2: Phone Numbers -->
+            <div class="contact-info-card">
+                <div class="card-icon-wrapper">
+                    <i class="fas fa-phone-volume"></i>
+                </div>
+                <h4>Call Our Team</h4>
+                <p>
+                    Tel: +2 02 35390023<br>
+                    Tel: +2 02 35390024<br>
+                    Fax: +2 02 35390025
+                </p>
+                <a href="tel:+20235390023" class="contact-card-link">
+                    Call Now <i class="fas fa-arrow-right"></i>
+                </a>
+            </div>
+
+            <!-- Card 3: Email Inquiries -->
+            <div class="contact-info-card">
+                <div class="card-icon-wrapper">
+                    <i class="fas fa-envelope-open-text"></i>
+                </div>
+                <h4>Email Inquiries</h4>
+                <p>
+                    General: gpi@gpi.com.eg<br>
+                    Sales: sales@gpi.com.eg<br>
+                    Careers: hr@gpi.com.eg
+                </p>
+                <a href="mailto:gpi@gpi.com.eg" class="contact-card-link">
+                    Send Email <i class="fas fa-arrow-right"></i>
+                </a>
+            </div>
+
+            <!-- Card 4: Working Hours -->
+            <div class="contact-info-card">
+                <div class="card-icon-wrapper">
+                    <i class="fas fa-clock"></i>
+                </div>
+                <h4>Business Hours</h4>
+                <p>
+                    Sunday – Thursday<br>
+                    8:30 AM – 5:00 PM<br>
+                    (Friday &amp; Saturday: Closed)
+                </p>
+                <span class="contact-card-link" style="cursor: default;">
+                    Always Available Online
+                </span>
+            </div>
+
+        </div>
+    </div>
+</section>
+
+<!-- 3. Main Form & Map Section -->
+<section class="contact-main-section" id="mapSection">
+    <div class="container">
+        <div class="contact-grid-split">
+
+            <!-- Left: Contact Form -->
+            <div class="contact-form-wrapper">
+                <div class="about-header" style="margin-bottom: 28px;">
+                    <p class="about-label">Get in Touch</p>
+                    <span class="hero-small reveal-line">
+                        SEND US A MESSAGE &amp; OUR TEAM WILL RESPOND PROMPTLY
+                    </span>
+                </div>
+
+                <form id="contactForm" onsubmit="handleContactSubmit(event)">
+                    <div class="form-row-2col">
+                        <!-- Full Name -->
+                        <div class="form-group-custom">
+                            <label class="form-label-custom" for="contactName">Full Name *</label>
+                            <div class="input-icon-wrapper">
+                                <input type="text" id="contactName" class="form-control-custom" placeholder="e.g. Mohamed Ali" required>
+                                <i class="fas fa-user"></i>
+                            </div>
+                        </div>
+
+                        <!-- Email -->
+                        <div class="form-group-custom">
+                            <label class="form-label-custom" for="contactEmail">Email Address *</label>
+                            <div class="input-icon-wrapper">
+                                <input type="email" id="contactEmail" class="form-control-custom" placeholder="name@company.com" required>
+                                <i class="fas fa-envelope"></i>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="form-row-2col">
+                        <!-- Phone -->
+                        <div class="form-group-custom">
+                            <label class="form-label-custom" for="contactPhone">Phone Number</label>
+                            <div class="input-icon-wrapper">
+                                <input type="tel" id="contactPhone" class="form-control-custom" placeholder="+20 100 000 0000">
+                                <i class="fas fa-phone"></i>
+                            </div>
+                        </div>
+
+                        <!-- Department / Interest -->
+                        <div class="form-group-custom">
+                            <label class="form-label-custom" for="contactDept">Inquiry Department *</label>
+                            <div class="input-icon-wrapper">
+                                <select id="contactDept" class="form-control-custom" required>
+                                    <option value="" disabled selected>Select Department</option>
+                                    <option value="Cables">Cables &amp; Wires Division</option>
+                                    <option value="Meters">Smart Meters Technologies</option>
+                                    <option value="Lighting">Lighting Solutions (Aura &amp; Polarix)</option>
+                                    <option value="Projects">EPC Turnkey Projects</option>
+                                    <option value="Partnership">Distributors &amp; Partnership</option>
+                                    <option value="General">General Inquiry</option>
+                                </select>
+                                <i class="fas fa-layer-group"></i>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Subject -->
+                    <div class="form-group-custom">
+                        <label class="form-label-custom" for="contactSubject">Subject *</label>
+                        <div class="input-icon-wrapper">
+                            <input type="text" id="contactSubject" class="form-control-custom" placeholder="Brief summary of your request" required>
+                            <i class="fas fa-tag"></i>
+                        </div>
+                    </div>
+
+                    <!-- Message -->
+                    <div class="form-group-custom">
+                        <label class="form-label-custom" for="contactMessage">Message *</label>
+                        <div class="input-icon-wrapper textarea-wrapper">
+                            <textarea id="contactMessage" class="form-control-custom" placeholder="Describe your project, technical specs, or inquiry details..." required></textarea>
+                            <i class="fas fa-comment-alt"></i>
+                        </div>
+                    </div>
+
+                    <!-- Submit Button -->
+                    <button type="submit" class="btn-submit-contact" id="contactSubmitBtn">
+                        <span>Send Message</span>
+                        <i class="fas fa-paper-plane"></i>
+                    </button>
+                </form>
+            </div>
+
+            <!-- Right: Map & Fast Inquiry Box -->
+            <div class="contact-side-info">
+                
+                <!-- Google Map Card -->
+                <div class="map-card-wrapper">
+                    <iframe 
+                        src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d110502.61185040523!2d30.98592391640625!3d30.082725!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x145859942a969317%3A0x6b2b733479a95ea8!2sAbu%20Rawash%20Industrial%20Zone!5e0!3m2!1sen!2seg!4v1700000000000!5m2!1sen!2seg" 
+                        allowfullscreen="" 
+                        loading="lazy" 
+                        referrerpolicy="no-referrer-when-downgrade"
+                        title="GPI Location Map">
+                    </iframe>
+                </div>
+
+                <!-- Direct Access & Assistance Box -->
+                <div class="fast-inquiry-box">
+                    <h4>Direct Assistance</h4>
+                    <p>
+                        Need immediate assistance for active tenders, bulk orders, or engineering consultations? Reach our dedicated teams directly:
+                    </p>
+                    <div class="inquiry-badges">
+                        <a href="mailto:sales@gpi.com.eg" class="inquiry-badge-item">
+                            <i class="fas fa-bolt"></i> Sales Hotline
+                        </a>
+                        <a href="mailto:technical@gpi.com.eg" class="inquiry-badge-item">
+                            <i class="fas fa-tools"></i> Engineering Support
+                        </a>
+                        <a href="mailto:export@gpi.com.eg" class="inquiry-badge-item">
+                            <i class="fas fa-globe-africa"></i> Export &amp; EMEA
+                        </a>
+                    </div>
+                </div>
+
+            </div>
+
+        </div>
+    </div>
+</section>
+
+<!-- 4. Global Network CTA -->
+<section class="network-cta-section">
+    <div class="container">
+        <div class="network-cta-inner">
+            <div class="network-cta-text">
+                <h3>Looking for Local Distributors in Your Region?</h3>
+                <p>
+                    GPI operates with an extensive network of 20+ distributors and clients across Egypt and more than 25 countries worldwide.
+                </p>
+            </div>
+            <a asp-controller="Pages" asp-action="Partners" class="btn-network-cta">
+                <span>Find Distributors</span>
+                <i class="fas fa-arrow-right"></i>
+            </a>
+        </div>
+    </div>
+</section>
+
+<!-- Toast Notification -->
+<div id="contactToast">
+    <i class="fas fa-check-circle" style="color:#10B981; font-size:20px;"></i>
+    <span>Thank you! Your message has been sent successfully. We will get back to you shortly.</span>
+</div>
+
+<script>
+    function handleContactSubmit(event) {
+        event.preventDefault();
+        
+        const btn = document.getElementById('contactSubmitBtn');
+        const toast = document.getElementById('contactToast');
+        const form = document.getElementById('contactForm');
+
+        btn.disabled = true;
+        btn.innerHTML = '<span>Sending...</span> <i class="fas fa-spinner fa-spin"></i>';
+
+        setTimeout(() => {
+            btn.disabled = false;
+            btn.innerHTML = '<span>Message Sent!</span> <i class="fas fa-check"></i>';
+            btn.style.background = '#10B981';
+
+            toast.style.display = 'flex';
+
+            form.reset();
+
+            setTimeout(() => {
+                btn.innerHTML = '<span>Send Message</span> <i class="fas fa-paper-plane"></i>';
+                btn.style.background = '#B82025';
+            }, 3000);
+
+            setTimeout(() => {
+                toast.style.display = 'none';
+            }, 5000);
+        }, 1000);
+    }
+</script>

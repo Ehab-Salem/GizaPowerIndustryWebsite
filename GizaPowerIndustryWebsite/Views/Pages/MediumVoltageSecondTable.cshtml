@@ -1,0 +1,1110 @@
+﻿@using GizaPowerIndustryWebsite.Models
+@model MediumVoltageModel
+@{
+    string fullName = Model.ProductFullName ?? string.Empty;
+    string mainTitle = fullName;
+    string subtitle = string.Empty;
+
+    // Split at the first comma
+    int splitIndex = fullName.IndexOf(',');
+    if (splitIndex > 0)
+    {
+        mainTitle = fullName.Substring(0, splitIndex).Trim();
+        subtitle = fullName.Substring(splitIndex + 1).Trim();
+    }
+    string temp = Model.MaximumOpertingTemp ?? "";
+    string formattedTemp = temp.Replace(" OC", "°C").Replace("OC", "°C");
+}
+@functions {
+    private string FormatTemperature(string temperature)
+    {
+        if (string.IsNullOrEmpty(temperature))
+        {
+            return string.Empty;
+        }
+
+        return temperature.Replace(" OC", "°C").Replace("OC", "°C");
+    }
+}
+<style>
+    /* ===== Enhanced Tab Design – GPI Brand ===== */
+    :root {
+        --gpi-red: #a3191e;
+        --text-dark: #06283F;
+        --text-grey: #4B5563;
+        --border-light: #E5E7EB;
+    }
+
+    /* Remove any conflicting Dawyer underline */
+    .tab-style-04 .nav-link::after,
+    .tab-style-04 .nav-link:hover::after,
+    .tab-style-04 .nav-link.active::after {
+        display: none !important;
+    }
+
+    /* Tabs container */
+    .tab-style-04 .nav-tabs {
+        border-bottom: 2px solid var(--border-light);
+        gap: 0;
+    }
+
+        /* Each tab link */
+        .tab-style-04 .nav-tabs .nav-link {
+            border: none !important;
+            background: transparent !important;
+            font-size: 1.05rem;
+            font-weight: 600;
+            color: var(--text-grey);
+            padding: 0.85rem 2rem;
+            position: relative;
+            transition: color 0.2s;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+            .tab-style-04 .nav-tabs .nav-link:hover {
+                color: var(--gpi-red);
+            }
+
+            .tab-style-04 .nav-tabs .nav-link.active {
+                color: var(--gpi-red);
+            }
+
+                /* Active underline – clean red bar */
+                .tab-style-04 .nav-tabs .nav-link.active::before {
+                    content: "";
+                    position: absolute;
+                    bottom: -2px;
+                    left: 0;
+                    width: 100%;
+                    height: 3px;
+                    background: var(--gpi-red);
+                    border-radius: 2px 2px 0 0;
+                }
+
+    /* Remove the old span .tab-border – we don't need it anymore,
+                   but if you keep it, override its colour: */
+    .tab-style-04 .tab-border {
+        background: var(--gpi-red) !important;
+    }
+
+    /* Tab content spacing */
+    /* .tab-content {
+                    padding-top: 2rem;
+                } */
+
+    /* Technical data rows – soft alternating background */
+    #data .row {
+        margin-left: 0;
+        margin-right: 0;
+    }
+
+        #data .row.bg-very-light-gray {
+            background-color: #F9FAFB;
+        }
+
+    /* Improve readability of data labels & values */
+    #data .col-lg-5,
+    #data .col-md-3,
+    #data .col-sm-4 {
+        font-weight: 600;
+        color: var(--text-dark);
+        font-size: 0.95rem;
+    }
+
+    #data .col-lg-7,
+    #data .col-md-9,
+    #data .col-sm-8 {
+        color: var(--text-grey);
+        font-size: 0.95rem;
+        line-height: 1.6;
+    }
+
+    /* ===== Tables – modern card-like feel ===== */
+    .technical-table {
+        background: #fff;
+        border: 1px solid var(--border-light);
+        border-radius: 8px;
+        overflow: hidden;
+        margin-bottom: 2rem;
+        font-size: 0.9rem;
+    }
+
+        .technical-table thead {
+            background: #F9FAFB;
+        }
+
+            .technical-table thead td,
+            .technical-table thead th {
+                font-weight: 600;
+                color: var(--text-dark);
+                padding: 0.8rem 0.5rem;
+                vertical-align: middle;
+                border-bottom: 2px solid var(--border-light);
+            }
+
+            /* Red header rows (H05V-U etc.) */
+            .technical-table thead .bg-red {
+                background: var(--gpi-red) !important;
+                color: #fff !important;
+            }
+
+                .technical-table thead .bg-red th,
+                .technical-table thead .bg-red td {
+                    color: #fff !important;
+                    font-weight: 700;
+                    font-size: 1rem;
+                    padding: 1rem 0.5rem;
+                }
+
+        /* Table body */
+        .technical-table tbody td {
+            padding: 0.7rem 0.5rem;
+            vertical-align: middle;
+            border-color: var(--border-light);
+        }
+
+        .technical-table tbody tr:hover {
+            background: #FDF2F2; /* subtle red tint on hover */
+        }
+
+    /* Responsive table – already uses .table-responsive, but add smooth horizontal scroll */
+    .table-responsive {
+        -webkit-overflow-scrolling: touch;
+        border-radius: 8px;
+    }
+
+    /* Disclaimer text */
+    #data .col-12 > span {
+        display: block;
+        text-align: center;
+        color: #9CA3AF;
+        font-size: 0.85rem;
+        margin-top: 1rem;
+    }
+
+    /* Note tab styling */
+    #note p {
+        font-size: 1rem;
+        color: var(--text-grey);
+        line-height: 1.8;
+        background: #F9FAFB;
+        padding: 2rem;
+        border-radius: 12px;
+        border-left: 4px solid var(--gpi-red);
+    }
+
+    /* Responsive adjustments for tab labels on small screens */
+    @@media (max-width: 576px) {
+        .tab-style-04 .nav-tabs .nav-link {
+            padding: 0.75rem 1rem;
+            font-size: 0.95rem;
+        }
+    }
+</style>
+<style>
+    .nav-link:hover::after, .nav-link.active::after {
+        width: 0;
+    }
+
+    .nav-tabs .nav-item {
+        position: relative;
+    }
+
+    .nav-tabs .nav-link {
+        width: 100%;
+        display: block;
+    }
+
+    .tab-border {
+        display: block;
+        width: 100%;
+        height: 3px;
+        position: absolute;
+        bottom: -1px;
+        left: 0;
+    }
+</style>
+<style>
+    .toggle-arrow {
+        display: inline-block;
+        transition: transform 0.3s ease;
+    }
+
+    .toggle-section-header.open .toggle-arrow {
+        transform: rotate(180deg);
+    }
+
+    @@media (max-width: 991px) {
+        .product-info {
+            padding-left: 15px !important;
+            margin-top: 30px;
+        }
+    }
+    /* Remove white scroll shadows */
+    .specs-table-container::before,
+    .specs-table-container::after {
+        display: none !important;
+    }
+    /* ==================== TABLE CONTAINER ==================== */
+    .specs-table-container {
+        background: #FFFFFF;
+        border-radius: 8px;
+        overflow-x: auto;
+        border: 1px solid #E6EAEC;
+        margin-top: 24px;
+        position: relative;
+        /* For scroll shadow pseudo-elements */
+        -webkit-overflow-scrolling: touch;
+        /* Smooth scroll on iOS */
+    }
+
+        /* ---- Scroll Shadow Indicators ---- */
+        .specs-table-container::before,
+        .specs-table-container::after {
+            content: '';
+            position: absolute;
+            top: 0;
+            bottom: 0;
+            width: 30px;
+            pointer-events: none;
+            z-index: 2;
+            transition: opacity 0.3s ease;
+            opacity: 0;
+        }
+
+        /* Left shadow - visible when scrolled right */
+        .specs-table-container::before {
+            left: 0;
+            background: linear-gradient(to right, rgba(255, 255, 255, 0.95) 0%, rgba(255, 255, 255, 0) 100%);
+        }
+
+        /* Right shadow - visible when not fully scrolled */
+        .specs-table-container::after {
+            right: 0;
+            background: linear-gradient(to left, rgba(255, 255, 255, 0.95) 0%, rgba(255, 255, 255, 0) 100%);
+        }
+
+        .specs-table-container.scrolled-right::before {
+            opacity: 1;
+        }
+
+        .specs-table-container:not(.scrolled-to-end)::after {
+            opacity: 1;
+        }
+
+        .specs-table-container.scrolled-to-end::after {
+            opacity: 0;
+        }
+
+    /* ==================== TABLE STYLES ==================== */
+    .specs-table {
+        width: 100%;
+        border-collapse: collapse;
+        font-size: 11px;
+        min-width: 1100px;
+        position: relative;
+        z-index: 1;
+    }
+
+        .specs-table thead th {
+            background-color: #FFFFFF;
+            color: #06283F;
+            padding: 8px 4px;
+            text-align: center;
+            font-weight: 800;
+            border: 1px solid #F0F2F4;
+            font-size: 15px;
+            line-height: 1.2;
+            vertical-align: middle;
+        }
+
+        .specs-table thead .header-row-1 th {
+            color: #06283F;
+            font-weight: 500;
+            font-size: 15px !important;
+            font-weight: bold;
+            padding: 12px 6px;
+        }
+
+        .specs-table thead .product-code-header {
+            font-weight: 700 !important;
+            font-size: 14px !important;
+            text-align: center;
+            min-width: 160px;
+        }
+
+        .specs-table thead .nominal-area-header {
+            min-width: 90px;
+        }
+
+        .specs-table thead .unit-row th {
+            background-color: #FFFFFF;
+            color: #06283F;
+            font-weight: bold;
+            font-size: 16px !important;
+            padding: 10px 4px;
+            border-top: 2px solid #E6EAEC;
+        }
+
+    /* ---- Header Icon Styles ---- */
+    .header-icon-container {
+        display: inline-flex;
+        flex-direction: column;
+        padding: 20px;
+        align-items: center;
+        gap: 2px;
+        font-size: 13px;
+        color: #06283F;
+    }
+
+    .table-header-icon {
+        height: 40px;
+        width: auto;
+        display: block;
+        object-fit: contain;
+    }
+
+    /* ---- Body Styles ---- */
+    .specs-table tbody td {
+        padding: 12px 6px;
+        text-align: center;
+        color: #586F7E;
+        font-size: 13px;
+        border: 1px solid #F0F2F4;
+        background-color: #FFFFFF;
+        transition: background-color 0.15s ease;
+    }
+
+    .specs-table tbody tr:hover td {
+        background-color: #FAFBFC;
+    }
+
+    .specs-table tbody td:first-child {
+        font-weight: 600;
+        color: #06283F;
+        text-align: center;
+        background-color: #FFFFFF;
+    }
+
+    /* ---- Section Header Rows ---- */
+    .specs-table .table-section-header td {
+        background-color: #B82025 !important;
+        color: #FFFFFF !important;
+        font-weight: 600;
+        font-size: 13px;
+        text-align: left;
+        padding: 8px 16px;
+        border: none;
+        letter-spacing: 0.3px;
+        position: sticky;
+        left: 0;
+    }
+
+    .specs-table .approx-header {
+        font-size: 11px;
+        color: #586F7E;
+    }
+
+    /* ---- Sticky Product Code Column ---- */
+    .specs-table tbody td:first-child,
+    .specs-table thead .product-code-header {
+        position: sticky;
+        left: 0;
+        z-index: 1;
+        background-color: #FFFFFF;
+        box-shadow: 2px 0 4px rgba(0, 0, 0, 0.04);
+    }
+
+    .specs-table .table-section-header td:first-child {
+        box-shadow: 2px 0 4px rgba(0, 0, 0, 0.08);
+    }
+
+    /* ==================== SCROLLBAR STYLING ==================== */
+    .specs-table-container::-webkit-scrollbar {
+        height: 6px;
+    }
+
+    .specs-table-container::-webkit-scrollbar-track {
+        background: #F1F1F1;
+        border-radius: 10px;
+        margin: 0 4px;
+    }
+
+    .specs-table-container::-webkit-scrollbar-thumb {
+        background: #D1D7DC;
+        border-radius: 10px;
+        transition: background 0.2s;
+    }
+
+        .specs-table-container::-webkit-scrollbar-thumb:hover {
+            background: #B82025;
+        }
+
+    /* Firefox scrollbar */
+    .specs-table-container {
+        scrollbar-width: thin;
+        scrollbar-color: #D1D7DC #F1F1F1;
+    }
+
+    /* ==================== MOBILE CARDS CONTAINER ==================== */
+    .mobile-cards-container {
+        display: none;
+        flex-direction: column;
+        gap: 12px;
+        padding: 16px;
+    }
+
+    /* ==================== MOBILE CARD STYLES ==================== */
+    .mobile-spec-card {
+        background: #FFFFFF;
+        border: 1px solid #E6EAEC;
+        border-radius: 8px;
+        overflow: hidden;
+        box-shadow: 0 1px 3px rgba(0, 0, 0, 0.04);
+        transition: box-shadow 0.2s;
+    }
+
+        .mobile-spec-card:active {
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+        }
+
+    .mobile-spec-card__product-code {
+        display: block;
+        font-weight: 700;
+        font-size: 13px;
+        color: #06283F;
+        background: #FAFBFC;
+        padding: 10px 14px;
+        border-bottom: 1px solid #F0F2F4;
+        letter-spacing: 0.2px;
+        word-break: break-all;
+    }
+
+    .mobile-spec-card__section-title {
+        font-weight: 600;
+        font-size: 11px;
+        color: #8C9CA7;
+        text-transform: uppercase;
+        letter-spacing: 0.5px;
+        padding: 10px 14px 4px;
+    }
+
+    .mobile-spec-card__grid {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 1px;
+        padding: 0 14px 10px;
+    }
+
+    .mobile-spec-card__item {
+        display: flex;
+        flex-direction: column;
+        padding: 6px 0;
+        border-bottom: 1px dotted #F0F2F4;
+    }
+
+    .mobile-spec-card__item--full {
+        grid-column: 1 / -1;
+    }
+
+    .mobile-spec-card__label {
+        font-size: 10px;
+        color: #8C9CA7;
+        text-transform: uppercase;
+        letter-spacing: 0.3px;
+        margin-bottom: 2px;
+    }
+
+    .mobile-spec-card__value {
+        font-size: 14px;
+        font-weight: 600;
+        color: #06283F;
+    }
+
+    .mobile-spec-card__unit {
+        font-size: 10px;
+        font-weight: 400;
+        color: #8C9CA7;
+        margin-left: 3px;
+    }
+
+    /* ---- Section Header Card ---- */
+    .mobile-section-header-card {
+        background: #B82025;
+        color: #FFFFFF;
+        font-weight: 600;
+        font-size: 13px;
+        padding: 10px 16px;
+        border-radius: 6px 6px 0 0;
+        letter-spacing: 0.3px;
+        margin-top: 8px;
+        position: sticky;
+        top: 0;
+        z-index: 3;
+        box-shadow: 0 2px 6px rgba(184, 32, 37, 0.25);
+    }
+
+        .mobile-section-header-card:first-child {
+            margin-top: 0;
+        }
+
+    /* ---- Scroll position indicator dot ---- */
+    .scroll-indicator {
+        display: none;
+        text-align: center;
+        padding: 8px;
+        color: #8C9CA7;
+        font-size: 11px;
+        animation: pulse 2s infinite;
+    }
+
+    @@keyframes pulse {
+        0%, 100% {
+            opacity: 0.5;
+        }
+
+        50% {
+            opacity: 1;
+        }
+    }
+
+    /* ==================== RESPONSIVE BREAKPOINTS ==================== */
+
+    /* ---- Large Tablets & Small Desktops (769px - 1100px) ---- */
+    @@media screen and (max-width: 1100px) {
+        .specs-table {
+            min-width: 1050px;
+            font-size: 10px;
+        }
+
+            .specs-table thead .header-row-1 th {
+                font-size: 11px;
+                padding: 8px 3px;
+            }
+
+            .specs-table thead .product-code-header {
+                font-size: 12px !important;
+                min-width: 140px;
+            }
+
+            .specs-table tbody td {
+                font-size: 11px;
+                padding: 10px 4px;
+            }
+
+        .scroll-indicator {
+            display: block;
+        }
+    }
+
+    /* ---- Tablets (481px - 768px) ---- */
+    @@media screen and (max-width: 768px) {
+        .specs-table-container {
+            border-radius: 6px;
+        }
+
+        .specs-table {
+            min-width: 900px;
+            font-size: 9px;
+        }
+
+            .specs-table thead .header-row-1 th {
+                font-size: 10px;
+                padding: 6px 2px;
+            }
+
+            .specs-table thead .product-code-header {
+                font-size: 11px !important;
+                min-width: 120px;
+            }
+
+            .specs-table thead .unit-row th {
+                font-size: 9px;
+                padding: 6px 2px;
+            }
+
+            .specs-table tbody td {
+                font-size: 10px;
+                padding: 8px 3px;
+            }
+
+            .specs-table .table-section-header td {
+                font-size: 11px;
+                padding: 6px 10px;
+            }
+
+        .header-icon-container {
+            font-size: 9px;
+        }
+
+        .table-header-icon {
+            height: 16px;
+        }
+
+        .scroll-indicator {
+            display: block;
+            font-size: 10px;
+            padding: 6px;
+        }
+    }
+
+    /* ---- Mobile Phones (≤480px) - Card Layout ---- */
+    @@media screen and (max-width: 480px) {
+        /* Hide the original table */
+        .specs-table-container {
+            overflow-x: auto; /* allow horizontal scroll */
+            border: 1px solid #E6EAEC; /* restore border */
+            background: #FFFFFF;
+        }
+
+            .specs-table-container::before,
+            .specs-table-container::after {
+                display: none;
+            }
+
+        /* .specs-table {
+            display: none !important;
+        } */
+
+        .scroll-indicator {
+            display: none !important;
+        }
+        /* Show mobile cards */
+        .mobile-cards-container {
+            display: flex;
+        }
+        /* Adjust page padding */
+        body {
+            padding: 10px;
+        }
+
+        .specs-table-container::-webkit-scrollbar {
+            display: none;
+        }
+    }
+
+    /* ---- Very Small Screens (≤360px) ---- */
+    @@media screen and (max-width: 360px) {
+        .mobile-spec-card__grid {
+            grid-template-columns: 1fr;
+            /* Single column */
+        }
+
+        .mobile-spec-card__product-code {
+            font-size: 12px;
+            padding: 8px 10px;
+        }
+
+        .mobile-spec-card__value {
+            font-size: 13px;
+        }
+
+        .mobile-spec-card__section-title {
+            font-size: 10px;
+        }
+    }
+
+    /* ==================== PRINT STYLES ==================== */
+    @@media print {
+        body {
+            background: #FFFFFF;
+            padding: 0;
+        }
+
+        .specs-table-container {
+            overflow-x: visible;
+            border: 1px solid #ccc;
+            box-shadow: none;
+        }
+
+            .specs-table-container::before,
+            .specs-table-container::after {
+                display: none;
+            }
+
+        .specs-table {
+            min-width: auto;
+            font-size: 9px;
+        }
+
+            .specs-table .table-section-header td {
+                background-color: #ddd !important;
+                color: #000 !important;
+                -webkit-print-color-adjust: exact;
+                print-color-adjust: exact;
+            }
+
+        .mobile-cards-container {
+            display: none !important;
+        }
+
+        .specs-table {
+            display: table !important;
+        }
+
+        .scroll-indicator {
+            display: none !important;
+        }
+    }
+
+    .headerTextRed {
+        color: #a3191e !important;
+        font-weight: bold !important;
+        font-size: 23px !important;
+    }
+
+    .headerTextNeavy {
+        color: #06283F !important;
+        font-size: 18px !important;
+    }
+
+    .body p {
+        font-family: 'Source Sans 3', sans-serif;
+    }
+    /* Black dividers between technical‑data rows */
+    #data .row:not(.bg-very-light-gray),
+    #data .row.bg-very-light-gray {
+        border-bottom: 1px solid #000; /* black divider */
+    }
+    /* ---- Body rows ---- */
+    .specs-table tbody tr:not(.table-section-header):nth-child(even) td {
+        background-color: #babcbf;
+    }
+
+    .specs-table tbody tr:not(.table-section-header):nth-child(odd) td {
+        background-color: #ffffff;
+    }
+
+    .toggle-arrow {
+        display: inline-block;
+        transition: transform 0.3s ease;
+        margin-right: 8px;
+        font-size: 14px;
+        vertical-align: middle;
+    }
+
+    .toggle-section-header.open .toggle-arrow {
+        transform: rotate(180deg);
+    }
+
+    .section-content {
+        display: none;
+    }
+
+        .section-content.is-open {
+            display: table-row;
+        }
+</style>
+
+<div class="main-content">
+    <!-- start section -->
+    <section class="pt-40px pb-0">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-6 md-mb-40px" data-anime='{ "translate": [0, 0], "opacity": [0,1], "duration": 600, "delay": 100, "staggervalue": 150, "easing": "easeOutQuad" }'>
+                    <div class="row overflow-hidden position-relative">
+                        <div class="col-12 position-relative product-image">
+                            <div class="swiper product-image-slider" data-slider-options='{ "spaceBetween": 0, "watchOverflow": true, "navigation": { "nextEl": ".slider-product-next", "prevEl": ".slider-product-prev" }, "thumbs": { "swiper": { "el": ".product-image-thumb", "slidesPerView": "5", "spaceBetween": 15 } } }' data-swiper-thumb-click="1">
+                                <div class="swiper-wrapper">
+                                    <!-- First image (always present) -->
+                                    <div class="swiper-slide gallery-box">
+                                        <a href="~/assets/3DImages/medium voltage/@ViewBag.ProductImage" data-group="lightbox-gallery" title="@ViewBag.ProductName">
+                                            <img class="w-100" src="~/assets/3DImages/medium voltage/@ViewBag.ProductImage" alt="@ViewBag.ProductName">
+                                        </a>
+                                    </div>
+                                    <!-- Second image (optional) -->
+                                    @if (ViewBag.ProductImage2 != null)
+                                    {
+                                        <div class="swiper-slide gallery-box">
+                                            <a href="~/assets/3DImages/medium voltage/@ViewBag.ProductImage2" data-group="lightbox-gallery" title="@ViewBag.ProductName">
+                                                <img class="w-100" src="~/assets/3DImages/medium voltage/@ViewBag.ProductImage2" alt="@ViewBag.ProductName">
+                                            </a>
+                                        </div>
+                                    }
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-lg-5 offset-lg-1 product-info" data-anime='{ "translate": [0, 0], "opacity": [0,1], "duration": 600, "delay": 100, "staggervalue": 150, "easing": "easeOutQuad" }'>
+                    <h5 class="alt-font text-dark-gray fw-600 mb-10px" style="font-size:30px;line-height: normal; color: #a3191e;">
+                        @mainTitle <br />
+                        <span style="    color: #06283F;     font-weight: normal;">
+                            @subtitle
+                        </span>
+                    </h5>
+                    <div class="product-price mb-10px mt-5">
+                        <span class="text-dark-gray fs-20 xs-fs-24 fw-600 ls-minus-1px headerTextRed" style="color: #a3191e;">Voltage Grade</span>
+                        <p style="color:#717580">@Model.VoltageGrade</p>
+                    </div>
+                    <div class="product-price mb-10px">
+                        <span class="text-dark-gray fs-20 xs-fs-24 fw-600 ls-minus-1px headerTextRed" style="color: #a3191e;">Description</span>
+                        <p style="color:#717580">
+                            @Model.ProductDescription
+                        </p>
+                    </div>
+                    <div class="product-price mb-10px mt-5">
+                        <span class="text-dark-gray fs-20 xs-fs-24 fw-600 ls-minus-1px headerTextRed" style="color: #a3191e;">Application </span>
+                        <p style="color:#717580">
+                            @Model.ProductApplication
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+    <!-- Section: Tabs -->
+    <section id="tab" style="padding-top: 30px;padding-bottom: 15px;">
+        <div class="container">
+            <div class="row">
+                <div class="col-12 tab-style-04" ...>
+                    <ul class="nav nav-tabs border-0 nav-fill alt-font fs-17 fw-500">
+                        <li class="nav-item text-center">
+                            <a data-bs-toggle="tab" href="#data" class="nav-link active">Technical Data<span class="tab-border bg-dark-gray"></span></a>
+                        </li>
+                        @if (!string.IsNullOrEmpty(Model.Note))
+                        {
+                            <li class="nav-item text-center">
+                                <a class="nav-link" data-bs-toggle="tab" href="#note">Note<span class="tab-border bg-dark-gray"></span></a>
+                            </li>
+                        }
+                    </ul>
+                    <div class="mb-6 h-1px w-100 bg-extra-medium-gray sm-mt-10px" style="margin-bottom:30px !important"></div>
+                    <div class="tab-content">
+                        <!-- Technical Data tab -->
+                        <div class="tab-pane fade in active show" id="data">
+                            <div class="row m-0">
+                                <div class="col-12">
+                                    @{
+                                        var fields = new Dictionary<string, string>
+                                                                        {
+                                                                        { "Relevent Standard", Model.ReleventStandard },
+                                                                        { "Conductor", Model.Conductor },
+                                                                        { "Conductor Screen", Model.ConductorScreen },
+                                                                        { "Insulation", Model.Insulation },
+                                                                        { "Insulation Screen", Model.InsulationScreen },
+                                                                        { "Outer Sheath", Model.OuterSheath },
+                                                                        { "Armoring", Model.Armoring },
+                                                                        { "Inner Sheath", Model.InnerSheath },
+                                                                        { "Assembly", Model.Assembly ?? Model.Assesmbly },
+                                                                        { "Cores Identification", Model.CoresIndentification },
+                                                                        { "Water Penetration Layers", Model.WaterPentrationlayers },
+                                                                        { "Outer Sheath Color", Model.OuterSheathColor },
+                                                                        { "Maximum Operating Temp.", FormatTemperature(Model.MaximumOpertingTemp) },
+                                                                        { "Minimum bending Radius", Model.MinimumbendingRadius },
+                                                                        { "Packing Condition", Model.PackingCondition },
+                                                                        };
+                                        var nonEmpty = fields.Where(f => !string.IsNullOrEmpty(f.Value)).ToList();
+                                        int idx = 0;
+                                    }
+                                    @foreach (var field in nonEmpty)
+                                    {
+                                        string rowClass = (idx % 2 == 0) ? "" : "bg-very-light-gray";
+                                        <div class="row @rowClass">
+                                            <div class="col-lg-5 col-md-3 col-sm-4 pt-10px pb-10px xs-pb-0 text-dark-gray alt-font fw-600 headerTextNeavy" style="color: #a3191e;">
+                                                @field.Key
+                                            </div>
+                                            <div class="col-lg-7 col-md-9 col-sm-8 pt-10px pb-10px xs-pt-0">
+                                                @Html.Raw(field.Value.Replace("\n", "<br />"))
+                                            </div>
+                                        </div>
+                                        idx++;
+                                    }
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Note tab (only if note exists) -->
+                        @if (!string.IsNullOrEmpty(Model.Note))
+                        {
+                            <div class="tab-pane fade in" id="note">
+                                <div class="row m-0">
+                                    <div class="col-12">
+                                        <p>@Html.Raw(Model.Note.Replace("\n", "<br />"))</p>
+                                    </div>
+                                </div>
+                            </div>
+                        }
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section style="padding-top:0; padding-bottom:15px;">
+        <div class="container">
+            <div class="specs-table-container" style="margin-top:0; border-radius:0 0 8px 8px;">
+                <table class="specs-table" id="specsTableElectrical">
+                    <thead>
+                        <!-- Row 1: Top-level groups -->
+                        <tr class="header-row-1">
+                            <th rowspan="4" class="product-code-header">Product – Code</th>
+                            <th rowspan="3">Nominal Cross<br>Sectional Area</th>
+                            <th colspan="3">Max. Conductor Resistance</th>
+                            <th rowspan="3">Operating<br>Capacitance</th>
+                            <th colspan="2">Inductance</th>
+                            <th colspan="5">Current Rating</th>
+                            <th rowspan="3">Approx Overall </th>
+                            <th rowspan="3">Approx Weight</th>
+                        </tr>
+
+                        <!-- Row 2: Sub-headers -->
+                        <tr class="header-row-2">
+                            <th rowspan="2">DC at 20 °C</th>
+                            <th colspan="2">AC at 90 °C</th>
+                            <th>Flat</th>
+                            <th>Trefoil</th>
+                            <th colspan="3">Laid in Ground</th>
+                            <th colspan="2">Lain in Air</th>
+                        </tr>
+
+                        <!-- Row 3: Icons -->
+                        <tr class="header-row-3">
+                            <th>
+                                <div class="header-icon-container">
+                                    Flat
+                                    <img src="~/assets/images/conductor-flat.png" alt="Flat">
+                                </div>
+                            </th>
+                            <th>
+                                <div class="header-icon-container">
+                                    Trefoil
+                                    <img src="~/assets/images/conductor-trefoil.png" alt="Trefoil">
+                                </div>
+                            </th>
+                            <th>
+                                <div class="header-icon-container">
+                                    <img src="~/assets/images/conductor-flat.png" alt="Flat">
+                                </div>
+                            </th>
+                            <th>
+                                <div class="header-icon-container">
+                                    <img src="~/assets/images/conductor-trefoil.png" alt="Trefoil">
+                                </div>
+                            </th>
+                            <th>
+                                <div class="header-icon-container">
+                                    Flat
+                                    <img src="~/assets/images/conductor-flat.png" alt="Flat">
+                                </div>
+                            </th>
+                            <th>
+                                <div class="header-icon-container">
+                                    Trefoil
+                                    <img src="~/assets/images/conductor-trefoil.png" alt="Trefoil">
+                                </div>
+                            </th>
+                            <th>
+                                <div class="header-icon-container">
+                                    Duct
+                                    <img src="~/assets/imgs/Picture1.png" alt="Duct">
+                                </div>
+                            </th>
+                            <th>
+                                <div class="header-icon-container">
+                                    Flat Touched
+                                    <img src="~/assets/images/conductor-flat.png" alt="Flat Touched">
+                                </div>
+                            </th>
+                            <th>
+                                <div class="header-icon-container">
+                                    Trefoil
+                                    <img src="~/assets/images/conductor-trefoil.png" alt="Trefoil">
+                                </div>
+                            </th>
+                        </tr>
+
+                        <!-- Row 4: Units -->
+                        <tr class="header-row-units unit-row">
+                            <th>mm²</th>
+                            <th>Ω/km</th>
+                            <th>Ω/km</th>
+                            <th>Ω/km</th>
+                            <th>µF/km</th>
+                            <th>mH/km</th>
+                            <th>mH/km</th>
+                            <th>A</th>
+                            <th>A</th>
+                            <th>A</th>
+                            <th>A</th>
+                            <th>A</th>
+                            <th>mm</th>
+                            <th>kg/km</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @if (ViewBag.TechnicalGroups != null)
+                        {
+                            var groups = (ViewBag.TechnicalGroups as List<IGrouping<string, MediumTechincalModel>>)
+                            .OrderBy(g => g.Key == "Copper" || g.Key == "CU" ? 0 : 1)
+                            .ToList();
+                            foreach (var group in groups)
+                            {
+                                // Map conductor codes to full names and add A/B prefix
+                                string conductor = group.Key;
+                                string conductorFullName = conductor switch
+                                {
+                                    "Copper" => "Copper",
+                                    "CU" => "Copper",
+                                    "Aluminum" => "Aluminum",
+                                    "AL" => "Aluminum",
+                                    _ => conductor
+                                };
+                                string prefix = conductorFullName == "Copper" ? "A" : "B";
+                                string sectionLabel = $"{prefix} – {conductorFullName} Conductors";
+                                string safeTarget = conductor.Replace(" ", "-");
+
+                                <tr class="table-section-header toggle-section-header" data-target="@safeTarget" >
+                                    <td colspan="15" style="background-color:#06283F !important; cursor:pointer;">
+                                        <i class="fas fa-chevron-down toggle-arrow"></i> @sectionLabel
+                                    </td>
+                                </tr>
+
+                                foreach (var item in group)
+                                {
+                                    <tr class="section-content" data-section="@safeTarget" style="display:none">
+                                        <td>@item.ProductCode</td>
+                                        <td>@item.Area</td>
+                                        <td>@item.MaxResistanceDC20</td>
+                                        <td>@item.MaxResistanceDC90Flat</td>   <!-- or the correct AC column -->
+                                        <td>@item.MaxResistanceDC90Trefoil</td>   <!-- or the correct AC column -->
+                                        <td>@item.Operation</td>            <!-- Capacitance -->
+                                        <td>@item.InductanceFlat</td>           <!-- or InductanceFlat -->
+                                        <td>@item.InductanceTrefoil</td>           <!-- or InductanceFlat -->
+                                        <td>@item.CurrentRateGRoundFlat</td>    <!-- Ground current -->
+                                        <td>@item.CurrentRateGRoundTrefoil</td>    <!-- Ground current -->
+                                        <td>@item.CurrentRateGRoundDuct</td>    <!-- Ground current -->
+                                        <td>@item.CurrentRateAirFlat</td>    <!-- Ground current -->
+                                        <td>@item.CurrentRateAirTrefoil</td>    <!-- Ground current -->
+                                        <td>@item.ApproxDiameter</td>
+                                        <td>@item.ApproxWeight</td>
+                                    </tr>
+                                }
+                            }
+                        }
+                    </tbody>
+                </table>
+                <p style="margin-top:10px; font-size:17px;">The above data is approximate and subject to manufacturing tolerances</p>
+
+            </div>
+
+        </div>
+    </section>
+</div>
+
+<script>
+    document.addEventListener('DOMContentLoaded', function () {
+        const headers = document.querySelectorAll('.toggle-section-header');
+        headers.forEach(header => {
+            header.addEventListener('click', function () {
+                const target = this.getAttribute('data-target');
+                const panels = document.querySelectorAll(`.section-content[data-section="${target}"]`);
+                panels.forEach(panel => {
+                    panel.style.display = (panel.style.display === 'none' || panel.style.display === '') ? 'table-row' : 'none';
+                });
+                this.classList.toggle('open');
+            });
+        });
+    });
+</script>

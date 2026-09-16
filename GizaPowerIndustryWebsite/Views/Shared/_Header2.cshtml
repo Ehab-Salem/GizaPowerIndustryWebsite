@@ -1,0 +1,784 @@
+<!-- ════════════════════════════════════════
+     STYLES
+════════════════════════════════════════ -->
+<style>
+    /* ── Tokens ──────────────────────────────── */
+    :root {
+        --gpi-dark: #0d1117;
+        --gpi-dark-80: rgba(13,17,23,.82);
+        --gpi-gold: #c8922a;
+        --gpi-gold-lt: #e8ac42;
+        --gpi-white: #f4f4f2;
+        --gpi-muted: rgba(244,244,242,.55);
+        --gpi-border: rgba(200,146,42,.18);
+        --gpi-radius: 6px;
+        --gpi-h: 72px; /* header height                  */
+        --gpi-ease: cubic-bezier(.4,0,.2,1);
+        --gpi-font: 'Barlow', 'Segoe UI', sans-serif;
+    }
+
+    /* ── Google Font (Barlow) ─────────────────── */
+    @@import url('https://fonts.googleapis.com/css2?family=Barlow:wght@400;500;600;700&display=swap');
+
+    /* ── Base reset for header scope ─────────── */
+    .gpi-header *, .gpi-search-overlay * {
+        box-sizing: border-box;
+        margin: 0;
+        padding: 0;
+    }
+
+    /* ═══════════════════════════════════════════
+       HEADER SHELL
+    ═══════════════════════════════════════════ */
+    .gpi-header {
+        /* position: sticky; */
+       /*  top: 0;
+        background: #fff;
+        z-index: 999; */
+
+        position: fixed; 
+        top: 0;
+        left: 0;
+        right: 0;
+        z-index: 1000;  
+        height: var(--gpi-h);
+        /* ─── Scroll-reveal: starts hidden above viewport ─── */
+        /* transform: translateY(-100%); */
+        transform: translateY(0);
+        opacity: 1;
+        pointer-events: none;
+       /*  transform: translateY(0);
+        opacity: 1;
+        pointer-events: none; */
+        transition: transform .42s var(--gpi-ease), opacity .42s var(--gpi-ease), background .3s, box-shadow .3s;
+        /* Glass / dark-steel background */
+        background: var(--gpi-dark-80);
+        backdrop-filter: blur(18px) saturate(1.6);
+        -webkit-backdrop-filter: blur(18px) saturate(1.6);
+        border-bottom: 1px solid var(--gpi-border);
+        font-family: var(--gpi-font);
+    }
+
+        /* ── Appears after scroll ─────────────────── */
+        .gpi-header.is-visible {
+            transform: translateY(0);
+            opacity: 1;
+            pointer-events: auto;
+        }
+
+        /* Slightly more opaque once past hero */
+        .gpi-header.is-solid {
+            background: rgba(13,17,23,.96);
+            box-shadow: 0 4px 32px rgba(0,0,0,.45);
+        }
+
+    /* ── Inner flex row ───────────────────────── */
+    .gpi-header__inner {
+        display: flex;
+        align-items: center;
+        gap: 24px;
+        height: 100%;
+        max-width: 1400px;
+        margin: 0 auto;
+        padding: 0 28px;
+    }
+
+    /* ═══════════════════════════════════════════
+       LOGO
+    ═══════════════════════════════════════════ */
+    .gpi-header__logo {
+        flex-shrink: 0;
+        display: flex;
+        align-items: center;
+    }
+
+        .gpi-header__logo img {
+            height: 40px;
+            width: auto;
+            display: block;
+            filter: brightness(1.05);
+            transition: filter .2s;
+        }
+
+        .gpi-header__logo:hover img {
+            filter: brightness(1.2);
+        }
+
+    /* ═══════════════════════════════════════════
+       NAVIGATION
+    ═══════════════════════════════════════════ */
+    .gpi-nav {
+        margin-left: auto;
+    }
+
+    .gpi-nav__list {
+        display: flex;
+        align-items: center;
+        gap: 4px;
+        list-style: none;
+    }
+
+    /* Nav links */
+    .gpi-nav__link {
+        display: flex;
+        align-items: center;
+        gap: 5px;
+        padding: 6px 13px;
+        color: var(--gpi-white);
+        font-size: .86rem;
+        font-weight: 500;
+        letter-spacing: .03em;
+        text-transform: uppercase;
+        text-decoration: none;
+        background: none;
+        border: none;
+        cursor: pointer;
+        border-radius: var(--gpi-radius);
+        position: relative;
+        transition: color .2s, background .2s;
+        white-space: nowrap;
+        font-family: var(--gpi-font);
+    }
+        /* Gold underline pill */
+        .gpi-nav__link::after {
+            content: '';
+            position: absolute;
+            bottom: 3px;
+            left: 50%;
+            right: 50%;
+            height: 2px;
+            background: var(--gpi-gold);
+            border-radius: 2px;
+            transition: left .25s var(--gpi-ease), right .25s var(--gpi-ease);
+        }
+
+        .gpi-nav__link:hover,
+        .gpi-nav__link:focus-visible,
+        .gpi-nav__link.active {
+            color: var(--gpi-gold-lt);
+            background: rgba(200,146,42,.08);
+        }
+
+            .gpi-nav__link:hover::after,
+            .gpi-nav__link.active::after {
+                left: 12px;
+                right: 12px;
+            }
+    /* Chevron icon */
+    .gpi-nav__chevron {
+        transition: transform .25s var(--gpi-ease);
+        flex-shrink: 0;
+    }
+
+    /* ═══════════════════════════════════════════
+       DROPDOWN
+    ═══════════════════════════════════════════ */
+    .gpi-nav__item--dropdown {
+        position: relative;
+    }
+
+    .gpi-dropdown {
+        position: absolute;
+        top: calc(100% + 12px);
+        left: 50%;
+        transform: translateX(-50%) translateY(-8px);
+        min-width: 210px;
+        background: rgba(13,17,23,.97);
+        border: 1px solid var(--gpi-border);
+        border-radius: 10px;
+        list-style: none;
+        padding: 8px 0;
+        opacity: 0;
+        pointer-events: none;
+        transition: opacity .22s var(--gpi-ease), transform .22s var(--gpi-ease);
+        box-shadow: 0 16px 48px rgba(0,0,0,.55);
+        backdrop-filter: blur(12px);
+    }
+        /* Gold top accent line */
+        .gpi-dropdown::before {
+            content: '';
+            position: absolute;
+            top: -1px;
+            left: 20%;
+            right: 20%;
+            height: 2px;
+            background: linear-gradient(90deg, transparent, var(--gpi-gold), transparent);
+            border-radius: 2px;
+        }
+
+    /* Open state */
+    .gpi-nav__item--dropdown.is-open .gpi-dropdown {
+        opacity: 1;
+        pointer-events: auto;
+        transform: translateX(-50%) translateY(0);
+    }
+
+    .gpi-nav__item--dropdown.is-open .gpi-nav__chevron {
+        transform: rotate(180deg);
+    }
+
+    .gpi-nav__item--dropdown.is-open .gpi-nav__link {
+        color: var(--gpi-gold-lt);
+    }
+
+    .gpi-dropdown__item {
+        display: flex;
+        align-items: center;
+        gap: 10px;
+        padding: 11px 18px;
+        color: var(--gpi-white);
+        text-decoration: none;
+        font-size: .85rem;
+        font-weight: 500;
+        letter-spacing: .02em;
+        text-transform: uppercase;
+        transition: background .18s, color .18s, padding-left .18s;
+    }
+
+        .gpi-dropdown__item:hover {
+            background: rgba(200,146,42,.1);
+            color: var(--gpi-gold-lt);
+            padding-left: 24px;
+        }
+
+    .gpi-dropdown__icon {
+        font-size: 1rem;
+    }
+
+    /* ═══════════════════════════════════════════
+       HEADER ACTIONS
+    ═══════════════════════════════════════════ */
+    .gpi-header__actions {
+        display: flex;
+        align-items: center;
+        gap: 8px;
+        flex-shrink: 0;
+    }
+
+    /* Search button */
+    .gpi-header__search-btn {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        width: 38px;
+        height: 38px;
+        background: rgba(255,255,255,.06);
+        border: 1px solid rgba(255,255,255,.1);
+        border-radius: var(--gpi-radius);
+        color: var(--gpi-white);
+        cursor: pointer;
+        transition: background .2s, border-color .2s, color .2s;
+    }
+
+        .gpi-header__search-btn:hover {
+            background: rgba(200,146,42,.15);
+            border-color: var(--gpi-gold);
+            color: var(--gpi-gold-lt);
+        }
+
+    /* Language */
+    .gpi-lang__btn {
+        display: flex;
+        align-items: center;
+        gap: 4px;
+        padding: 6px 12px;
+        background: rgba(255,255,255,.06);
+        border: 1px solid rgba(255,255,255,.1);
+        border-radius: var(--gpi-radius);
+        color: var(--gpi-white);
+        font-size: .78rem;
+        font-weight: 600;
+        letter-spacing: .06em;
+        cursor: pointer;
+        font-family: var(--gpi-font);
+        transition: background .2s, border-color .2s, color .2s;
+    }
+
+        .gpi-lang__btn:hover {
+            background: rgba(200,146,42,.15);
+            border-color: var(--gpi-gold);
+            color: var(--gpi-gold-lt);
+        }
+
+    /* Contact CTA */
+    .gpi-btn-contact {
+        padding: 9px 20px;
+        background: var(--gpi-gold);
+        color: var(--gpi-dark);
+        font-size: .82rem;
+        font-weight: 700;
+        letter-spacing: .05em;
+        text-transform: uppercase;
+        text-decoration: none;
+        border-radius: var(--gpi-radius);
+        white-space: nowrap;
+        transition: background .2s, transform .15s, box-shadow .2s;
+        box-shadow: 0 2px 12px rgba(200,146,42,.35);
+    }
+
+        .gpi-btn-contact:hover {
+            background: var(--gpi-gold-lt);
+            transform: translateY(-1px);
+            box-shadow: 0 4px 20px rgba(200,146,42,.5);
+        }
+
+    /* ═══════════════════════════════════════════
+       HAMBURGER
+    ═══════════════════════════════════════════ */
+    .gpi-hamburger {
+        display: none;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        gap: 5px;
+        width: 40px;
+        height: 40px;
+        background: rgba(255,255,255,.06);
+        border: 1px solid rgba(255,255,255,.1);
+        border-radius: var(--gpi-radius);
+        cursor: pointer;
+        padding: 0;
+        transition: background .2s;
+    }
+
+        .gpi-hamburger:hover {
+            background: rgba(200,146,42,.15);
+            border-color: var(--gpi-gold);
+        }
+
+        .gpi-hamburger span {
+            display: block;
+            width: 20px;
+            height: 2px;
+            background: var(--gpi-white);
+            border-radius: 2px;
+            transform-origin: center;
+            transition: transform .3s var(--gpi-ease), opacity .3s;
+        }
+        /* X state */
+        .gpi-hamburger.is-open span:nth-child(1) {
+            transform: translateY(7px) rotate(45deg);
+        }
+
+        .gpi-hamburger.is-open span:nth-child(2) {
+            opacity: 0;
+            transform: scaleX(0);
+        }
+
+        .gpi-hamburger.is-open span:nth-child(3) {
+            transform: translateY(-7px) rotate(-45deg);
+        }
+
+    /* ═══════════════════════════════════════════
+       SEARCH OVERLAY
+    ═══════════════════════════════════════════ */
+    .gpi-search-overlay {
+        position: fixed;
+        inset: 0;
+        z-index: 2000;
+        background: rgba(10,13,18,.96);
+        backdrop-filter: blur(20px);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        opacity: 0;
+        pointer-events: none;
+        transition: opacity .3s var(--gpi-ease);
+        font-family: var(--gpi-font);
+    }
+
+        .gpi-search-overlay.is-open {
+            opacity: 1;
+            pointer-events: auto;
+        }
+
+    .gpi-search-overlay__close {
+        position: absolute;
+        top: 28px;
+        right: 32px;
+        background: none;
+        border: none;
+        color: var(--gpi-muted);
+        font-size: 1.6rem;
+        cursor: pointer;
+        transition: color .2s;
+        line-height: 1;
+    }
+
+        .gpi-search-overlay__close:hover {
+            color: var(--gpi-white);
+        }
+
+    .gpi-search-overlay__inner {
+        width: 100%;
+        max-width: 680px;
+        padding: 0 24px;
+    }
+
+    .gpi-search-overlay__label {
+        color: var(--gpi-muted);
+        font-size: .78rem;
+        letter-spacing: .12em;
+        text-transform: uppercase;
+        margin-bottom: 16px;
+    }
+
+    .gpi-search-overlay__bar {
+        display: flex;
+        align-items: center;
+        border-bottom: 2px solid var(--gpi-gold);
+        gap: 12px;
+        padding-bottom: 4px;
+    }
+
+        .gpi-search-overlay__bar input {
+            flex: 1;
+            background: none;
+            border: none;
+            outline: none;
+            color: var(--gpi-white);
+            font-size: 1.8rem;
+            font-weight: 500;
+            font-family: var(--gpi-font);
+            caret-color: var(--gpi-gold);
+        }
+
+            .gpi-search-overlay__bar input::placeholder {
+                color: var(--gpi-muted);
+            }
+
+        .gpi-search-overlay__bar button {
+            background: none;
+            border: none;
+            color: var(--gpi-gold);
+            cursor: pointer;
+            padding: 4px;
+            transition: color .2s;
+        }
+
+            .gpi-search-overlay__bar button:hover {
+                color: var(--gpi-gold-lt);
+            }
+
+    /* ═══════════════════════════════════════════
+       MOBILE  ≤ 960px
+    ═══════════════════════════════════════════ */
+    @@media (max-width: 960px) {
+        .gpi-hamburger {
+            display: flex;
+        }
+
+        .gpi-nav {
+            position: fixed;
+            top: var(--gpi-h);
+            left: 0;
+            right: 0;
+            background: rgba(13,17,23,.98);
+            border-top: 1px solid var(--gpi-border);
+            padding: 16px 0 24px;
+            max-height: calc(100vh - var(--gpi-h));
+            overflow-y: auto;
+            transform: translateY(-12px);
+            opacity: 0;
+            pointer-events: none;
+            transition: opacity .3s var(--gpi-ease), transform .3s var(--gpi-ease);
+            margin-left: 0;
+        }
+
+            .gpi-nav.is-open {
+                opacity: 1;
+                pointer-events: auto;
+                transform: translateY(0);
+            }
+
+        .gpi-nav__list {
+            flex-direction: column;
+            align-items: stretch;
+            gap: 0;
+        }
+
+        .gpi-nav__link {
+            padding: 14px 24px;
+            border-radius: 0;
+            font-size: .9rem;
+        }
+
+            .gpi-nav__link::after {
+                display: none;
+            }
+        /* Dropdown on mobile */
+        .gpi-dropdown {
+            position: static;
+            transform: none;
+            background: rgba(255,255,255,.04);
+            border: none;
+            border-radius: 0;
+            padding: 0;
+            box-shadow: none;
+            max-height: 0;
+            overflow: hidden;
+            transition: max-height .3s var(--gpi-ease), opacity .3s;
+            opacity: 0;
+        }
+
+            .gpi-dropdown::before {
+                display: none;
+            }
+
+        .gpi-nav__item--dropdown.is-open .gpi-dropdown {
+            max-height: 300px;
+            opacity: 1;
+        }
+
+        .gpi-dropdown__item {
+            padding: 12px 24px 12px 40px;
+        }
+
+        .gpi-btn-contact {
+            display: none;
+        }
+    }
+
+    @@media (max-width: 480px) {
+        .gpi-header__inner {
+            padding: 0 16px;
+            gap: 12px;
+        }
+
+        .gpi-lang__btn {
+            display: none;
+        }
+    }
+</style>
+
+
+<!-- ── Search Overlay ───────────────────── -->
+<div class="gpi-search-overlay" id="searchOverlay">
+    <button class="gpi-search-overlay__close" id="searchClose" aria-label="Close search">&#x2715;</button>
+    <div class="gpi-search-overlay__inner">
+        <p class="gpi-search-overlay__label">What are you looking for?</p>
+        <div class="gpi-search-overlay__bar">
+            <input type="text" placeholder="Search Giza Power Industry…" aria-label="Site search" />
+            <button aria-label="Submit search">
+                <svg width="22" height="22" viewBox="0 0 20 20" fill="none">
+                    <path d="M9 17A8 8 0 1 0 9 1a8 8 0 0 0 0 16zM19 19l-4.35-4.35"
+                          stroke="currentColor" stroke-width="2"
+                          stroke-linecap="round" stroke-linejoin="round"/>
+                </svg>
+            </button>
+        </div>
+    </div>
+</div>
+
+<!-- ── Header ───────────────────────────── -->
+<header class="gpi-header" id="gpiHeader">
+    <div class="gpi-header__inner">
+
+        <!-- Logo -->
+        <a asp-controller="Pages" asp-action="Home" class="gpi-header__logo" aria-label="Giza Power Industry – Home">
+            <img src="~/assets/images/gpi-logo.png" alt="Giza Power Industry" />
+        </a>
+
+        <!-- Nav -->
+        <nav class="gpi-nav" id="gpiNav" aria-label="Main navigation">
+            <ul class="gpi-nav__list">
+                <li><a asp-controller="Pages" asp-action="Home"
+                       class="gpi-nav__link" id="link-index">Home</a></li>
+
+                <li><a asp-controller="Pages" asp-action="About"
+                       class="gpi-nav__link" id="link-about">About Us</a></li>
+
+                <!-- Dropdown -->
+                <li class="gpi-nav__item--dropdown">
+                    <button class="gpi-nav__link gpi-nav__dropdown-trigger" aria-expanded="false">
+                        Business Lines
+                        <svg class="gpi-nav__chevron" width="12" height="12" viewBox="0 0 12 12" fill="none">
+                            <path d="M2 4l4 4 4-4" stroke="currentColor" stroke-width="1.8"
+                                  stroke-linecap="round" stroke-linejoin="round"/>
+                        </svg>
+                    </button>
+                    <ul class="gpi-dropdown" role="menu">
+                        <li role="none">
+                            <a asp-controller="Pages" asp-action="Cables-Wires"
+                               class="gpi-dropdown__item" role="menuitem">
+                                <span class="gpi-dropdown__icon">⚡</span>
+                                Cables &amp; Wires
+                            </a>
+                        </li>
+                        <li role="none">
+                            <a href="#" class="gpi-dropdown__item" role="menuitem">
+                                <span class="gpi-dropdown__icon">📡</span>
+                                Smart Meters
+                            </a>
+                        </li>
+                        <li role="none">
+                            <a href="#" class="gpi-dropdown__item" role="menuitem">
+                                <span class="gpi-dropdown__icon">💡</span>
+                                Lighting
+                            </a>
+                        </li>
+                    </ul>
+                </li>
+
+                <li><a asp-controller="Pages" asp-action="Sustainability"
+                       class="gpi-nav__link" id="link-sustainability">Sustainability Centre</a></li>
+
+                <li><a asp-controller="Pages" asp-action="News"
+                       class="gpi-nav__link" id="link-news">News</a></li>
+
+                <li><a asp-controller="Pages" asp-action="Partners"
+                       class="gpi-nav__link" id="link-partners">Partners &amp; Clients</a></li>
+
+                <li><a asp-controller="Pages" asp-action="Careers"
+                       class="gpi-nav__link" id="link-careers">Careers</a></li>
+            </ul>
+        </nav>
+
+        <!-- Actions -->
+        <div class="gpi-header__actions">
+            <button class="gpi-header__search-btn" id="searchOpen" aria-label="Open search">
+                <svg width="20" height="20" viewBox="0 0 20 20" fill="none">
+                    <path d="M9 17A8 8 0 1 0 9 1a8 8 0 0 0 0 16zM19 19l-4.35-4.35"
+                          stroke="currentColor" stroke-width="2"
+                          stroke-linecap="round" stroke-linejoin="round"/>
+                </svg>
+            </button>
+
+            <div class="gpi-lang">
+                <button class="gpi-lang__btn" aria-label="Switch language">
+                    <span>EN</span>
+                    <svg width="10" height="10" viewBox="0 0 10 10" fill="none">
+                        <path d="M1.5 3.5l3.5 3 3.5-3" stroke="currentColor"
+                              stroke-width="1.6" stroke-linecap="round"/>
+                    </svg>
+                </button>
+            </div>
+
+            <a asp-controller="Pages" asp-action="Contact" class="gpi-btn-contact">Contact Us</a>
+
+            <!-- Hamburger -->
+            <button class="gpi-hamburger" id="gpiHamburger" aria-label="Toggle menu" aria-expanded="false">
+                <span></span>
+                <span></span>
+                <span></span>
+            </button>
+        </div>
+
+    </div>
+</header>
+
+
+
+
+<!-- ════════════════════════════════════════
+     SCRIPT
+════════════════════════════════════════ -->
+<script>
+(function () {
+    'use strict';
+
+    const header      = document.getElementById('gpiHeader');
+    const hamburger   = document.getElementById('gpiHamburger');
+    const nav         = document.getElementById('gpiNav');
+    const searchOpen  = document.getElementById('searchOpen');
+    const searchClose = document.getElementById('searchClose');
+    const overlay     = document.getElementById('searchOverlay');
+
+    /* ── Scroll-reveal logic ──────────────────────────────── */
+    /*
+       • Below APPEAR_THRESHOLD  → header slides into view
+       • Below SOLID_THRESHOLD   → switch to more opaque bg
+       • Above APPEAR_THRESHOLD  → header hides again
+    */
+    const APPEAR_THRESHOLD = 80;   // px from top before header appears
+    const SOLID_THRESHOLD  = 200;  // px from top when bg becomes fully opaque
+
+    let lastScrollY = window.scrollY;
+    let ticking     = false;
+
+    function updateHeader() {
+        const y = window.scrollY;
+
+        if (y > APPEAR_THRESHOLD) {
+            header.classList.add('is-visible');
+        } else {
+            header.classList.remove('is-visible');
+        }
+
+        if (y > SOLID_THRESHOLD) {
+            header.classList.add('is-solid');
+        } else {
+            header.classList.remove('is-solid');
+        }
+
+        lastScrollY = y;
+        ticking = false;
+    }
+
+    window.addEventListener('scroll', function () {
+        if (!ticking) {
+            requestAnimationFrame(updateHeader);
+            ticking = true;
+        }
+    }, { passive: true });
+
+    // Run once on load in case page is already scrolled
+    updateHeader();
+
+    /* ── Dropdown ─────────────────────────────────────────── */
+    document.querySelectorAll('.gpi-nav__item--dropdown').forEach(function (item) {
+        const trigger = item.querySelector('.gpi-nav__dropdown-trigger');
+
+        function open()  { item.classList.add('is-open');    trigger.setAttribute('aria-expanded', 'true'); }
+        function close() { item.classList.remove('is-open'); trigger.setAttribute('aria-expanded', 'false'); }
+        function toggle(){ item.classList.contains('is-open') ? close() : open(); }
+
+        // Desktop: hover
+        item.addEventListener('mouseenter', function () {
+            if (window.innerWidth > 960) open();
+        });
+        item.addEventListener('mouseleave', function () {
+            if (window.innerWidth > 960) close();
+        });
+
+        // Mobile / keyboard: click
+        trigger.addEventListener('click', toggle);
+
+        // Close on Escape
+        item.addEventListener('keydown', function (e) {
+            if (e.key === 'Escape') close();
+        });
+    });
+
+    /* ── Hamburger / mobile nav ───────────────────────────── */
+    hamburger.addEventListener('click', function () {
+        const open = hamburger.classList.toggle('is-open');
+        nav.classList.toggle('is-open', open);
+        hamburger.setAttribute('aria-expanded', open);
+    });
+
+    /* ── Search overlay ──────────────────────────────────── */
+    searchOpen.addEventListener('click', function () {
+        overlay.classList.add('is-open');
+        setTimeout(function () {
+            const inp = overlay.querySelector('input');
+            if (inp) inp.focus();
+        }, 100);
+    });
+
+    function closeSearch() { overlay.classList.remove('is-open'); }
+    searchClose.addEventListener('click', closeSearch);
+    overlay.addEventListener('click', function (e) {
+        if (e.target === overlay) closeSearch();
+    });
+    document.addEventListener('keydown', function (e) {
+        if (e.key === 'Escape') closeSearch();
+    });
+
+    /* ── Active link highlight ───────────────────────────── */
+    const path = window.location.pathname;
+    document.querySelectorAll('.gpi-nav__link[href]').forEach(function (a) {
+        if (a.getAttribute('href') === path) a.classList.add('active');
+    });
+})();
+</script>

@@ -1,0 +1,551 @@
+﻿@{
+    ViewData["Title"] = ViewBag.Name ?? "Product Details";
+}
+<style>
+    /* ===== Enhanced Tab Design – GPI Brand ===== */
+    :root {
+        --gpi-red: #a3191e;
+        --text-dark: #06283F;
+        --text-grey: #4B5563;
+        --border-light: #E5E7EB;
+    }
+
+    /* Remove any conflicting underline */
+    .tab-style-04 .nav-link::after,
+    .tab-style-04 .nav-link:hover::after,
+    .tab-style-04 .nav-link.active::after {
+        display: none !important;
+    }
+
+    /* ----- Scrollable Tabs Wrapper ----- */
+    .tab-scroll-wrapper {
+        position: relative;
+        display: flex;
+        align-items: center;
+        margin-bottom: 0;
+    }
+
+    .tab-scroll-container {
+        flex: 1;
+        overflow-x: auto;
+        scrollbar-width: none; /* Firefox */
+        -ms-overflow-style: none; /* IE/Edge */
+        display: flex;
+    }
+
+        .tab-scroll-container::-webkit-scrollbar {
+            display: none; /* Chrome/Safari */
+        }
+
+        .tab-scroll-container .nav-tabs {
+            flex-wrap: nowrap; /* prevent wrapping */
+            border-bottom: 2px solid var(--border-light);
+            gap: 0;
+            margin: 0 auto; /* center when content fits */
+            white-space: nowrap;
+        }
+
+            .tab-scroll-container .nav-tabs .nav-link {
+                border: none !important;
+                background: transparent !important;
+                font-size: 0.95rem;
+                font-weight: 600;
+                color: var(--text-grey);
+                padding: 0.75rem 1.4rem;
+                position: relative;
+                transition: color 0.2s;
+                text-transform: uppercase;
+                letter-spacing: 0.4px;
+                white-space: nowrap;
+                display: inline-flex;
+                align-items: center;
+                justify-content: center;
+            }
+
+                .tab-scroll-container .nav-tabs .nav-link:hover {
+                    color: var(--gpi-red);
+                }
+
+                .tab-scroll-container .nav-tabs .nav-link.active {
+                    color: var(--gpi-red);
+                }
+
+                    .tab-scroll-container .nav-tabs .nav-link.active::before {
+                        content: "";
+                        position: absolute;
+                        bottom: -2px;
+                        left: 0;
+                        width: 100%;
+                        height: 3px;
+                        background: var(--gpi-red);
+                        border-radius: 2px 2px 0 0;
+                    }
+
+    /* ----- Arrow buttons ----- */
+    .tab-scroll-arrow {
+        flex-shrink: 0;
+        width: 40px;
+        height: 40px;
+        background: #fff;
+        border: 1px solid var(--border-light);
+        border-radius: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        cursor: pointer;
+        color: var(--text-grey);
+        transition: all 0.2s ease;
+        margin: 0 4px;
+        z-index: 2;
+    }
+
+        .tab-scroll-arrow:hover {
+            background: #f9fafb;
+            color: var(--gpi-red);
+            border-color: var(--gpi-red);
+        }
+
+        .tab-scroll-arrow:disabled {
+            opacity: 0.4;
+            cursor: not-allowed;
+        }
+
+    /* ----- Feature blocks & content (unchanged) ----- */
+    .feature-block {
+        background: #F9FAFB;
+        border-radius: 12px;
+        padding: 1.5rem;
+        height: auto;
+        border-left: 4px solid var(--gpi-red);
+    }
+
+        .feature-block h6 {
+            font-size: 1.05rem;
+            font-weight: 700;
+            color: var(--gpi-red);
+            margin-bottom: 0.75rem;
+            text-transform: uppercase;
+            letter-spacing: 0.4px;
+        }
+
+        .feature-block ul {
+            list-style: none;
+            padding-left: 0;
+            margin-bottom: 0;
+        }
+
+            .feature-block ul li {
+                position: relative;
+                padding-left: 1.4rem;
+                margin-bottom: 0.5rem;
+                color: var(--text-grey);
+                font-size: 0.9rem;
+                line-height: 1.6;
+            }
+
+                .feature-block ul li::before {
+                    content: "•";
+                    position: absolute;
+                    left: 0;
+                    top: 0;
+                    color: var(--gpi-red);
+                    font-weight: 700;
+                    font-size: 1.1rem;
+                    line-height: 1.4;
+                }
+
+    .card-type-label {
+        display: inline-block;
+        background: var(--gpi-red);
+        color: #fff;
+        font-weight: 700;
+        font-size: 0.8rem;
+        text-transform: uppercase;
+        letter-spacing: 0.8px;
+        padding: 0.35rem 0.9rem;
+        border-radius: 20px;
+        margin-bottom: 0.6rem;
+    }
+
+    .smart-billing-item {
+        display: flex;
+        align-items: flex-start;
+        gap: 0.75rem;
+        margin-bottom: 0.9rem;
+        padding: 0.8rem 1rem;
+        background: #fff;
+        border-radius: 8px;
+        border: 1px solid var(--border-light);
+    }
+
+        .smart-billing-item .bullet-icon {
+            flex-shrink: 0;
+            width: 10px;
+            height: 10px;
+            background: var(--gpi-red);
+            border-radius: 50%;
+            margin-top: 0.45rem;
+        }
+
+        .smart-billing-item span {
+            color: var(--text-grey);
+            font-size: 0.95rem;
+            line-height: 1.5;
+        }
+
+    /* ----- Technical table styles (unchanged) ----- */
+    .technical-table {
+        background: #fff;
+        border: 1px solid var(--border-light);
+        border-radius: 8px;
+        overflow: hidden;
+        margin-bottom: 2rem;
+        font-size: 0.9rem;
+    }
+
+        .technical-table thead {
+            background: #F9FAFB;
+        }
+
+            .technical-table thead td,
+            .technical-table thead th {
+                font-weight: 600;
+                color: var(--text-dark);
+                padding: 0.8rem 0.5rem;
+                vertical-align: middle;
+                border-bottom: 2px solid var(--border-light);
+            }
+
+            .technical-table thead .bg-red {
+                background: var(--gpi-red) !important;
+                color: #fff !important;
+            }
+
+                .technical-table thead .bg-red th,
+                .technical-table thead .bg-red td {
+                    color: #fff !important;
+                    font-weight: 700;
+                    font-size: 1rem;
+                    padding: 1rem 0.5rem;
+                }
+
+        .technical-table tbody td {
+            padding: 0.7rem 0.5rem;
+            vertical-align: middle;
+            border-color: var(--border-light);
+        }
+
+        .technical-table tbody tr:hover {
+            background: #FDF2F2;
+        }
+
+    /* ----- Responsive adjustments ----- */
+    @@media (max-width: 768px) {
+        .tab-scroll-container .nav-tabs .nav-link {
+            padding: 0.6rem 0.8rem;
+            font-size: 0.8rem;
+            letter-spacing: 0.2px;
+        }
+
+        .tab-scroll-arrow {
+            width: 32px;
+            height: 32px;
+        }
+
+        .feature-block {
+            margin-bottom: 1rem;
+        }
+    }
+
+    @@media (max-width: 576px) {
+        .tab-scroll-container .nav-tabs .nav-link {
+            padding: 0.55rem 0.65rem;
+            font-size: 0.72rem;
+        }
+    }
+
+    /* Product image responsive */
+    @@media (max-width: 768px) {
+        .product-main-img {
+            height: 210px !important;
+            width: auto;
+            object-fit: contain;
+        }
+    }
+</style>
+
+<div class="main-content">
+    <!-- start product overview section -->
+    <section class="pt-40px pb-0">
+        <div class="container">
+            <div class="row align-items-center">
+                <div class="col-lg-6 md-mb-40px" data-anime='{ "translate": [0, 0], "opacity": [0,1], "duration": 600, "delay": 100, "staggervalue": 150, "easing": "easeOutQuad" }'>
+                    <div class="row overflow-hidden position-relative">
+                        <div class="col-12 position-relative product-image">
+                            <div class="swiper product-image-slider" data-slider-options='{ "spaceBetween": 0, "watchOverflow": true, "navigation": { "nextEl": ".slider-product-next", "prevEl": ".slider-product-prev" }, "thumbs": { "swiper": { "el": ".product-image-thumb", "slidesPerView": "5", "spaceBetween": 15 } } }' data-swiper-thumb-click="1">
+                                <div class="swiper-wrapper">
+                                    <div class="swiper-slide gallery-box">
+                                        <a href="~/assets/imgs/meters/@ViewBag.Img" data-group="lightbox-gallery" title="@ViewBag.Name">
+                                            <img src="~/assets/imgs/meters/@ViewBag.Img" alt="@ViewBag.Name" class="product-main-img" style="display: block; max-width: 100%; height: auto; margin: 0 auto;">
+                                        </a>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-lg-5 offset-lg-1 product-info" style="margin-left: 10px;" data-anime='{ "translate": [0, 0], "opacity": [0,1], "duration": 600, "delay": 100, "staggervalue": 150, "easing": "easeOutQuad" }'>
+                    <h5 class="alt-font text-dark-gray fw-600 mb-10px" style="font-size:40px;line-height: normal; color: #a3191e;">
+                        @ViewBag.Name
+                    </h5>
+                    <div class="mb-20px h-1px w-100 bg-extra-medium-gray d-block mt-5"></div>
+                    <div class="product-price mb-10px mt-5">
+                        <span class="text-dark-gray fs-20 xs-fs-24 fw-600 ls-minus-1px" style="color: #a3191e;">
+                            General View
+                        </span>
+                        <p style="color:#717580">
+                            The <b>S34U18 CT</b> is a high-precision, transformer-operated three-phase indirect smart electricity meter
+                            designed for advanced energy management and regulatory compliance. Built with cutting-edge
+                            microelectronics and compliant with <b>EN & IEC standards</b>, it offers <b>robust functionality</b>, <b>
+                                modular
+                                communication
+                            </b>, <b>and long-term reliability.</b>
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- start tab section -->
+    <section id="tab" style="padding-bottom:0px;padding-top: 45px;">
+        <div class="container">
+            <div class="row">
+                <div class="col-12 tab-style-04" data-anime='{ "translate": [0, 0], "opacity": [0,1], "duration": 600, "delay": 100, "staggervalue": 150, "easing": "easeOutQuad" }'>
+
+                    <!-- Scrollable tab navigation -->
+                    <div class="tab-scroll-wrapper">
+                        <button class="tab-scroll-arrow tab-scroll-arrow-left" type="button" aria-label="Scroll left">
+                            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                <path d="M15 18l-6-6 6-6" />
+                            </svg>
+                        </button>
+
+                        <div class="tab-scroll-container">
+                            <ul class="nav nav-tabs border-0 alt-font fs-17 fw-500" id="productTabs" role="tablist">
+                                <li class="nav-item text-center" role="presentation">
+                                    <a class="nav-link active" data-bs-toggle="tab" href="#note" role="tab" aria-selected="true">KEY FEATURES</a>
+                                </li>
+                                <li class="nav-item text-center" role="presentation">
+                                    <a class="nav-link" data-bs-toggle="tab" href="#ADVANCED" role="tab" aria-selected="false">ADVANCED FUNCTIONS</a>
+                                </li>
+                                <li class="nav-item text-center" role="presentation">
+                                    <a class="nav-link" data-bs-toggle="tab" href="#COMMUNICATION" role="tab" aria-selected="false">COMMUNICATION INTERFACES</a>
+                                </li>
+                                <li class="nav-item text-center" role="presentation">
+                                    <a class="nav-link" data-bs-toggle="tab" href="#smart-grid" role="tab" aria-selected="false">SMART GRID</a>
+                                </li>
+                                <li class="nav-item text-center" role="presentation">
+                                    <a class="nav-link" data-bs-toggle="tab" href="#aluminum-conductors" role="tab" aria-selected="false">SECURITY & STANDARDS</a>
+                                </li>
+                                <li class="nav-item text-center" role="presentation">
+                                    <a class="nav-link" data-bs-toggle="tab" href="#dimensions" role="tab" aria-selected="false">Dimensions</a>
+                                </li>
+                            </ul>
+                        </div>
+
+                        <button class="tab-scroll-arrow tab-scroll-arrow-right" type="button" aria-label="Scroll right">
+                            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                <path d="M9 18l6-6-6-6" />
+                            </svg>
+                        </button>
+                    </div>
+
+                    <div class="h-1px w-100 bg-extra-medium-gray sm-mt-10px" style="margin-bottom:15px"></div>
+
+                    <div class="tab-content">
+                        <!-- KEY FEATURES (active by default) -->
+                        <div class="tab-pane fade show active" id="note" role="tabpanel">
+                            <div class="row m-0">
+                                <div class="col-12">
+                                    <div class="row">
+                                        <div class="col-lg-5 col-md-3 col-sm-4 pt-10px pb-10px xs-pb-0 text-dark-gray alt-font fw-600" style="color: #a3191e;">METER TYPE :</div>
+                                        <div class="col-lg-7 col-md-9 col-sm-8 pt-10px pb-10px xs-pt-0">Three-phase, four-wire (3P4W)</div>
+                                    </div>
+                                    <div class="row bg-very-light-gray">
+                                        <div class="col-lg-5 col-md-3 col-sm-4 pt-10px pb-10px xs-pb-0 text-dark-gray alt-font fw-600" style="color: #a3191e;">MEASUREMENT:</div>
+                                        <div class="col-lg-7 col-md-9 col-sm-8 pt-10px pb-10px xs-pt-0">Active & reactive energy (four quadrants), demand, instantaneous values</div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="col-lg-5 col-md-3 col-sm-4 pt-10px pb-10px xs-pb-0 text-dark-gray alt-font fw-600" style="color: #a3191e;">ACCURACY CLASS :</div>
+                                        <div class="col-lg-7 col-md-9 col-sm-8 pt-10px pb-10px xs-pt-0">Active Energy – Class 0.5S, Reactive Energy – Class 2</div>
+                                    </div>
+                                    <div class="row bg-very-light-gray">
+                                        <div class="col-lg-5 col-md-3 col-sm-4 pt-10px pb-10px xs-pb-0 text-dark-gray alt-font fw-600" style="color: #a3191e;">VOLTAGE RATING :</div>
+                                        <div class="col-lg-7 col-md-9 col-sm-8 pt-10px pb-10px xs-pt-0">3×220/380V (operating range: +30%/−40%)</div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="col-lg-5 col-md-3 col-sm-4 pt-10px pb-10px xs-pb-0 text-dark-gray alt-font fw-600" style="color: #a3191e;">CURRENT RATING:</div>
+                                        <div class="col-lg-7 col-md-9 col-sm-8 pt-10px pb-10px xs-pt-0">1(6)A</div>
+                                    </div>
+                                    <div class="row bg-very-light-gray">
+                                        <div class="col-lg-5 col-md-3 col-sm-4 pt-10px pb-10px xs-pb-0 text-dark-gray alt-font fw-600" style="color: #a3191e;">FREQUENCY:</div>
+                                        <div class="col-lg-7 col-md-9 col-sm-8 pt-10px pb-10px xs-pt-0">50 Hz ±5%</div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="col-lg-5 col-md-3 col-sm-4 pt-10px pb-10px xs-pb-0 text-dark-gray alt-font fw-600" style="color: #a3191e;">POWER FACTOR RANGE:</div>
+                                        <div class="col-lg-7 col-md-9 col-sm-8 pt-10px pb-10px xs-pt-0">Lag – Unity – Lead</div>
+                                    </div>
+                                    <div class="row bg-very-light-gray">
+                                        <div class="col-lg-5 col-md-3 col-sm-4 pt-10px pb-10px xs-pb-0 text-dark-gray alt-font fw-600" style="color: #a3191e;">PROTECTION:</div>
+                                        <div class="col-lg-7 col-md-9 col-sm-8 pt-10px pb-10px xs-pt-0">IP54, lightning protection (IEC 1036)</div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="col-lg-5 col-md-3 col-sm-4 pt-10px pb-10px xs-pb-0 text-dark-gray alt-font fw-600" style="color: #a3191e;">DISPLAY:</div>
+                                        <div class="col-lg-7 col-md-9 col-sm-8 pt-10px pb-10px xs-pt-0">Industrial-grade LCD with English & Arabic interface, 1600 viewing angle, Backlight screen</div>
+                                    </div>
+                                    <div class="row bg-very-light-gray">
+                                        <div class="col-lg-5 col-md-3 col-sm-4 pt-10px pb-10px xs-pb-0 text-dark-gray alt-font fw-600" style="color: #a3191e;">BATTERY BACKUP :</div>
+                                        <div class="col-lg-7 col-md-9 col-sm-8 pt-10px pb-10px xs-pt-0">RTC supported for 15 years during outages</div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="col-lg-5 col-md-3 col-sm-4 pt-10px pb-10px xs-pb-0 text-dark-gray alt-font fw-600" style="color: #a3191e;">METER LIFETIME :</div>
+                                        <div class="col-lg-7 col-md-9 col-sm-8 pt-10px pb-10px xs-pt-0">>15 years</div>
+                                    </div>
+                                    <div class="row bg-very-light-gray">
+                                        <div class="col-lg-5 col-md-3 col-sm-4 pt-10px pb-10px xs-pb-0 text-dark-gray alt-font fw-600" style="color: #a3191e;">MATERIAL :</div>
+                                        <div class="col-lg-7 col-md-9 col-sm-8 pt-10px pb-10px xs-pt-0">Polycarbonate (base, cover, terminal), fire-resistant</div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="col-lg-5 col-md-3 col-sm-4 pt-10px pb-10px xs-pb-0 text-dark-gray alt-font fw-600" style="color: #a3191e;">DIMENSIONS :</div>
+                                        <div class="col-lg-7 col-md-9 col-sm-8 pt-10px pb-10px xs-pt-0">Compact wall-mounted design</div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- ADVANCED FUNCTIONS -->
+                        <div class="tab-pane fade" id="ADVANCED" role="tabpanel">
+                            <div class="row m-0">
+                                <div class="col-12">
+                                    <ul class="list-style-04">
+                                        <li>Multi-tariff & TOU registers</li>
+                                        <li>Load profile 4 Configurable Channels</li>
+                                        <li>Instantaneous monitoring of voltage, current, and power factor (true RMS)</li>
+                                        <li>Tamper detection: phase-neutral swap, reverse current, magnetic interference, Cover Opening</li>
+                                        <li>Event logging: power Quality events, Tamper</li>
+                                        <li>Auxiliary relay control: remote/manual/disconnect logic</li>
+                                        <li>Sunrise/Sunset, Solar time (optional) automation for street lighting applications</li>
+                                        <li>Secure firmware upgrade mechanism</li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- COMMUNICATION INTERFACES -->
+                        <div class="tab-pane fade" id="COMMUNICATION" role="tabpanel">
+                            <div class="row m-0">
+                                <div class="col-12">
+                                    <ul class="list-style-04">
+                                        <li>Optical Port</li>
+                                        <li>Dual RS485 ports with RJ45 terminals enable reliable digital communication and system integration.</li>
+                                        <li>PLC+RF (G3/PRIME v1.4)</li>
+                                        <li>3G / 4G / NB-IoT</li>
+                                        <li>DLMS/COSEM compliant</li>
+                                        <li>Local & remote firmware upgrade support</li>
+                                        <li>Modular plug-and-play communication unit</li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- SMART GRID -->
+                        <div class="tab-pane fade" id="smart-grid" role="tabpanel">
+                            <div class="row m-0">
+                                <div class="col-12">
+                                    <p style="font-size:1rem; color: var(--text-grey); line-height:1.8; background:#F9FAFB; padding:2rem; border-radius:12px; border-left:4px solid var(--gpi-red);">
+                                        Designed for seamless integration into smart grid environments, the S34U18 CT supports real-time data
+                                        exchange, remote diagnostics, and scalable deployment across urban and industrial networks. Its modular
+                                        communication architecture ensures compatibility with evolving utility protocols, while its secure data
+                                        handling and event logging enhance transparency and operational control for energy providers.
+                                    </p>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- SECURITY & STANDARDS -->
+                        <div class="tab-pane fade" id="aluminum-conductors" role="tabpanel">
+                            <div class="row m-0">
+                                <div class="col-lg-6 mb-4 mb-lg-0">
+                                    <div class="feature-block">
+                                        <h6>SECURITY</h6>
+                                        <p style="color: var(--text-grey); line-height:1.6;">
+                                            High-level Security with encrypted communication, DLMS/COSEM compliance, and support for Suite 1 upgradable to Suite 2 for enhanced interoperability and future scalability.
+                                        </p>
+                                    </div>
+                                </div>
+                                <div class="col-lg-6">
+                                    <div class="feature-block">
+                                        <h6>COMPLIANCE & STANDARDS</h6>
+                                        <ul>
+                                            <li>DLMS/COSEM compliant</li>
+                                            <li>IEC 62052-11 / IEC 62053-22 / IEC 62053-23</li>
+                                            <li>IEC 62056 series</li>
+                                            <li>IEC 60529</li>
+                                            <li>IEC 60060 / IEC 60068</li>
+                                            <li>IEC 62055</li>
+                                            <li>BS EN50470-1 / BS EN61268</li>
+                                        </ul>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Dimensions -->
+                        <div class="tab-pane fade" id="dimensions" role="tabpanel">
+                            <div class="row m-0">
+                                <div class="col-12">
+                                    <p><b>(L X W X H) 251 mm x 170 mm x 79 mm</b></p>
+                                    <img class="w-40" src="~/assets/imgs/meters/Screenshot 2026-08-10 104849.png" style="margin: 0 auto;
+                                        height: 350px;
+                                        width: 100% !important;" alt="">
+                                </div>
+                            </div>
+                        </div>
+
+                    </div><!-- end tab-content -->
+                </div>
+            </div>
+        </div>
+    </section>
+</div>
+
+<script>
+    (function() {
+        const wrapper = document.querySelector('.tab-scroll-wrapper');
+        if (!wrapper) return;
+
+        const container = wrapper.querySelector('.tab-scroll-container');
+        const leftBtn = wrapper.querySelector('.tab-scroll-arrow-left');
+        const rightBtn = wrapper.querySelector('.tab-scroll-arrow-right');
+
+        function updateArrows() {
+            const maxScroll = container.scrollWidth - container.clientWidth;
+            leftBtn.disabled = container.scrollLeft <= 0;
+            rightBtn.disabled = container.scrollLeft >= maxScroll - 1;
+        }
+
+        leftBtn.addEventListener('click', () => {
+            container.scrollBy({ left: -200, behavior: 'smooth' });
+        });
+
+        rightBtn.addEventListener('click', () => {
+            container.scrollBy({ left: 200, behavior: 'smooth' });
+        });
+
+        container.addEventListener('scroll', updateArrows);
+        window.addEventListener('resize', updateArrows);
+
+        updateArrows();
+    })();
+</script>

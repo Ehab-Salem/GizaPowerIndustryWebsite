@@ -1,0 +1,207 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>@ViewData["Title"] | Giza Power Industry (GPI)</title>
+
+    <meta name="description" content="@(ViewData["MetaDescription"] ?? "Giza Power Industry - Leading provider of sustainable energy and infrastructure solutions. Empowering businesses and communities to develop and flourish.")">
+    <meta name="keywords" content="@(ViewData["MetaKeywords"] ?? "Giza Power Industry, GPI, sustainable energy Egypt, infrastructure solutions, renewable energy")">
+    <meta name="robots" content="index, follow">
+    <meta name="author" content="Giza Power Industry" />
+
+     <!-- Canonical -->
+    <link rel="canonical" href="@($"https://www.gizapowerindustry.com{Context.Request.Path}")" />
+
+     <!-- Language / Hreflang (لو عندك نسخة عربي وإنجليزي) -->
+   @*  <link rel="alternate" hreflang="ar" href="https://www.gizapowerindustry.com/ar@Context.Request.Path" />
+    <link rel="alternate" hreflang="en" href="https://www.gizapowerindustry.com/en@Context.Request.Path" /> *@
+    <link rel="alternate" hreflang="x-default" href="https://www.gizapowerindustry.com" />
+
+     <!-- Open Graph -->
+    <meta property="og:type" content="website" />
+    <meta property="og:title" content="@ViewData["Title"] | GPI" />
+    <meta property="og:description" content="@(ViewData["MetaDescription"] ?? "Giza Power Industry - sustainable energy and infrastructure solutions.")" />
+    <meta property="og:url" content="@($"https://www.gizapowerindustry.com{Context.Request.Path}")" />
+    <meta property="og:image" content="https://www.gizapowerindustry.com/assets/Logos/og-image.png" />
+    <meta property="og:site_name" content="Giza Power Industry" />
+    <meta property="og:locale" content="ar_EG" />
+
+
+    <!-- Twitter Card -->
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content="@ViewData["Title"] | GPI" />
+    <meta name="twitter:description" content="@(ViewData["MetaDescription"] ?? "Giza Power Industry - sustainable energy solutions.")" />
+    <meta name="twitter:image" content="https://www.gizapowerindustry.com/assets/Logos/og-image.png" />
+
+    <!-- Security headers -->
+    <meta http-equiv="X-XSS-Protection" content="1; mode=block" />
+    <meta http-equiv="X-Content-Type-Options" content="nosniff" />
+
+
+     <link rel="icon" href="~/assets/Logos/logo.png" type="image/png"/>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;700;800;900&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <link rel="stylesheet" href="~/assets/css/custom-font.css" />
+    <link rel="stylesheet" href="~/assets/cssdawyer/vendors.min.css" />
+    <link rel="stylesheet" href="~/assets/cssdawyer/style.css" />
+    <link rel="stylesheet" href="~/assets/cssdawyer/responsive.css" />
+    <link rel="stylesheet" href="~/assets/demos/recruitment/recruitment.css" />
+    <link rel="stylesheet" href="~/assets/rtl-css/style-rtl.css" id="rtlStyle" disabled>
+    <link rel="stylesheet" href="~/assets/cssdawyer/costume.css" />
+
+      <!-- Structured Data (JSON-LD) -->
+    <script type="application/ld+json">
+    {
+      "@@context": "https://schema.org",
+      "@@type": "Organization",
+      "name": "Giza Power Industry",
+      "url": "https://www.gizapowerindustry.com",
+      "logo": "https://www.gizapowerindustry.com/assets/Logos/logo.png",
+      "sameAs": [
+        "https://www.facebook.com/GizaPowerIndustry",
+        "https://www.linkedin.com/company/GizaPowerIndustry"
+      ]
+    }
+    </script>
+
+    @RenderSection("Styles", required: false)
+    <partial name="_Style" />
+    <style>
+        /* ===== Back to Top Button ===== */
+        .back-to-top {
+            position: fixed;
+            bottom: 30px;
+            right: 30px;
+            z-index: 9999;
+            width: 48px;
+            height: 48px;
+            border-radius: 50%;
+            background-color: #B82025;
+            color: #fff;
+            border: none;
+            box-shadow: 0 4px 15px rgba(184,32,37,0.4);
+            cursor: pointer;
+            opacity: 0;
+            visibility: hidden;
+            transform: translateY(20px);
+            transition: opacity 0.3s ease, visibility 0.3s ease, transform 0.3s ease;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+            .back-to-top.show {
+                opacity: 1;
+                visibility: visible;
+                transform: translateY(0);
+            }
+
+            .back-to-top:hover {
+                background-color: #8b1317;
+                transform: translateY(-2px);
+                box-shadow: 0 6px 20px rgba(184,32,37,0.6);
+            }
+
+            /* Global Font Cairo */
+            html,
+            body,
+            input,
+            button,
+            select,
+            textarea {
+                font-family: 'Cairo', sans-serif;
+            }
+
+            /* Ensure Font Awesome Icons are NEVER overridden by Cairo */
+            .fa,
+            .fas,
+            .far,
+            .fal,
+            .fab,
+            .fa-solid,
+            .fa-regular,
+            .fa-brands,
+            .fa-light,
+            .fa-thin,
+            .fa-duotone,
+            [class^="fa-"],
+            [class*=" fa-"] {
+                font-family: "Font Awesome 6 Free", "Font Awesome 6 Brands", "FontAwesome" !important;
+            }
+
+            .fab,
+            .fa-brands {
+                font-family: "Font Awesome 6 Brands" !important;
+            }
+
+            .far,
+            .fa-regular {
+                font-weight: 400 !important;
+            }
+
+            .fas,
+            .fa-solid {
+                font-weight: 900 !important;
+            }
+
+            /* Page Main for Sticky Footer Reveal */
+            .page-main {
+                position: relative;
+                z-index: 2;
+                background-color: #ffffff;
+                min-height: 80vh;
+                box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+            }
+    </style>
+</head>
+
+<body>
+
+    @await Html.PartialAsync("_Header")
+     
+    <main class="page-main w-full min-w-0 flex flex-col" id="main">
+
+         @RenderBody() 
+
+    </main>
+
+   @await Html.PartialAsync("_Footer")
+
+    <!-- Back to Top Button -->
+    <button id="backToTop" class="back-to-top" aria-label="Scroll to top">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+            <polyline points="18 15 12 9 6 15"></polyline>
+        </svg>
+    </button>
+    <script>
+        // Back to Top button functionality
+        const backToTopBtn = document.getElementById('backToTop');
+
+        window.addEventListener('scroll', () => {
+          if (window.scrollY > 400) {
+            backToTopBtn.classList.add('show');
+          } else {
+            backToTopBtn.classList.remove('show');
+          }
+        });
+
+        backToTopBtn.addEventListener('click', () => {
+          window.scrollTo({ top: 0, behavior: 'smooth' });
+        });
+    </script>
+    <partial name="_Script" />
+    @await RenderSectionAsync("Scripts", required: false)
+    <script src="https://cdn.jsdelivr.net/npm/flowbite@2.5.2/dist/flowbite.min.js"></script>
+    <!-- javascript libraries -->
+    <script type="text/javascript" src="~/assets/jsdawyer/jquery.js"></script>
+    <script type="text/javascript" src="~/assets/jsdawyer/vendors.min.js"></script>
+    <script type="text/javascript" src="~/assets/jsdawyer/main.js"></script>
+    <script type="text/javascript" src="~/assets/jsdawyer/lang.js"></script>
+</body>
+
+</html>

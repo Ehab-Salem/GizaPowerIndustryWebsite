@@ -1,0 +1,3324 @@
+@{
+    ViewData["Title"] = "About";
+}
+
+<!-- ===== Style ===== -->
+<style>
+    #group-structure-custom {
+        padding: 30px 0;
+        background: #fff;
+        font-family: sans-serif;
+    }
+    /* Logo inside group-item title */
+    .group-item .title {
+        display: flex;
+        flex-direction: column;
+        align-items: flex-start;
+    }
+
+    .title-logo {
+        display: block;
+        margin-top: 16px;
+        height: 120px;
+    }
+    /* Layout */
+    #group-structure-custom .container {
+        display: grid;
+        grid-template-columns: 40% 60%;
+        gap: 40px;
+    }
+
+    /* Header */
+    .group-header h2 {
+        color: #06283F;
+        font-size: 40px;
+        font-weight: 700;
+        margin-bottom: 15px;
+    }
+
+    .group-header .subtitle {
+        color: #B82025;
+        font-weight: 600;
+        margin-bottom: 20px;
+    }
+
+    .group-header p {
+        color: #555;
+        line-height: 1.8;
+    }
+
+    /* Items */
+    .group-item {
+        display: flex;
+        gap: 30px;
+        margin-bottom: 25px;
+        align-items: center;
+    }
+
+        .group-item .title {
+            width: 30%;
+            color: #B82025;
+            font-weight: 600;
+            font-size: 18px;
+        }
+
+        .group-item .desc {
+            width: 70%;
+            color: #555;
+            line-height: 1.8;
+        }
+
+    /* Separator */
+    .separator {
+        height: 1px;
+        background: #ddd;
+        margin: 20px 0;
+    }
+
+    /* Fade Animation */
+    .fade-in {
+        opacity: 0;
+        transform: translateY(30px);
+        transition: all 0.8s ease;
+    }
+
+        .fade-in.show {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+    /* Delay effect */
+    .group-item:nth-child(1) {
+        transition-delay: 0.1s;
+    }
+
+    .group-item:nth-child(3) {
+        transition-delay: 0.2s;
+    }
+
+    .group-item:nth-child(5) {
+        transition-delay: 0.3s;
+    }
+
+    .group-item:nth-child(7) {
+        transition-delay: 0.4s;
+    }
+
+    /* Responsive */
+    @@media(max - width: 992px) {
+        #group-structure-custom .container {
+            grid-template-columns: 1fr;
+        }
+
+        .group-item {
+            flex-direction: column;
+        }
+
+            .group-item .title,
+            .group-item .desc {
+                width: 100%;
+            }
+    }
+
+    .org-structure {
+        margin-top: 40px;
+    }
+
+    /* Base box */
+    .org-box {
+        text-align: center;
+        color: #fff;
+        padding: 18px;
+        border-radius: 8px;
+        font-weight: 600;
+        margin-bottom: 15px;
+    }
+
+        /* Colors */
+        .org-box.navy {
+            background: #06283F;
+            font-size: 22px;
+        }
+
+        .org-box.red {
+            background: #B82025;
+        }
+
+        .org-box.main {
+            font-size: 20px;
+        }
+
+        .org-box.small {
+            font-size: 16px;
+            flex: 1;
+            background: #182a3f;
+        }
+
+    /* Bottom row */
+    .org-row {
+        display: flex;
+        gap: 15px;
+    }
+
+    /* Responsive */
+    @@media(max - width: 768px) {
+        .org-row {
+            flex-direction: column;
+        }
+    }
+
+    /* Animation (reuse fade-in) */
+    .fade-in {
+        opacity: 0;
+        transform: translateY(30px);
+        transition: 0.8s ease;
+    }
+
+        .fade-in.show {
+            opacity: 1;
+            transform: translateY(0);
+        }
+    /* People Scroll*/
+    /* Add this to your CSS */
+    /* People Scroll */
+    .people-section-scroll {
+        position: relative;
+        width: 100vw;
+        margin-left: calc(-50vw + 50%);
+        padding: 40px 0;
+        overflow: hidden;
+    }
+
+    .people-scroll-btn {
+        position: absolute;
+        top: 50%;
+        transform: translateY(-50%);
+        z-index: 10;
+        width: 52px;
+        height: 52px;
+        border-radius: 50%;
+        background: #B82025;
+        border: none;
+        color: #fff;
+        font-size: 18px;
+        cursor: pointer;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        box-shadow: 0 4px 16px rgba(184,32,37,0.3);
+        transition: background 0.3s ease, transform 0.3s ease;
+    }
+
+        .people-scroll-btn:hover {
+            background: #8a1419;
+            transform: translateY(-50%) scale(1.08);
+        }
+
+        .people-scroll-btn.scroll-left {
+            left: 20px;
+        }
+
+        .people-scroll-btn.scroll-right {
+            right: 20px;
+        }
+
+    .people-grid-wrapper {
+        overflow-x: auto;
+        -webkit-overflow-scrolling: touch;
+        scrollbar-width: none;
+        padding: 20px 80px; /* room for the buttons */
+    }
+
+        .people-grid-wrapper::-webkit-scrollbar {
+            display: none;
+        }
+
+    .people-grid {
+        display: flex;
+        gap: 60px; /* fixed px gap – cleaner than 13% in flex */
+        width: max-content;
+        align-items: flex-start;
+    }
+
+    .people-card {
+        flex: 0 0 auto;
+    }
+    /* ── History Section Base Styles ── */
+    .our-history-modern {
+        padding: 10px 0;
+        background: #F7F8F8;
+    }
+
+    .history-header {
+        max-width: 860px;
+        margin: 0 auto 20px;
+        padding: 0 20px;
+    }
+
+    /* Title */
+    .history-main-title {
+        font-size: clamp(1.75rem, 4vw, 3rem);
+        color: #06283F;
+        font-weight: 800;
+        line-height: 1.15;
+        margin-bottom: 1.25rem;
+        text-transform: uppercase;
+    }
+
+        .history-main-title span {
+            color: #B82025;
+        }
+
+    .history-intro {
+        font-size: clamp(0.9rem, 1.5vw, 1.0625rem);
+        color: #586F7E;
+        line-height: 1.75;
+        max-width: 800px;
+        margin: 0 auto 1.5rem;
+    }
+
+    /* Timeline wrapper */
+    .timeline-modern {
+        position: relative;
+        max-width: 1140px;
+        margin: 50px auto 70px;
+        padding: 0 20px;
+    }
+
+        /* Center vertical red line */
+        .timeline-modern::before {
+            content: "";
+            position: absolute;
+            left: 50%;
+            width: 3px;
+            height: 100%;
+            background: #B82025;
+            transform: translateX(-50%);
+            top: 0;
+            z-index: 1;
+        }
+
+    /* Milestone Row (Card on one side, Image on the other) */
+    .timeline-item {
+        width: 100% !important;
+        max-width: 100% !important;
+        display: grid !important;
+        grid-template-columns: 1fr 1fr !important;
+        gap: 80px !important;
+        align-items: center !important;
+        position: relative !important;
+        margin-bottom: 60px !important;
+        box-sizing: border-box !important;
+        left: auto !important;
+        right: auto !important;
+        float: none !important;
+        padding: 0 !important;
+    }
+
+        /* ODD: Card on LEFT, Image on RIGHT */
+        .timeline-item:nth-child(odd) .timeline-card {
+            grid-column: 1 !important;
+            grid-row: 1 !important;
+        }
+
+        .timeline-item:nth-child(odd) .timeline-year-img {
+            grid-column: 2 !important;
+            grid-row: 1 !important;
+        }
+
+        /* EVEN: Image on LEFT, Card on RIGHT */
+        .timeline-item:nth-child(even) .timeline-year-img {
+            grid-column: 1 !important;
+            grid-row: 1 !important;
+        }
+
+        .timeline-item:nth-child(even) .timeline-card {
+            grid-column: 2 !important;
+            grid-row: 1 !important;
+        }
+
+    /* Timeline Bullseye Center Dot */
+    .timeline-dot {
+        width: 22px !important;
+        height: 22px !important;
+        border-radius: 50% !important;
+        background: #B82025 !important;
+        border: 4px solid #fff !important;
+        box-shadow: 0 0 0 2.5px #B82025 !important;
+        position: absolute !important;
+        left: 50% !important;
+        top: 50% !important;
+        transform: translate(-50%, -50%) !important;
+        z-index: 3 !important;
+        margin: 0 !important;
+    }
+
+    /* Timeline Image */
+    .timeline-year-img {
+        width: 100% !important;
+        height: 260px !important;
+        object-fit: cover !important;
+        border-radius: 18px !important;
+        box-shadow: 0 8px 30px rgba(0, 0, 0, 0.1) !important;
+        display: block !important;
+        transition: transform 0.4s ease, box-shadow 0.4s ease !important;
+        margin: 0 !important;
+    }
+
+    .timeline-item:hover .timeline-year-img {
+        transform: scale(1.02) !important;
+        box-shadow: 0 12px 35px rgba(0, 0, 0, 0.15) !important;
+    }
+
+    /* Timeline Card */
+    .timeline-card {
+        background: #ffffff !important;
+        border: 1px solid #f0f2f5 !important;
+        padding: 32px 36px !important;
+        border-radius: 18px !important;
+        box-shadow: 0 4px 24px rgba(0, 0, 0, 0.05) !important;
+        transition: transform 0.3s ease, box-shadow 0.3s ease !important;
+        display: flex !important;
+        flex-direction: column !important;
+        width: auto !important;
+        margin: 0 !important;
+    }
+
+    .timeline-card:hover {
+        transform: translateY(-3px) !important;
+        box-shadow: 0 12px 30px rgba(0, 0, 0, 0.08) !important;
+    }
+
+    /* Year (Red, bold, right-aligned) */
+    .timeline-card h4 {
+        color: #B82025 !important;
+        font-weight: 800 !important;
+        font-size: 1.4rem !important;
+        margin: 0 0 8px 0 !important;
+        text-align: left !important;
+    }
+
+    /* Title (Navy blue, bold, right-aligned) */
+    .timeline-card h5 {
+        color: #06283F !important;
+        font-weight: 700 !important;
+        margin: 0 0 14px 0 !important;
+        font-size: 1.25rem !important;
+        text-align: left !important;
+    }
+
+    /* Paragraph */
+    .timeline-card p {
+        color: #555555 !important;
+        font-size: 14.5px !important;
+        text-align: left !important;
+        line-height: 1.7 !important;
+        margin: 0 !important;
+    }
+
+    /* Animation */
+    .fade-in {
+        opacity: 0;
+        transform: translateY(30px);
+        transition: 0.8s;
+    }
+
+        .fade-in.show {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+    /* ── People-Centric Approach - Smaller Circle Images ── */
+    .portrait-circle {
+        width: 140px !important;
+        height: 140px !important;
+        border-radius: 50%;
+        overflow: hidden;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        margin: 0 auto;
+        box-shadow: 0 6px 18px rgba(0, 0, 0, 0.12);
+        transition: transform 0.3s ease;
+        position: relative;
+    }
+
+    .portrait-circle:hover {
+        transform: scale(1.06);
+    }
+
+    .portrait-circle img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+    }
+
+    .portrait-circle.bg-red {
+        background-color: #B82025;
+    }
+
+    /* ── Leadership Philosophy - Smaller Images ── */
+    .commitments-grid-asymmetric .image-card-v2 {
+        max-height: 300px;
+        padding: 0;
+        overflow: hidden;
+    }
+
+    .commitments-grid-asymmetric .image-card-v2 img.main-img {
+        width: 100%;
+        height: 100%;
+        max-height: 300px;
+        object-fit: cover;
+        display: block;
+        transition: transform 0.5s ease;
+    }
+
+    .commitments-grid-asymmetric .image-card-v2:hover img.main-img {
+        transform: scale(1.04);
+    }
+
+    /* ── Responsive — Timeline ── */
+
+    /* Tablets */
+    @@media (max-width: 992px) {
+        .our-history-modern {
+            padding: 40px 0;
+        }
+
+        .timeline-modern {
+            max-width: 100%;
+            padding: 0 15px;
+        }
+
+        .timeline-item {
+            gap: 40px;
+        }
+
+        .timeline-year-img {
+            height: 200px !important;
+        }
+
+        .timeline-card {
+            padding: 24px 26px;
+        }
+
+        .timeline-card h4 {
+            font-size: 1.2rem;
+        }
+
+        .timeline-card h5 {
+            font-size: 1.1rem;
+        }
+
+        .timeline-card p {
+            font-size: 13.5px;
+        }
+    }
+
+    /* Mobile — single column */
+    /* Mobile — single column */
+    @@media (max-width: 768px) {
+        .our-history-modern
+
+    {
+        padding: 40px 0;
+    }
+
+    .timeline-modern {
+        padding: 0 16px;
+        margin: 24px auto 40px;
+    }
+
+        .timeline-modern::before {
+            left: 20px;
+            transform: none;
+        }
+
+    .timeline-item {
+        grid-template-columns: 1fr !important;
+        gap: 14px !important;
+        padding-left: 45px !important;
+        margin-bottom: 35px !important;
+    }
+
+        .timeline-item:nth-child(odd) .timeline-year-img,
+        .timeline-item:nth-child(even) .timeline-year-img {
+            grid-column: 1 !important;
+            grid-row: 1 !important;
+            height: 180px !important;
+        }
+
+        .timeline-item:nth-child(odd) .timeline-card,
+        .timeline-item:nth-child(even) .timeline-card {
+            grid-column: 1 !important;
+            grid-row: 2 !important;
+            padding: 20px !important;
+        }
+
+    .timeline-dot {
+        left: 20px !important;
+        top: 24px !important;
+        transform: translate(-50%, 0) !important;
+    }
+
+    .timeline-card h4,
+    .timeline-card h5 {
+        text-align: left;
+    }
+
+    }
+
+    /* Premium Hero Slider Styles */
+    .hero-slider {
+        position: relative;
+        width: 100%;
+        height: 500px;
+        border-radius: 40px;
+        overflow: hidden;
+        background-color: #06283F; /* Fallback brand dark navy */
+        box-shadow: 0 15px 35px rgba(0, 0, 0, 0.1);
+    }
+
+    .hero-slide {
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        opacity: 0;
+        visibility: hidden;
+        transform: scale(1.08);
+        transition: opacity 1.2s cubic-bezier(0.4, 0, 0.2, 1), transform 1.4s cubic-bezier(0.4, 0, 0.2, 1), visibility 1.2s;
+        pointer-events: none;
+    }
+
+        .hero-slide.active {
+            opacity: 1;
+            visibility: visible;
+            transform: scale(1);
+            pointer-events: auto;
+        }
+
+        .hero-slide img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            object-position: center;
+            border-radius: 40px;
+        }
+
+    /* Navigation Arrows */
+    .slider-arrow {
+        position: absolute;
+        top: 50%;
+        transform: translateY(-50%);
+        background: rgba(6, 40, 63, 0.45);
+        border: 1px solid rgba(255, 255, 255, 0.15);
+        color: #fff;
+        width: 54px;
+        height: 54px;
+        border-radius: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        cursor: pointer;
+        transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        z-index: 10;
+        opacity: 0;
+        pointer-events: none;
+        backdrop-filter: blur(8px);
+        -webkit-backdrop-filter: blur(8px);
+    }
+
+    .hero-slider:hover .slider-arrow {
+        opacity: 1;
+        pointer-events: auto;
+    }
+
+    .slider-arrow:hover {
+        background: #B82025; /* Brand Red */
+        border-color: #B82025;
+        box-shadow: 0 0 20px rgba(184, 32, 37, 0.4);
+        transform: translateY(-50%) scale(1.05);
+    }
+
+    .slider-arrow:active {
+        transform: translateY(-50%) scale(0.95);
+    }
+
+    .prev-arrow {
+        left: 24px;
+    }
+
+    .next-arrow {
+        right: 24px;
+    }
+
+    /* Navigation Dots */
+    .slider-dots {
+        position: absolute;
+        bottom: 24px;
+        left: 50%;
+        transform: translateX(-50%);
+        display: flex;
+        gap: 8px;
+        z-index: 10;
+        background: rgba(6, 40, 63, 0.3);
+        padding: 8px 16px;
+        border-radius: 30px;
+        backdrop-filter: blur(8px);
+        -webkit-backdrop-filter: blur(8px);
+        border: 1px solid rgba(255, 255, 255, 0.1);
+    }
+
+    .slider-dot {
+        width: 12px;
+        height: 12px;
+        border: 2px solid rgba(255, 255, 255, 0.5);
+        border-radius: 50%;
+        background: transparent;
+        cursor: pointer;
+        padding: 0;
+        transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    }
+
+        .slider-dot:hover {
+            background: rgba(255, 255, 255, 0.8);
+            border-color: rgba(255, 255, 255, 0.8);
+        }
+
+        .slider-dot.active {
+            width: 32px;
+            border-radius: 6px;
+            background: #B82025; /* Brand Red */
+            border-color: #B82025;
+        }
+
+    /* Progress Bar */
+    .slider-progress-bar {
+        position: absolute;
+        bottom: 0;
+        left: 0;
+        height: 5px;
+        background: #B82025; /* Brand Red */
+        width: 0%;
+        z-index: 12;
+        box-shadow: 0 0 10px rgba(184, 32, 37, 0.5);
+    }
+
+    /* Responsive Heights */
+    @@media (max-width: 992px) {
+        .hero-slider {
+            height: 400px;
+        }
+
+        .slider-arrow {
+            width: 46px;
+            height: 46px;
+            opacity: 1; /* Keep them visible on touch devices */
+            pointer-events: auto;
+        }
+
+        .prev-arrow {
+            left: 16px;
+        }
+
+        .next-arrow {
+            right: 16px;
+        }
+    }
+
+    @@media (max-width: 768px) {
+        .hero-slider {
+            height: 300px;
+            border-radius: 24px;
+        }
+
+        .hero-slide img {
+            border-radius: 24px;
+        }
+
+        .slider-arrow {
+            display: none; /* Hide arrows on small mobile devices to save space, rely on swipe and dots */
+        }
+
+        .slider-dots {
+            bottom: 16px;
+            padding: 6px 12px;
+        }
+
+        .slider-dot {
+            width: 8px;
+            height: 8px;
+        }
+
+            .slider-dot.active {
+                width: 24px;
+            }
+    }
+</style>
+<style>
+    /* ── Section shell ─────────────────────────────────────────── */
+    #supplychain {
+        background: #F7F8F8; /* one continuous tone – flows into QHSE below */
+        padding: 0 0 25px;
+    }
+
+        /* Intro block – same rhythm as every other section heading */
+        #supplychain .container {
+            padding-top: 80px;
+            padding-bottom: 48px;
+        }
+
+        #supplychain .about-text-regular {
+            max-width: 760px;
+            color: #586F7E;
+            line-height: 1.75;
+            margin-bottom: 0;
+        }
+
+    /* ── Tab panel wrapper – aligned to the page grid ──────────── */
+    .sc2-tabs-wrapper {
+        width: 100%;
+        max-width: 1440px;
+        margin: 0 auto;
+        padding: 0 25px;
+        background: transparent;
+    }
+
+    .sc2-tabs {
+        display: flex;
+        align-items: stretch;
+        height: 480px;
+        border-radius: 24px;
+        overflow: hidden;
+        background: #06283F; /* fallback */
+        box-shadow: 0 18px 48px rgba(6, 40, 63, .16);
+    }
+
+    /* ── Single tab ────────────────────────────────────────────── */
+    .sc2-tab {
+        position: relative;
+        display: flex; /* lets the inner panel stretch to full height */
+        flex-direction: column;
+        flex: 1 1 0;
+        min-width: 96px;
+        cursor: pointer;
+        overflow: hidden;
+        transition: flex .65s cubic-bezier(.4, 0, .2, 1);
+    }
+
+        .sc2-tab.active {
+            flex: 5 1 0;
+        }
+
+        .sc2-tab:focus-visible {
+            outline: none;
+            box-shadow: inset 0 0 0 3px #B82025;
+        }
+
+    /* Background image */
+    .sc2-tab-bg {
+        position: absolute;
+        inset: 0;
+    }
+
+        .sc2-tab-bg img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            filter: saturate(.75);
+            transition: transform .65s ease, filter .65s ease;
+        }
+
+    .sc2-tab.active .sc2-tab-bg img {
+        transform: scale(1.04);
+        filter: saturate(1);
+    }
+
+    /* Overlay */
+    .sc2-tab-overlay {
+        position: absolute;
+        inset: 0;
+        z-index: 1;
+        background: linear-gradient(to top, rgba(6, 40, 63, .95) 0%, rgba(6, 40, 63, .60) 50%, rgba(6, 40, 63, .20) 100%);
+        transition: background .4s ease;
+    }
+
+    .sc2-tab.active .sc2-tab-overlay {
+        background: linear-gradient(to top, rgba(6, 40, 63, .97) 0%, rgba(6, 40, 63, .55) 45%, rgba(184, 32, 37, .15) 100%);
+    }
+
+    /* Inner layout */
+    .sc2-tab-inner {
+        position: relative;
+        z-index: 2;
+        flex: 1; /* fills the tab height on every breakpoint */
+        display: flex;
+        flex-direction: column;
+        justify-content: flex-end;
+        padding: 40px 36px;
+        box-sizing: border-box;
+    }
+
+    /* ── COLLAPSED STATE — centred number + vertical label ─────── */
+    .sc2-tab-collapsed {
+        position: absolute;
+        inset: 0;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        gap: 20px;
+        padding: 24px 0;
+        opacity: 1;
+        transition: opacity .3s ease;
+    }
+
+    .sc2-tab.active .sc2-tab-collapsed {
+        display: none;
+    }
+
+    .sc2-tab-num {
+        position: relative;
+        padding-bottom: 14px;
+        font-size: 13px;
+        font-weight: 800;
+        color: #F0575D; /* lifted brand red for contrast on dark imagery */
+        letter-spacing: 2px;
+    }
+
+        .sc2-tab-num::after {
+            content: "";
+            position: absolute;
+            left: 50%;
+            bottom: 0;
+            width: 22px;
+            height: 2px;
+            transform: translateX(-50%);
+            background: #F0575D;
+            opacity: .65;
+        }
+
+    .sc2-tab-short {
+        font-size: 13px;
+        font-weight: 700;
+        color: rgba(255, 255, 255, .82);
+        text-align: center;
+        line-height: 1.2;
+        letter-spacing: .16em;
+        text-transform: uppercase;
+        white-space: nowrap;
+        writing-mode: vertical-rl;
+        text-orientation: mixed;
+        transform: rotate(180deg);
+        transition: color .3s ease;
+    }
+
+    .sc2-tab:hover .sc2-tab-short {
+        color: #fff;
+    }
+
+    /* ── EXPANDED STATE ────────────────────────────────────────── */
+    .sc2-tab-expanded {
+        display: none;
+        flex-direction: column;
+        max-width: 480px;
+        opacity: 0;
+        transform: translateY(16px);
+        transition: opacity .4s ease .2s, transform .4s ease .2s;
+    }
+
+    .sc2-tab.active .sc2-tab-expanded {
+        display: flex;
+        opacity: 1;
+        transform: translateY(0);
+    }
+
+    .sc2-tab-tag {
+        font-size: 11px;
+        font-weight: 700;
+        color: #F0575D;
+        text-transform: uppercase;
+        letter-spacing: 3px;
+        margin-bottom: 12px;
+    }
+
+    .sc2-tab-title {
+        margin: 0 0 18px 0;
+        font-size: clamp(1.5rem, 2.5vw, 2rem);
+        font-weight: 900;
+        line-height: 1.1;
+        color: #fff;
+        text-transform: uppercase;
+    }
+
+    .sc2-tab-desc {
+        max-width: 400px;
+        margin: 0 0 28px 0;
+        font-size: .875rem;
+        line-height: 1.7;
+        color: rgba(255, 255, 255, .8);
+    }
+
+    .sc2-tab-stat {
+        display: flex;
+        align-items: baseline;
+        gap: 12px;
+        max-width: 400px;
+        padding-top: 20px;
+        border-top: 1px solid rgba(255, 255, 255, .15);
+    }
+
+    .sc2-tab-stat-num {
+        font-size: 1.75rem;
+        font-weight: 900;
+        line-height: 1;
+        color: #fff;
+    }
+
+    .sc2-tab-stat-label {
+        max-width: 140px;
+        font-size: 12px;
+        font-weight: 500;
+        line-height: 1.4;
+        color: rgba(255, 255, 255, .55);
+    }
+
+    /* ── In-tab CTA button ─────────────────────────────────────── */
+    .sc2-tab-cta {
+        display: inline-flex;
+        align-items: center;
+        gap: 12px;
+        align-self: flex-start;
+        width: fit-content;
+        margin-top: 28px;
+        padding: 8px 8px 8px 20px;
+        border-radius: 50px;
+        border: 1px solid rgba(255, 255, 255, .22);
+        background: rgba(255, 255, 255, .08);
+        color: #fff;
+        font-size: 13px;
+        font-weight: 600;
+        letter-spacing: .02em;
+        text-decoration: none;
+        backdrop-filter: blur(6px);
+        -webkit-backdrop-filter: blur(6px);
+        transition: background .3s ease, border-color .3s ease, transform .3s ease, box-shadow .3s ease;
+    }
+
+        .sc2-tab-cta:hover {
+            background: #B82025;
+            border-color: #B82025;
+            color: #fff;
+            transform: translateY(-2px);
+            box-shadow: 0 10px 24px rgba(184, 32, 37, .35);
+        }
+
+        .sc2-tab-cta:focus-visible {
+            outline: 3px solid #fff;
+            outline-offset: 3px;
+        }
+
+    .sc2-tab-cta-arrow {
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        width: 26px;
+        height: 26px;
+        border-radius: 50%;
+        background: #B82025;
+        font-size: 11px;
+        transition: background .3s ease, color .3s ease, transform .3s ease;
+    }
+
+    .sc2-tab-cta:hover .sc2-tab-cta-arrow {
+        background: #fff;
+        color: #B82025;
+        transform: translateX(2px);
+    }
+
+    /* ── Responsive ────────────────────────────────────────────── */
+    @@media (max-width: 1200px) {
+        .sc2-tabs-wrapper
+
+    {
+        padding: 0 32px;
+    }
+
+    }
+
+    @@media (max-width: 992px) {
+        #supplychain
+
+    {
+        padding-bottom: 56px;
+    }
+
+    #supplychain .container {
+        padding-top: 48px;
+        padding-bottom: 32px;
+    }
+
+    .sc2-tabs-wrapper {
+        max-width: none;
+        padding: 0 24px;
+    }
+
+    .sc2-tabs {
+        flex-direction: column;
+        height: auto;
+        border-radius: 20px;
+    }
+
+    .sc2-tab {
+        flex: none;
+        min-width: 0;
+        min-height: 76px;
+        transition: min-height .5s ease;
+    }
+
+        .sc2-tab.active {
+            flex: none;
+            min-height: 400px;
+        }
+
+    .sc2-tab-inner {
+        justify-content: center;
+        padding: 0;
+    }
+
+    .sc2-tab.active .sc2-tab-inner {
+        justify-content: flex-end;
+    }
+
+    .sc2-tab-collapsed {
+        position: static;
+        flex-direction: row;
+        align-items: center;
+        justify-content: flex-start;
+        gap: 14px;
+        padding: 22px 24px;
+    }
+
+    .sc2-tab-num {
+        padding-bottom: 0;
+    }
+
+        .sc2-tab-num::after {
+            display: none;
+        }
+
+    .sc2-tab-short {
+        writing-mode: horizontal-tb;
+        transform: none;
+        text-align: left;
+        font-size: 14px;
+        letter-spacing: .08em;
+    }
+
+        .sc2-tab-short br {
+            display: none;
+        }
+
+    .sc2-tab-expanded {
+        max-width: 100%;
+        padding: 28px 24px;
+    }
+
+    .sc2-tab-desc,
+    .sc2-tab-stat {
+        max-width: 100%;
+    }
+
+    }
+
+    @@media (max-width: 576px) {
+        .sc2-tab.active
+
+    {
+        min-height: 360px;
+    }
+
+    .sc2-tab-expanded {
+        padding: 24px 20px;
+    }
+
+    .sc2-tab-title {
+        font-size: 1.35rem;
+    }
+
+    }
+</style>
+@* <style>
+    /* ── Supply Chain V2 — Alternating Rows ── */
+    #supplychain {
+        background: #fff;
+        margin-bottom: 60px;
+    }
+
+    .sc2-row {
+        min-height: 340px; /* was 440px */
+    }
+
+    .sc2-row-image {
+        min-height: 340px; /* was 440px */
+    }
+
+    .sc2-row-content {
+        padding: 40px 70px; /* was 60px 70px */
+    }
+    /* ── Supply Chain Tabs ── */
+    .sc2-tabs-wrapper {
+        background: #F7F8F8;
+        padding: 0 80px 0;
+    }
+
+    .sc2-tabs {
+        display: flex;
+        height: 480px;
+        border-radius: 24px;
+        overflow: hidden;
+        box-shadow: 0 16px 48px rgba(0,0,0,0.12);
+    }
+
+    /* Each tab */
+    .sc2-tab {
+        position: relative;
+        flex: 1; /* collapsed = equal share */
+        min-width: 80px;
+        cursor: pointer;
+        overflow: hidden;
+        transition: flex 0.65s cubic-bezier(0.4, 0, 0.2, 1);
+    }
+
+        .sc2-tab.active {
+            flex: 4; /* expanded */
+        }
+
+    /* Background image */
+    .sc2-tab-bg {
+        position: absolute;
+        inset: 0;
+    }
+
+        .sc2-tab-bg img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: transform 0.65s ease;
+        }
+
+    .sc2-tab.active .sc2-tab-bg img {
+        transform: scale(1.04);
+    }
+
+    /* Overlay */
+    .sc2-tab-overlay {
+        position: absolute;
+        inset: 0;
+        background: linear-gradient( to top, rgba(6,40,63,0.95) 0%, rgba(6,40,63,0.6) 50%, rgba(6,40,63,0.2) 100% );
+        z-index: 1;
+        transition: background 0.4s ease;
+    }
+
+    .sc2-tab.active .sc2-tab-overlay {
+        background: linear-gradient( to top, rgba(6,40,63,0.97) 0%, rgba(6,40,63,0.55) 45%, rgba(184,32,37,0.15) 100% );
+    }
+
+    /* Inner layout */
+    .sc2-tab-inner {
+        position: relative;
+        z-index: 2;
+        height: 100%;
+        display: flex;
+        flex-direction: column;
+        justify-content: flex-end;
+        padding: 32px 28px;
+    }
+
+    /* Collapsed state — vertical number + short title */
+    .sc2-tab-collapsed {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        gap: 16px;
+        opacity: 1;
+        transition: opacity 0.3s ease;
+    }
+
+    .sc2-tab.active .sc2-tab-collapsed {
+        display: none;
+    }
+
+    .sc2-tab-num {
+        font-size: 13px;
+        font-weight: 800;
+        color: #B82025;
+        letter-spacing: 2px;
+    }
+
+    .sc2-tab-short {
+        font-size: 12px;
+        font-weight: 700;
+        color: rgba(255,255,255,0.7);
+        text-align: center;
+        line-height: 1.4;
+        writing-mode: vertical-rl;
+        text-orientation: mixed;
+        transform: rotate(180deg);
+    }
+
+    /* Expanded state */
+    .sc2-tab-expanded {
+        display: none;
+        flex-direction: column;
+        opacity: 0;
+        transform: translateY(16px);
+        transition: opacity 0.4s ease 0.2s, transform 0.4s ease 0.2s;
+    }
+
+    .sc2-tab.active .sc2-tab-expanded {
+        display: flex;
+        opacity: 1;
+        transform: translateY(0);
+    }
+
+    .sc2-tab-tag {
+        font-size: 11px;
+        font-weight: 700;
+        color: #B82025;
+        text-transform: uppercase;
+        letter-spacing: 3px;
+        margin-bottom: 12px;
+    }
+
+    .sc2-tab-title {
+        font-size: clamp(1.5rem, 2.5vw, 2rem);
+        font-weight: 900;
+        color: #fff;
+        line-height: 1.1;
+        text-transform: uppercase;
+        margin: 0 0 16px 0;
+    }
+
+    .sc2-tab-desc {
+        font-size: 0.875rem;
+        line-height: 1.7;
+        color: rgba(255,255,255,0.8);
+        margin: 0 0 28px 0;
+        max-width: 340px;
+    }
+
+    .sc2-tab-stat {
+        display: flex;
+        align-items: baseline;
+        gap: 10px;
+        padding-top: 20px;
+        border-top: 1px solid rgba(255,255,255,0.15);
+    }
+
+    .sc2-tab-stat-num {
+        font-size: 1.75rem;
+        font-weight: 900;
+        color: #fff;
+        line-height: 1;
+    }
+
+    .sc2-tab-stat-label {
+        font-size: 12px;
+        color: rgba(255,255,255,0.5);
+        font-weight: 500;
+        max-width: 140px;
+        line-height: 1.4;
+    }
+
+    /* Responsive */
+    @@media (max-width: 992px) {
+        .sc2-tabs-wrapper {
+            padding: 0 24px 60px;
+        }
+
+        .sc2-tabs {
+            flex-direction: column;
+            height: auto;
+        }
+
+        .sc2-tab {
+            flex: none;
+            min-width: unset;
+            min-height: 72px;
+            transition: min-height 0.5s ease;
+        }
+
+            .sc2-tab.active {
+                flex: none;
+                min-height: 360px;
+            }
+
+        .sc2-tab-collapsed {
+            flex-direction: row;
+            padding: 20px 24px;
+            justify-content: flex-start;
+        }
+
+        .sc2-tab-short {
+            writing-mode: horizontal-tb;
+            transform: none;
+            font-size: 14px;
+        }
+
+        .sc2-tab-inner {
+            padding: 24px;
+        }
+    }
+
+    @@media (max-width: 576px) {
+        .sc2-tab.active {
+            min-height: 300px;
+        }
+    }
+    /* Header */
+    .sc2-header {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 60px;
+        align-items: flex-start;
+        padding: 80px 80px 60px;
+        background: #F7F8F8;
+    }
+
+    .sc2-label {
+        display: block;
+        font-size: 12px;
+        font-weight: 700;
+        color: #a3191e;
+        text-transform: uppercase;
+        letter-spacing: 3px;
+        margin-bottom: 16px;
+    }
+
+    .sc2-title {
+        /* font-size: clamp(2.5rem, 5vw, 4.5rem); */
+        font-weight: 900;
+        color: #a3191e;
+        line-height: 1.05;
+        text-transform: uppercase;
+    }
+
+        .sc2-title span {
+            color: #a3191e;
+        }
+
+    .sc2-subtitle {
+        font-size: 1rem;
+        line-height: 1.75;
+        color: #586F7E;
+        margin: 0 0 36px 0;
+    }
+
+    .sc2-btn {
+        display: inline-flex;
+        align-items: center;
+        gap: 14px;
+        background: #06283F;
+        color: #fff;
+        padding: 14px 14px 14px 28px;
+        border-radius: 50px;
+        font-size: 14px;
+        font-weight: 600;
+        text-decoration: none;
+        transition: all 0.3s ease;
+        width: fit-content;
+    }
+
+        .sc2-btn:hover {
+            background: #a3191e;
+            color: #fff;
+            transform: translateY(-2px);
+            box-shadow: 0 10px 25px rgba(184,32,37,0.25);
+        }
+
+    .sc2-btn-circle {
+        width: 34px;
+        height: 34px;
+        background: #a3191e;
+        border-radius: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        color: #fff;
+        font-size: 12px;
+        transition: background 0.3s ease;
+    }
+
+    .sc2-btn:hover .sc2-btn-circle {
+        background: #fff;
+        color: #a3191e;
+    }
+
+    /* Rows */
+    .sc2-row {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        min-height: 440px;
+    }
+
+    .sc2-row-reverse {
+        direction: rtl;
+    }
+
+        .sc2-row-reverse > * {
+            direction: ltr;
+        }
+
+    /* Image side */
+    .sc2-row-image {
+        position: relative;
+        overflow: hidden;
+        min-height: 440px;
+    }
+
+        .sc2-row-image img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            display: block;
+            transition: transform 0.6s ease;
+        }
+
+    .sc2-row:hover .sc2-row-image img {
+        transform: scale(1.04);
+    }
+
+    .sc2-row-image-overlay {
+        position: absolute;
+        inset: 0;
+        background: linear-gradient(135deg, rgba(6,40,63,0.3) 0%, rgba(184,32,37,0.15) 100%);
+        z-index: 1;
+    }
+
+    /* Big number watermark */
+    .sc2-row-number {
+        position: absolute;
+        bottom: 20px;
+        right: 28px;
+        font-size: 120px;
+        font-weight: 900;
+        color: rgba(255,255,255,0.12);
+        line-height: 1;
+        z-index: 2;
+        pointer-events: none;
+        font-family: var(--font-primary);
+    }
+
+    /* Content side */
+    .sc2-row-content {
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        padding: 60px 70px;
+        position: relative;
+        overflow: hidden;
+    }
+
+    .sc2-navy {
+        background: #06283F;
+    }
+
+    .sc2-red {
+        background: #a3191e;
+    }
+
+    /* Decorative circle */
+    .sc2-row-content::after {
+        content: '';
+        position: absolute;
+        bottom: -80px;
+        right: -80px;
+        width: 280px;
+        height: 280px;
+        border-radius: 50%;
+        background: rgba(255,255,255,0.04);
+        pointer-events: none;
+    }
+
+    .sc2-row-content::before {
+        content: '';
+        position: absolute;
+        top: -60px;
+        left: -60px;
+        width: 200px;
+        height: 200px;
+        border-radius: 50%;
+        background: rgba(255,255,255,0.03);
+        pointer-events: none;
+    }
+
+    .sc2-row-tag {
+        font-size: 11px;
+        font-weight: 700;
+        color: rgba(255,255,255,0.5);
+        text-transform: uppercase;
+        letter-spacing: 3px;
+        margin-bottom: 16px;
+    }
+
+    .sc2-row-title {
+        font-size: clamp(1.75rem, 3vw, 2.5rem);
+        font-weight: 900;
+        color: #fff;
+        line-height: 1.1;
+        text-transform: uppercase;
+        margin: 0 0 24px 0;
+    }
+
+    .sc2-row-desc {
+        font-size: 0.9375rem;
+        line-height: 1.75;
+        color: rgba(255,255,255,0.8);
+        margin: 0 0 36px 0;
+        max-width: 420px;
+    }
+
+    /* Stat block */
+    .sc2-row-stat {
+        display: flex;
+        align-items: baseline;
+        gap: 12px;
+        padding-top: 28px;
+        border-top: 1px solid rgba(255,255,255,0.15);
+    }
+
+    .sc2-stat-num {
+        font-size: clamp(1.75rem, 3vw, 2.5rem);
+        font-weight: 900;
+        color: #fff;
+        line-height: 1;
+    }
+
+    .sc2-stat-label {
+        font-size: 13px;
+        color: rgba(255,255,255,0.55);
+        font-weight: 500;
+        max-width: 160px;
+        line-height: 1.4;
+    }
+
+    /* Responsive */
+    @@media (max-width: 992px) {
+        .sc2-header {
+            grid-template-columns: 1fr;
+            gap: 32px;
+            padding: 60px 40px 24px;
+        }
+
+        .sc2-row {
+            grid-template-columns: 1fr;
+            min-height: auto;
+        }
+
+        .sc2-row-reverse {
+            direction: ltr;
+        }
+
+        .sc2-row-image {
+            min-height: 280px;
+        }
+
+        .sc2-row-number {
+            font-size: 80px;
+        }
+
+        .sc2-row-content {
+            padding: 48px 36px;
+        }
+    }
+
+    @@media (max-width: 576px) {
+        .sc2-header {
+            padding: 40px 20px 32px;
+        }
+
+        .sc2-row-content {
+            padding: 36px 24px;
+        }
+
+        .sc2-row-image {
+            min-height: 220px;
+        }
+    }
+</style> *@
+<style>
+    /* ===== Group Structure - Enhanced Responsive ===== */
+    #group-structure-custom {
+        padding: 2rem 1rem;
+    }
+
+    /* Adjust the two‑column layout gap on smaller screens */
+    @@media (max-width: 992px) {
+        #group-structure-custom .container {
+            gap: 2rem;
+        }
+    }
+
+    /* Left side: group header and org chart */
+    .group-header h2 {
+        font-size: clamp(1.75rem, 5vw, 2.5rem);
+    }
+
+    .group-header .subtitle {
+        font-size: 1rem;
+    }
+
+    .group-header p {
+        font-size: 0.9375rem;
+    }
+
+    /* Organization Chart – make boxes scale well */
+    .org-box {
+        padding: 0.75rem;
+        border-radius: 12px;
+    }
+
+        .org-box.navy {
+            font-size: clamp(1rem, 4vw, 1.5rem);
+        }
+
+        .org-box.main {
+            font-size: clamp(0.9rem, 3.5vw, 1.25rem);
+        }
+
+        .org-box.small {
+            font-size: 0.875rem;
+            padding: 0.75rem 0.5rem;
+        }
+
+    /* Bottom row of four boxes – wrap and adjust gap */
+    .org-row {
+        gap: 0.75rem;
+        flex-wrap: wrap;
+        justify-content: center;
+    }
+
+    /* On mobile, allow boxes to be full width but still visible */
+    @@media (max-width: 768px) {
+        .org-row {
+            flex-direction: column;
+            gap: 0.75rem;
+        }
+
+        .org-box.small {
+            width: 100%;
+            text-align: center;
+        }
+    }
+
+    /* Right side: business units list */
+    .group-item {
+        gap: 1rem;
+    }
+
+        .group-item .title {
+            font-size: clamp(1rem, 4vw, 1.25rem);
+        }
+
+    /* Logo inside title – scale down on small screens */
+    .title-logo {
+        height: auto;
+        margin-top: 0.75rem;
+    }
+
+    @@media (max-width: 768px) {
+        .title-logo {
+        }
+    }
+
+    .group-item .desc {
+        font-size: 16px;
+        line-height: 1.5;
+    }
+
+    .separator {
+        margin: 1rem 0;
+    }
+
+    /* Fade animations remain smooth */
+    .fade-in {
+        transition-delay: 0s; /* keep original delays via nth-child but don’t break */
+    }
+
+    /* On small screens, reduce spacing inside containers */
+    @@media (max-width: 576px) {
+        #group-structure-custom .container {
+            gap: 1.5rem;
+        }
+
+        .org-box {
+            font-size: 0.875rem;
+            padding: 0.5rem;
+        }
+
+        .group-item {
+            gap: 0.5rem;
+        }
+
+            .group-item .title {
+                width: 100%;
+                margin-bottom: 0.25rem;
+            }
+
+            .group-item .desc {
+                width: 100%;
+            }
+    }
+
+</style>
+<style>
+    /* ── Full‑width About Banner ── */
+    .about-banner {
+        position: relative;
+        width: 100%;
+        min-height: 70vh; /* comfortable banner height */
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        overflow: hidden;
+    }
+
+    /* Slider container – full‑screen background */
+    .about-banner-slider {
+        position: absolute;
+        inset: 0;
+        z-index: 0;
+    }
+
+        /* Reuse your existing slider styles, but ensure it fills the container */
+        .about-banner-slider .hero-slider {
+            width: 100%;
+            height: 100%;
+            border-radius: 0; /* no rounded corners on full‑width */
+            box-shadow: none;
+        }
+
+        .about-banner-slider .hero-slide img {
+            border-radius: 0;
+        }
+
+    /* Dark overlay for readability */
+    .about-banner-overlay {
+        position: absolute;
+        inset: 0;
+        background: linear-gradient(to bottom, rgb(69 70 70 / 17%), rgb(0 0 0 / 80%));
+        z-index: 1;
+    }
+
+    /* Text block – positioned above the overlay */
+    .about-banner-content {
+        position: relative;
+        z-index: 2;
+        text-align: center;
+        max-width: 720px;
+        padding: 0 2rem;
+        color: #fff;
+    }
+
+    /* Title – bold, high contrast */
+    .about-banner-title {
+        font-size: clamp(2.5rem, 6vw, 4rem);
+        font-weight: 800;
+        line-height: 1.15;
+        margin: 0 0 1rem;
+        color: #fff;
+        text-transform: none; /* sentence case */
+    }
+
+    /* Subtitle – lighter weight, supportive role */
+    .about-banner-subtitle {
+        font-size: clamp(1rem, 2.5vw, 1.35rem);
+        font-weight: 400;
+        line-height: 1.6;
+        margin: 0;
+        opacity: 0.9;
+        text-transform: none;
+    }
+
+    /* Responsive tweaks */
+    @@media (max-width: 768px) {
+        .about-banner {
+            min-height: 55vh;
+        }
+
+        .about-banner-title {
+            font-size: 2.25rem;
+        }
+
+        .about-banner-subtitle {
+            font-size: 1rem;
+        }
+    }
+    /* ── QHSE Hero ── */
+    .qa-hero {
+        /* width: 100%;
+        padding: 2rem 80px 4rem; */
+        background: #F7F8F8;
+    }
+
+    .qa-hero-image-container {
+        position: relative;
+        width: 100%;
+        border-radius: 24px;
+        overflow: hidden;
+        box-shadow: 0 16px 48px rgba(6, 40, 63, 0.15);
+    }
+
+        .qa-hero-image-container img {
+            width: 100%;
+            height: 480px;
+            object-fit: cover;
+            display: block;
+            transition: transform 0.6s ease;
+        }
+
+        .qa-hero-image-container:hover img {
+            transform: scale(1.03);
+        }
+
+    /* Large outline text overlay */
+    .outline-text-sustainability {
+        position: absolute;
+        bottom: 20px;
+        right: 30px;
+        font-size: clamp(4rem, 8vw, 7rem);
+        font-weight: 900;
+        color: transparent;
+        -webkit-text-stroke: 2px rgba(255, 255, 255, 0.6);
+        text-stroke: 2px rgba(255, 255, 255, 0.6);
+        line-height: 1;
+        pointer-events: none;
+        z-index: 2;
+        letter-spacing: 4px;
+        text-transform: uppercase;
+    }
+
+    /* Gradient overlay for readability */
+    .qa-hero-image-container::after {
+        content: '';
+        position: absolute;
+        inset: 0;
+        background: linear-gradient( to top, rgba(6, 40, 63, 0.7) 0%, rgba(6, 40, 63, 0.2) 40%, rgba(6, 40, 63, 0.05) 100% );
+        z-index: 1;
+    }
+
+    /* Responsive */
+    @@media (max-width: 992px) {
+        .qa-hero
+
+    {
+        padding: 1.5rem 24px 3rem;
+    }
+
+    .qa-hero-image-container img {
+        height: 320px;
+    }
+
+    .outline-text-sustainability {
+        font-size: clamp(2.5rem, 6vw, 4rem);
+        bottom: 14px;
+        right: 20px;
+        -webkit-text-stroke: 1.5px rgba(255, 255, 255, 0.6);
+    }
+
+    }
+
+    @@media (max-width: 576px) {
+        .qa-hero
+
+    {
+        padding: 1rem 16px 2rem;
+    }
+
+    .qa-hero-image-container {
+        border-radius: 16px;
+    }
+
+        .qa-hero-image-container img {
+            height: 220px;
+        }
+
+    .outline-text-sustainability {
+        font-size: 2rem;
+        bottom: 10px;
+        right: 14px;
+        -webkit-text-stroke: 1px rgba(255, 255, 255, 0.5);
+    }
+
+    }
+    /* CSS */
+    .qhse-section {
+        /* padding: 0 0 4rem 0; */
+    }
+
+    .qhse-hero {
+        position: relative;
+        width: 100%;
+        overflow: hidden;
+        border-radius: 0; /* full-width, no radius */
+        background: #06283F; /* fallback */
+        aspect-ratio: 16 / 7; /* responsive height */
+        display: flex;
+        align-items: center;
+        justify-content: center;
+    }
+
+        .qhse-hero img {
+            position: absolute;
+            inset: 0;
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            z-index: 0;
+            transition: transform 0.6s ease;
+        }
+
+        .qhse-hero:hover img {
+            transform: scale(1.03);
+        }
+
+    .qhse-overlay {
+        position: absolute;
+        inset: 0;
+        background: linear-gradient(to top, rgba(6,40,63,0.85) 0%, rgba(6,40,63,0.4) 50%, rgba(6,40,63,0.1) 100%);
+        z-index: 1;
+    }
+
+    .qhse-content {
+        position: relative;
+        z-index: 2;
+        text-align: center;
+        max-width: 800px;
+        padding: 2rem;
+        color: #fff;
+    }
+
+    .qhse-title {
+        font-size: clamp(2rem, 5vw, 3.5rem);
+        font-weight: 900;
+        line-height: 1.1;
+        text-transform: uppercase;
+        margin: 0 0 1.5rem;
+    }
+
+    .qhse-subtitle {
+        font-size: clamp(0.95rem, 1.5vw, 1.15rem);
+        line-height: 1.7;
+        margin: 0 0 2rem;
+        color: rgba(255,255,255,0.9);
+        max-width: 600px;
+        margin-left: auto;
+        margin-right: auto;
+    }
+
+    .qhse-btn {
+        display: inline-flex;
+        align-items: center;
+        gap: 14px;
+        background: #B82025;
+        color: #fff;
+        padding: 14px 14px 14px 28px;
+        border-radius: 50px;
+        font-size: 14px;
+        font-weight: 600;
+        text-decoration: none;
+        transition: background 0.3s ease, transform 0.3s ease, box-shadow 0.3s ease;
+        outline: none;
+    }
+
+        .qhse-btn:hover {
+            background: #8a1419;
+            transform: translateY(-2px);
+            box-shadow: 0 10px 25px rgba(184,32,37,0.35);
+        }
+
+        .qhse-btn:focus-visible {
+            outline: 3px solid #fff;
+            outline-offset: 4px;
+        }
+
+    .qhse-btn-circle {
+        width: 34px;
+        height: 34px;
+        background: rgba(255,255,255,0.2);
+        border-radius: 50%;
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        transition: background 0.3s ease;
+    }
+
+    .qhse-btn:hover .qhse-btn-circle {
+        background: #fff;
+        color: #B82025;
+    }
+
+    /* Reduced motion */
+    @@media (prefers-reduced-motion: reduce) {
+        .qhse-hero img, .qhse-btn, .qhse-btn-circle
+
+    {
+        transition: none !important;
+    }
+
+    .qhse-hero:hover img {
+        transform: none !important;
+    }
+
+    }
+
+    /* Mobile adjustments */
+    @@media (max-width: 768px) {
+        .qhse-hero
+
+    {
+        aspect-ratio: 4 / 5; /* taller portrait on small screens */
+    }
+
+    .qhse-content {
+        padding: 1.5rem;
+    }
+
+    }
+    /* ── QHSE Section (aligned with container & rounded) ── */
+    .qhse-section {
+        /* padding: 60px 0; /* consistent with other sections */ */
+        background: #F7F8F8; /* match page background */
+    }
+
+    .qhse-hero {
+        position: relative;
+        width: 100%;
+        overflow: hidden;
+        border-radius: 24px; /* same as supply chain tabs */
+        background: #06283F; /* fallback */
+        aspect-ratio: 16 / 7; /* desktop ratio */
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        box-shadow: 0 16px 48px rgba(6, 40, 63, 0.15); /* subtle depth */
+    }
+
+        .qhse-hero img {
+            position: absolute;
+            inset: 0;
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            z-index: 0;
+            transition: transform 0.6s ease;
+        }
+
+        .qhse-hero:hover img {
+            transform: scale(1.03);
+        }
+
+    .qhse-overlay {
+        position: absolute;
+        inset: 0;
+        background: linear-gradient(to top, rgba(6,40,63,0.85) 0%, rgba(6,40,63,0.4) 50%, rgba(6,40,63,0.1) 100%);
+        z-index: 1;
+    }
+
+    .qhse-content {
+        position: relative;
+        z-index: 2;
+        text-align: center;
+        max-width: 800px;
+        padding: 2rem;
+        color: #fff;
+    }
+
+    .qhse-title {
+        font-size: clamp(2rem, 5vw, 3.5rem);
+        font-weight: 900;
+        line-height: 1.1;
+        text-transform: uppercase;
+        margin: 0 0 1.5rem;
+    }
+
+    .qhse-subtitle {
+        font-size: clamp(0.95rem, 1.5vw, 1.15rem);
+        line-height: 1.7;
+        margin: 0 0 2rem;
+        color: rgba(255,255,255,0.9);
+        max-width: 600px;
+        margin-left: auto;
+        margin-right: auto;
+    }
+
+    .qhse-btn {
+        display: inline-flex;
+        align-items: center;
+        gap: 14px;
+        background: #B82025;
+        color: #fff;
+        padding: 14px 14px 14px 28px;
+        border-radius: 50px;
+        font-size: 14px;
+        font-weight: 600;
+        text-decoration: none;
+        transition: background 0.3s ease, transform 0.3s ease, box-shadow 0.3s ease;
+        outline: none;
+    }
+
+        .qhse-btn:hover {
+            background: #8a1419;
+            transform: translateY(-2px);
+            box-shadow: 0 10px 25px rgba(184,32,37,0.35);
+        }
+
+        .qhse-btn:focus-visible {
+            outline: 3px solid #fff;
+            outline-offset: 4px;
+        }
+
+    .qhse-btn-circle {
+        width: 34px;
+        height: 34px;
+        background: rgba(255,255,255,0.2);
+        border-radius: 50%;
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        transition: background 0.3s ease;
+    }
+
+    .qhse-btn:hover .qhse-btn-circle {
+        background: #fff;
+        color: #B82025;
+    }
+
+    /* Reduced motion */
+    @@media (prefers-reduced-motion: reduce) {
+        .qhse-hero img, .qhse-btn, .qhse-btn-circle
+
+    {
+        transition: none !important;
+    }
+
+    .qhse-hero:hover img {
+        transform: none !important;
+    }
+
+    }
+
+    /* Mobile adjustments */
+    @@media (max-width: 768px) {
+        .qhse-section
+
+    {
+        padding: 40px 0;
+    }
+
+    .qhse-hero {
+        aspect-ratio: 4 / 5; /* taller portrait on small screens */
+        border-radius: 16px; /* slightly smaller radius on mobile */
+    }
+
+    .qhse-content {
+        padding: 1.5rem;
+    }
+
+    }
+    /* Keep slider arrows/dots functional (they inherit from your existing slider CSS) */
+</style>
+
+<!-- About Hero Section -->
+<section class="about-banner" style="margin-top: 70px;">
+    <!-- Full‑width slider as background -->
+    <div class="about-banner-slider">
+        <div class="hero-slider">
+            <div class="hero-slide active">
+                <img src="~/assets/GPI Website Visuals/About Us/EMPOWERING BUSINESSES 1.jpg" alt="">
+            </div>
+            <div class="hero-slide">
+                <img src="~/assets/GPI Website Visuals/About Us/EMPOWERING BUSINESSES 2.jpg" alt="">
+            </div>
+            <div class="hero-slide">
+                <img src="~/assets/GPI Website Visuals/About Us/EMPOWERING BUSINESSES 3.png" alt="">
+            </div>
+            <!-- Navigation arrows (optional – can be removed if too busy) -->
+            <button type="button" class="slider-arrow prev-arrow" aria-label="Previous slide">
+                <i class="fas fa-chevron-left"></i>
+            </button>
+            <button type="button" class="slider-arrow next-arrow" aria-label="Next slide">
+                <i class="fas fa-chevron-right"></i>
+            </button>
+            <!-- Dots -->
+            <div class="slider-dots">
+                <button type="button" class="slider-dot active" data-index="0"></button>
+                <button type="button" class="slider-dot" data-index="1"></button>
+                <button type="button" class="slider-dot" data-index="2"></button>
+            </div>
+            <div class="slider-progress-bar"></div>
+        </div>
+        <!-- Dark overlay to keep text readable -->
+        <div class="about-banner-overlay"></div>
+    </div>
+
+    <!-- Centred text overlay -->
+    <div class="about-banner-content">
+        <h1 class="about-banner-title">About Us</h1>
+        <p class="about-banner-subtitle">
+            Discover our story, values, and commitment to a sustainable future.
+        </p>
+    </div>
+</section>
+<!-- Company Overview Section -->
+<section class="company-overview" id="companyoverview" style="padding: 40px 0;">
+    <div class="container">
+        <div class="overview-layout">
+            <div class="overview-image">
+                <img src="~/assets/GPI Website Visuals/About Us/Company Overview.JPG" alt="Cable Manufacturing">
+            </div>
+            <div class="overview-content">
+                <p class="about-label" style="font-weight: 900; font-size:40px;   color: #a3191e;margin-bottom:10px !important">
+                    COMPANY OVERVIEW
+                </p>
+                <div class="overview-text">
+                    <p>
+                        Established in 1984, GPI is a fast-growing leading player that has evolved from a local
+                        manufacturer of electrical cables into an integrated power and infrastructure solutions
+                        provider. Our operations span across distinct energy sectors including Cables & Wires,
+                        Lighting, Advanced Metering Technologies, and Turnkey Engineering and Construction Projects.
+                    </p>
+                    <p>
+                        With over 600 employees, 20+ distributors in Egypt, and 400+ clients spread across Europe,
+                        Middle East & Africa (EMEA) region, our growth has been driven by constant innovation in
+                        technology, machinery, and talent.
+                    </p>
+                    <p>
+                        Our global reach extends to a diverse range of high-end products, which we export to numerous
+                        countries including Egypt, the United Kingdom, Poland, the Netherlands, Cyprus, Libya,
+                        Morocco, Algeria, Iraq, Yemen, Saudi Arabia, the United Arab Emirates, Sudan, Kenya,
+                        Tanzania, Uganda, Rwanda, and Chad.
+                    </p>
+                    <p>
+                        Every GPI cable reflects strength, reliability, and global partnership, supported by a diversified supply chain that ensures consistent quality, continuity, and resilience.
+                    </p>
+                </div>
+            </div>
+
+        </div>
+        <div class="about-stats-grid">
+            <div class="about-stat-card">
+                <div class="stat-number text-red">20+</div>
+                <div class="stat-label">Distributors<br>in Egypt</div>
+            </div>
+
+            <div class="about-stat-card">
+                <div class="stat-number text-navy">40+</div>
+                <div class="stat-label">Years of<br>Experience</div>
+            </div>
+
+            <div class="about-stat-card">
+                <div class="stat-number text-red">400+</div>
+                <div class="stat-label">Total<br>Clients</div>
+            </div>
+
+            <div class="about-stat-card">
+                <div class="stat-number text-navy">600+</div>
+                <div class="stat-label">Total<br>Employees</div>
+            </div>
+            <div class="about-stat-card" style="margin-top: 15px;">
+                <div class="stat-number text-navy"
+                     style="font-size: 45px !important;
+                            display: flex;
+                            align-items: baseline;
+                            justify-content: center;
+                            gap: 4px;">
+                    ~82,000 m²
+                </div>
+                <div class="stat-label">Total<br>Factory Area</div>
+            </div>
+        </div>
+
+    </div>
+</section>
+
+<!-- ===== Group Structure Section ===== -->
+<section id="group-structure-custom">
+    <div class="container">
+
+        <!-- Left Side -->
+        <div class="group-header fade-in">
+            <p class="about-label" style="font-weight: 900; font-size:40px;   color: #a3191e; margin-bottom:10px !important">Group Structure</p>
+            <p class="about-text-regular" style="margin-bottom: 0px; font-size:16px">
+                GPI is a subsidiary of Electro Cable Egypt (ECE), the industrial edifice that represents the origin of the cable industry in Egypt, Middle East and Africa, and it comprises four business lines
+            </p>
+            <div class="org-structure fade-in">
+
+                <!-- Top -->
+                <div class="org-box navy" style="font-weight: lighter !important;">
+                    Electro Cable Egypt (ECE)
+                </div>
+
+                <!-- Middle -->
+                <div class="org-box red main" style="font-weight: lighter !important;">
+                    Giza Power Industry (GPI)
+                </div>
+
+                <!-- Bottom -->
+                <div class="org-row">
+                    <div class="org-box red small" style="font-weight: lighter !important;">GPI <br> Cables</div>
+                    <div class="org-box red small" style="font-weight: lighter !important;">GPI <br> Meters</div>
+                    <div class="org-box red small" style="font-weight: lighter !important;">GPI  <br> Lighting</div>
+                    <div class="org-box red small" style="font-weight: lighter !important;">GPI <br> Projects</div>
+                </div>
+            </div>
+
+        </div>
+
+
+
+        <!-- Items -->
+        <div class="group-items">
+
+            <!-- Item -->
+            <div class="group-item fade-in">
+                <div class="title">
+                    <img src="~/assets/images/logo1.png"
+                         alt="GPI Cables Logo"
+                         class="title-logo" style="    width: 130px !important;
+    height: 65px !important;
+    ">
+                </div>
+                <div class="desc">
+                    Manufacture and supply of a wide range of high-performance LV, MV, HV, OHTL conductors
+                    and winding wires designed to meet the diverse needs
+                    of our customers with an annual production capacity of more than 25,000 tons
+                </div>
+            </div>
+
+            <div class="separator"></div>
+
+            <div class="group-item fade-in">
+                <div class="title">
+                    <img src="~/assets/images/logo3.png"
+                         alt="GPI Cables Logo"
+                         class="title-logo" style="    width: 130px !important;
+    height: 65px !important;
+   ">
+                </div>
+                <div class="desc">
+                    Manufactures and delivers a broad range of reliable indoor and
+                    outdoor optimal lighting solutions hat combine innovation and
+                    sustainability to create energy-efficient and aesthetically pleasing environments.
+                </div>
+            </div>
+
+            <div class="separator"></div>
+
+            <div class="group-item fade-in">
+                <div class="title">
+                    <img src="~/assets/images/logo4.png"
+                         alt="GPI Cables Logo"
+                         class="title-logo" style="    width: 130px !important;
+    height: 65px !important;
+    ">
+                </div>
+                <div class="desc">
+                    Established in 2022 on an area of 5000 square meters with a production
+                    capacity of up to 6 million meters per year, GPI Meters plant leverages
+                    advanced metering technologies to provide accurate and reliable data collection
+                    meters to support the growing need for smart grid solutions, optimize energy
+                    usage and improve operational efficiency.
+                </div>
+            </div>
+
+            <div class="separator"></div>
+
+            <div class="group-item fade-in">
+                <div class="title">
+
+                    <img src="~/assets/images/logo2.png"
+                         alt="GPI Cables Logo"
+                         class="title-logo" style="    width: 130px !important;
+    height: 65px !important;
+    ">
+                </div>
+                <div class="desc">
+                    Turnkey construction projects, general and electromechanical contracting,
+                    public supplies, project management and engineering consulting.
+                </div>
+            </div>
+
+        </div>
+    </div>
+</section>
+
+<!-- Our Purpose Section (Mission, Vision, Values) -->
+<section class="our-purpose-section" id="ourpurpose" style="padding-top:0px;    padding-bottom: 0px;
+">
+    <div class="purpose-red-curve">
+        <img src="~/assets/images/purpose-red-curve.png" alt="">
+    </div>
+    <div class="container" style="margin-left: 0px;">
+        <div class="purpose-header">
+        </div>
+    </div>
+
+    <div class="mission-vision-container">
+        <!-- Mission Block -->
+        <div class="purpose-block mission-block" style="margin: 45px 25px !important;">
+            <div class="purpose-content">
+                <p class="about-label" style="font-weight: 900;  font-size:40px;  color: #a3191e;margin-top:24px !important; margin-bottom:0px !important">OUR MISSION</p>
+                <span class="hero-small reveal-line" style="font-size: 21px;
+                    line-height: 1.1;
+                        font-weight: 700;
+                    color: #06283f;">
+                    Empowering sustainable communities through innovative,
+                    high-efficiency products and exceptional service.
+                </span>
+                <p class="about-text-regular" style="margin-top: 15px;">
+                    Our mission is rooted in an unwavering commitment to customer satisfaction and continuous innovation.
+                    We aim to empower the communities we serve to thrive and transition towards a sustainable energy future.
+                    By offering a diverse array of high-efficiency products and innovative solutions, delivering green projects,
+                    and consistently exceeding customer expectations, we strive to make a lasting positive impact.
+                </p>
+            </div>
+            <div class="purpose-image">
+                <img src="~/assets/GPI Website Visuals/About Us/OUR MISSION.jpg" alt="Our Mission">
+            </div>
+        </div>
+
+        <!-- Vision Block -->
+        <div class="purpose-block vision-block">
+            <div class="purpose-image">
+                <img src="~/assets/GPI Website Visuals/About Us/vision-img.jpg" alt="Our Vision">
+            </div>
+            <div class="purpose-content">
+                <p class="about-label" style="font-weight: 900;  font-size:40px;  color: #a3191e;margin-top:24px !important; margin-bottom:0px !important">OUR VISION</p>
+                <span class="hero-small reveal-line" style="font-size: 21px;
+                    line-height: 1.1;
+                    font-weight: 700;
+                    color: #06283f;">
+                    Becoming the partner of choice through innovation, value, and
+                    global reach by 2030.
+                </span>
+                <p class="about-text-regular" style="margin-top: 15px;">
+                    We aspire to be the partner of choice for clients, suppliers, employees, investors, and stakeholders
+                    alike by expanding and bolstering our positive impact through focusing on three pillars:
+                    pioneering innovation and customer-centricity, fostering enduring relationships and delivering unparalleled value,
+                    and having our exports constitutes 50% of our production by 2030
+                </p>
+            </div>
+        </div>
+    </div>
+</section>
+<!--Core Value -->
+<section id="corevalue" style="padding-top: 0px;
+    padding-bottom: 0px;">
+    <div class="values-grid-wrapper">
+        <p class="about-label" style="font-weight: 900;  font-size:40px;  color: #a3191e;margin-top:24px !important; margin-bottom:0px !important">
+            CORE VALUES
+        </p>
+        <span class="hero-small reveal-line" style="font-size: 21px;
+                    line-height: 1.1;
+                    font-weight: 700;
+                    color: #06283f;">
+            POWERING OUR FUTURE WITH STRONG VALUES
+        </span>
+        <p class="about-text-regular" style="margin-bottom: 15px;">
+            At GPI, we are not just contributing in building green infrastructures; we are building healthy relationships, trust, and a future rooted in excellence
+        </p>
+        <div class="values-grid">
+            <div class="value-item">
+                <div class="value-icon">
+                    <img src="~/assets/images/value-icon-badge.png" alt="Sustainability">
+                </div>
+                <h4 class="value-title">Sustainability</h4>
+                <p class="value-desc">Committing to environmentally responsible manufacturing.</p>
+            </div>
+            <div class="value-item">
+                <div class="value-icon">
+                    <img src="~/assets/images/value-icon-badge.png" alt="Commitment to Excellence">
+                </div>
+                <h4 class="value-title">Commitment<br>to Excellence</h4>
+                <p class="value-desc">Pursue excellence in every facet of the business.</p>
+            </div>
+            <div class="value-item">
+                <div class="value-icon">
+                    <img src="~/assets/images/value-icon-badge.png" alt="Integrity">
+                </div>
+                <h4 class="value-title">Integrity</h4>
+                <p class="value-desc">Uphold ethics, honesty and transparency in everything you do.</p>
+            </div>
+            <div class="value-item">
+                <div class="value-icon">
+                    <img src="~/assets/images/value-icon-badge.png" alt="Innovation">
+                </div>
+                <h4 class="value-title">Innovation</h4>
+                <p class="value-desc">
+                    Embrace change, deploy cutting-edge technologies, and develop new ways to
+                    do things better and overcome challenges.
+                </p>
+            </div>
+            <div class="value-item">
+                <div class="value-icon">
+                    <img src="~/assets/images/value-icon-badge.png" alt="Customer Centricity">
+                </div>
+                <h4 class="value-title">Customer<br>Centricity</h4>
+                <p class="value-desc">Make customer satisfaction your paramount focus.</p>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Our Modern History Section -->
+
+<section class="our-history-modern" id="ourhistory">
+    <div class="container">
+        <div class="row justify-content-center mb-3">
+        </div>
+        <div class="history-header text-center">
+            <p class="about-label" style="font-weight: 900;  font-size:40px;  color: #a3191e;margin-top:24px !important; margin-bottom:0px !important">OUR HISTORY</p>
+            <span class="hero-small reveal-line" style="font-size: 21px;
+                    line-height: 1.1;
+                    font-weight: 700;
+                    color: #06283f;">
+                A JOURNEY OF RESILIENCE & INNOVATION
+            </span>
+            <p class="about-text-regular" style="margin-top: 15px;">
+                Over more than four decades, we have faced numerous challenges,
+                including market shifts, economic hurdles, evolving trends, and the constant march of technology.
+                Yet, guided by experienced leaders and a dedicated team, we have been able to transform these challenges into opportunities.
+                Our journey has been rewarding at every turn. We are grateful for every challenge we have cracked, every loyal person in our organization,
+                and every leader whose wisdom and expertise led us into our current success. We have already achieved so much, and for us, it’s always just the beginning
+            </p>
+        </div>
+
+        <div class="col-12 text-center appear anime-child anime-complete" data-anime="{ &quot;el&quot;: &quot;childs&quot;, &quot;translateY&quot;: [30, 0], &quot;opacity&quot;: [0,1], &quot;duration&quot;: 600, &quot;delay&quot;: 0, &quot;staggervalue&quot;: 300, &quot;easing&quot;: &quot;easeOutQuad&quot; }">
+            <h2 class="fw-600 text-cyan mb-25px d-block" local="key_milestones_title" style="font-weight: 900 !important;
+    font-size: 40px;
+    color: #a3191e !important;
+    margin-top: 24px !important;
+    margin-bottom: 0px !important;" el="childs" staggervalue="300" easing="easeOutQuad">
+                Key Milestones
+            </h2>
+        </div>
+
+        <div class="timeline-modern">
+
+
+            <!-- Item -->
+            <div class="timeline-item fade-in">
+                <img class="timeline-year-img" src="~/assets/GPI Website Visuals/About Us/Timeline/1984.jpg" alt="1984" />
+                <div class="timeline-dot"></div>
+                <div class="timeline-card">
+                    <h4>1984</h4>
+                    <h5>Inception Stage</h5>
+                    <p>
+                        The factory was established in 1984 to produce different varieties of power cables under the name of “Giza Cables”
+                        over a total landscape of 81,745 m2 at the industrial sector of Abo Rawash, Giza, Egypt.
+                    </p>
+                </div>
+            </div>
+
+            <div class="timeline-item fade-in">
+                <img class="timeline-year-img" src="~/assets/GPI Website Visuals/About Us/Timeline/1988.jpg" alt="1988" />
+                <div class="timeline-dot"></div>
+                <div class="timeline-card">
+                    <h4>1988</h4>
+                    <h5>Legally Commissioned</h5>
+                    <p>Factory was legally commissioned for commercial production under license number 986</p>
+                </div>
+            </div>
+
+            <div class="timeline-item fade-in">
+                <img class="timeline-year-img" src="~/assets/GPI Website Visuals/About Us/Timeline/2015.jpg" alt="2015" />
+                <div class="timeline-dot"></div>
+                <div class="timeline-card">
+                    <h4>2015</h4>
+                    <h5>Acquisition</h5>
+                    <p>
+                        “Giza Cables” was acquired by Electro Cable Egypt “ECE”,
+                        which represents the origin of the cable industry in Egypt and the Middle East,
+                        and the company name was changed to “Giza Power Industry”. Leveraging ECE’s expertise and industry leadership,
+                        such acquisition allowed the new company to increase its exposure to the cables market and emerge as the group’s
+                        driving force towards innovation and product portfolio expansion.
+                    </p>
+                </div>
+            </div>
+
+            <div class="timeline-item fade-in">
+                <img class="timeline-year-img" src="~/assets/GPI Website Visuals/About Us/Timeline/2018.jpg" alt="2018" />
+                <div class="timeline-dot"></div>
+                <div class="timeline-card">
+                    <h4>2018</h4>
+                    <h5>Growth</h5>
+                    <p>
+                        This year marked the beginning of significant growth and enhanced global footprint.
+                        On one hand, the company had expanded its product range and services, incorporating advanced manufacturing techniques,
+                        cutting-edge technology and sustainable practices. On the other hand, the company had succeeded in opening new markets in Europe,
+                        Middle East and Africa (EMEA) region including the United Kingdom, Poland, the Netherlands, Cyprus,
+                        Libya, Morocco, Algeria, Iraq, Yemen, Saudi Arabia, the United Arab Emirates, Sudan, Kenya, Tanzania, Uganda, Rwanda, and Chad.
+                    </p>
+                </div>
+            </div>
+
+            <div class="timeline-item fade-in">
+                <img class="timeline-year-img" src="~/assets/GPI Website Visuals/About Us/Timeline/2020.jpg" alt="2020" />
+                <div class="timeline-dot"></div>
+                <div class="timeline-card">
+                    <h4>2020</h4>
+                    <h5>GPI Projects Inception</h5>
+                    <p>
+                        In line with its vision for expanding its portfolio of solutions and services,
+                        GPI formed a new company under the name of “GPI Project” with a capital of 250M EGP
+                        to offer its customers an unrivaled experience in delivering hassle-free and fast-track turn-key
+                        projects through an integrated Engineering, Procurement & Construction service.
+                    </p>
+                </div>
+            </div>
+
+            <div class="timeline-item fade-in">
+                <img class="timeline-year-img" src="~/assets/GPI Website Visuals/About Us/Timeline/2022.jpg" alt="2022" />
+                <div class="timeline-dot"></div>
+                <div class="timeline-card">
+                    <h4>2022</h4>
+                    <h5>Smart Meters</h5>
+                    <p>
+                        The GPI Meters plant was established on an area of 5000 square meters with a production capacity of up to 6 million meters per year.
+                        The plant leverages advanced metering technologies to produce single and triple prepaid smart meters
+                        as well as street lighting smart meters and indirect smart meters.
+                    </p>
+                </div>
+            </div>
+
+            <div class="timeline-item fade-in">
+                <img class="timeline-year-img" src="~/assets/GPI Website Visuals/About Us/Timeline/2024-1.jpg" alt="2024" />
+                <div class="timeline-dot"></div>
+                <div class="timeline-card">
+                    <h4>2024</h4>
+                    <h5>BASIC Certification</h5>
+                    <p>
+                        GPI has successfully acquired the BASEC certification for its Medium-Voltage cables range
+                        which provides our customers in the UK the best possible assurance that GPI cables will
+                        consistently meet or exceed all the required product manufacturing standards and operational performance requirements.
+                    </p>
+                </div>
+            </div>
+
+            <div class="timeline-item fade-in">
+                <img class="timeline-year-img" src="~/assets/GPI Website Visuals/About Us/Timeline/2024-2.jpg" alt="2024" />
+                <div class="timeline-dot"></div>
+                <div class="timeline-card">
+                    <h4>2024</h4>
+                    <h5>Rebranding</h5>
+                    <p>As the company grows, a brand face-lift was crucial to communicate and support the new expansions. Learn more about our rebranding project.</p>
+                </div>
+            </div>
+
+            <div class="timeline-item fade-in">
+                <img class="timeline-year-img" src="~/assets/GPI Website Visuals/About Us/Timeline/2026.jpg" alt="2026" />
+                <div class="timeline-dot"></div>
+                <div class="timeline-card">
+                    <h4>2026</h4>
+                    <h5>Lighting Market Entrance</h5>
+                    <p>
+                        In line with its product portfolio expansion plans,
+                        GPI has launched its lighting business division to deliver
+                        a broad range of innovative and reliable indoor and outdoor lighting solutions.
+                    </p>
+                </div>
+            </div>
+
+        </div>
+
+        <p class="history-intro text-center">
+            Our history is a testament to our resilience and unwavering commitment to growth and excellence.
+            With the guidance of experienced leaders and the passion of our team, we look forward to a future
+            filled with new milestones and achievements
+        </p>
+    </div>
+</section>
+
+<!-- Leadership Commitments Section -->
+<section class="leadership-commitments" id="leadership" style="padding-top:0px ; padding-bottom:0px">
+    <div class="container">
+        <p class="about-label" style="font-weight: 900;  font-size:40px;  color: #a3191e;margin-top:24px !important; margin-bottom:0px !important">LEADERSHIP  PHILOSOPHY</p>
+        <p class="about-text-regular" style="margin-top: 15px;">
+            At GPI, our leadership philosophy is built on the belief that people are our
+            most valuable asset. We understand that our success is driven by the collective talents, dedication,
+            and innovation of our team members. Thus, our leaders are committed to a people-centric leadership
+            and creating an environment that fosters growth, collaboration, and respect.
+        </p>
+        <span class="hero-small reveal-line" style="font-size: 28px;
+                    line-height: 1.1;
+                    font-weight: 900;
+                    color: #06283f;">
+            PEOPLE-CENTRIC APPROACH
+        </span>
+
+        <!-- Full-width scrollable people strip -->
+        <div class="people-section-scroll">
+            <!-- Left button -->
+            <button type="button" class="people-scroll-btn scroll-left" aria-label="Scroll left">
+                <i class="fas fa-chevron-left"></i>
+            </button>
+
+            <div class="people-grid-wrapper" id="peopleGridWrapper">
+                <div class="people-grid">
+                    <!-- Member 1 -->
+                    <div class="people-card">
+                        <div class="portrait-circle bg-red">
+                            <img src="~/assets/images/people-hassan-2.png" alt="Hassan Aziz">
+                        </div>
+                    </div>
+                    <!-- Member 2 -->
+                    <div class="people-card">
+                        <div class="portrait-circle bg-red" style="background-color: #06283F">
+                            <img style="height: 90%; left:0;"
+                                 src="~/assets/images/OIP-removebg-preview.png" alt="Hassan Aziz">
+                        </div>
+                    </div>
+                    <!-- Member 3 -->
+                    <div class="people-card">
+                        <div class="portrait-circle bg-red" style="background-color: #586F7E;">
+                            <img style="height: 90%;" src="~/assets/images/h.png" alt="Hassan Aziz">
+                        </div>
+                    </div>
+                    <!-- Member 4 -->
+                    <div class="people-card">
+                        <div class="portrait-circle bg-red" style="background-color: #98161A;">
+                            <img style="height: 100%; left: 0;"
+                                 src="~/assets/images/we-removebg-preview.png" alt="Hassan Aziz">
+                        </div>
+                    </div>
+                    <div class="people-card">
+                        <div class="portrait-circle bg-red" style="background-color: #98161A;">
+                            <img style="height: 100%; left: 0;"
+                                 src="~/assets/images/we-removebg-preview.png" alt="Hassan Aziz">
+                        </div>
+                    </div>
+                    <div class="people-card">
+                        <div class="portrait-circle bg-red" style="background-color: #98161A;">
+                            <img style="height: 100%; left: 0;"
+                                 src="~/assets/images/we-removebg-preview.png" alt="Hassan Aziz">
+                        </div>
+                    </div>
+                    <div class="people-card">
+                        <div class="portrait-circle bg-red" style="background-color: #98161A;">
+                            <img style="height: 100%; left: 0;"
+                                 src="~/assets/images/we-removebg-preview.png" alt="Hassan Aziz">
+                        </div>
+                    </div>
+                    <!-- Add more members freely -->
+                </div>
+            </div>
+
+            <!-- Right button -->
+            <button type="button" class="people-scroll-btn scroll-right" aria-label="Scroll right">
+                <i class="fas fa-chevron-right"></i>
+            </button>
+        </div>
+        <span class="hero-small reveal-line" style="font-size: 28px;
+                    line-height: 1.1;
+                    font-weight: 900;
+                    color: #06283f;">
+            OUR LEADERSHIP TEAM IS DEDICATED TO
+        </span>
+        <div class="commitments-grid-asymmetric">
+            <!-- Card 1: Empowering Employees -->
+            <div class="commitment-card-v2 color-card-v2 red-card-v2 card-633" style="background: #06283f !important;">
+                <div class="card-bg-pattern-v2">
+                    <img src="~/assets/images/leadership-pattern-navy1.png" alt="">
+                </div>
+                <div class="card-content-v2">
+                    <h3>Empowering<br> Employees</h3>
+                    <p>
+                        We believe in empowering our employees by providing them with the
+                        tools, resources, and opportunities they need to succeed.
+                        Continuous learning and professional development are at the core of our culture.
+
+                    </p>
+                    <br>
+                </div>
+            </div>
+
+            <!-- Card 2: Fostering Collaboration -->
+            <div class="commitment-card-v2 color-card-v2 red-card-v2 card-372" style="background: #06283f !important;">
+                <div class="card-bg-pattern-v2">
+                    <img src="~/assets/images/leadership-pattern-red.png" alt="">
+                </div>
+                <div class="card-content-v2">
+                    <h3>Fostering <br> Collaboration</h3>
+                    <p>
+                        We encourage open communication and teamwork across all levels of the organization.
+                        By working together, we can achieve more and drive innovation.
+                    </p>
+                </div>
+            </div>
+
+            <!-- Card 3: Team Image (659 width) -->
+            <div class="commitment-card-v2 image-card-v2 card-659">
+                @* <img src="~/assets/images/leadership-team.jpg" alt="Leadership Team" class="main-img"> *@
+                <img src="~/assets/GPI Website Visuals/About Us/OUR LEADERSHIP TEAM IS DEDICATED TO 1.jpg" alt="Leadership Team" class="main-img">
+                <div class="card-overlay-v2 overlay-navy">
+                </div>
+            </div>
+            <!-- Card 4: Empowering Employees -->
+            <div class="commitment-card-v2 image-card-v2 card-633">
+                <img src="~/assets/GPI Website Visuals/About Us/OUR LEADERSHIP TEAM IS DEDICATED TO 2.jpg" alt="Cables" class="main-img">
+                <div class="card-overlay-v2"></div>
+            </div>
+
+            <!-- Card 5: Fostering Collaboration -->
+            <div class="commitment-card-v2 color-card-v2 navy-card-v2 card-372">
+                <div class="card-bg-pattern-v2">
+                    <img src="~/assets/images/leadership-icon-sparkle.png" alt="">
+                </div>
+                <div class="card-content-v2">
+                    <h3>Driving <br> Innovation</h3>
+                    <p>
+                        Our leaders inspire a culture of innovation by encouraging creative thinking and problem-solving
+                    </p>
+                </div>
+            </div>
+
+            <!-- Card 6: Team Image (659 width) -->
+            <div class="commitment-card-v2 color-card-v2 navy-card-v2 card-659">
+                <div class="card-bg-pattern-v2">
+                    <img src="~/assets/images/leadership-icon-shield.png" alt="Workplace Icon">
+                </div>
+                <div class="card-content-v2">
+                    <h3>Cultivating a<br>Positive Workplace</h3>
+                    <p>
+                        A positive and inclusive workplace is essential for creativity and productivity
+                        We strive to create a supportive environment where every team member feels valued and respected.
+                    </p>
+                    <br>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- ============================ MARKUP ============================ -->
+<section id="supplychain">
+    <div class="container">
+        <p class="about-label" style="font-weight: 900; font-size:40px; color:#a3191e; margin-top:24px !important; margin-bottom:0px !important">
+            Supply Chain
+        </p>
+        <p class="about-text-regular" style="margin-top: 15px;">
+            At GPI, we believe that an efficient and transparent supply chain is fundamental
+            to delivering high quality products and services at affordable prices.
+            Our supply chain strategy is built on four key pillars:
+        </p>
+    </div>
+
+    <div class="sc2-tabs-wrapper">
+        <div class="sc2-tabs">
+
+            <!-- Tab 1 -->
+            <div class="sc2-tab active">
+                <div class="sc2-tab-bg">
+                    <img src="~/assets/GPI Website Visuals/About Us/Resilience Integration.jpg" alt="Backward Integration">
+                </div>
+                <div class="sc2-tab-overlay"></div>
+                <div class="sc2-tab-inner">
+                    <div class="sc2-tab-collapsed">
+                        <span class="sc2-tab-num">01</span>
+                        <span class="sc2-tab-short">Backward<br>Integration</span>
+                    </div>
+                    <div class="sc2-tab-expanded">
+                        <h3 class="sc2-tab-title">Backward<br>Integration</h3>
+                        <p class="sc2-tab-desc">
+                            We constantly aim to integrate the industries that feed the cable
+                            manufacturing process to reduce costs and enhance our ability to
+                            offer more competitive prices.
+                        </p>
+                        <div class="sc2-tab-stat">
+                            <span class="sc2-tab-stat-num">25K+</span>
+                            <span class="sc2-tab-stat-label">Tons annual capacity</span>
+                        </div>
+                        <a asp-controller="Pages" asp-action="SupplayChain" class="sc2-tab-cta">
+                            View Interactive Visualizer
+                            <span class="sc2-tab-cta-arrow"><i class="fas fa-arrow-right"></i></span>
+                        </a>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Tab 2 -->
+            <div class="sc2-tab">
+                <div class="sc2-tab-bg">
+                    <img src="~/assets/GPI Website Visuals/About Us/Global Sourcing.jpg" alt="Global Sourcing">
+                </div>
+                <div class="sc2-tab-overlay"></div>
+                <div class="sc2-tab-inner">
+                    <div class="sc2-tab-collapsed">
+                        <span class="sc2-tab-num">02</span>
+                        <span class="sc2-tab-short">Global<br>Sourcing</span>
+                    </div>
+                    <div class="sc2-tab-expanded">
+                        <h3 class="sc2-tab-title">Global<br>Sourcing</h3>
+                        <p class="sc2-tab-desc">
+                            We source high-quality raw materials from a network of trusted
+                            suppliers around the world, ensuring our products meet stringent
+                            international standards and deliver superior performance.
+                        </p>
+                        <div class="sc2-tab-stat">
+                            <span class="sc2-tab-stat-num">18+</span>
+                            <span class="sc2-tab-stat-label">Export countries</span>
+                        </div>
+                        <a asp-controller="Pages" asp-action="SupplayChain" class="sc2-tab-cta">
+                            View Interactive Visualizer
+                            <span class="sc2-tab-cta-arrow"><i class="fas fa-arrow-right"></i></span>
+                        </a>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Tab 3 -->
+            <div class="sc2-tab">
+                <div class="sc2-tab-bg">
+                    <img src="~/assets/GPI Website Visuals/About Us/Advanced Manufacturing.jpg" alt="Advanced Manufacturing">
+                </div>
+                <div class="sc2-tab-overlay"></div>
+                <div class="sc2-tab-inner">
+                    <div class="sc2-tab-collapsed">
+                        <span class="sc2-tab-num">03</span>
+                        <span class="sc2-tab-short">Advanced<br>Manufacturing</span>
+                    </div>
+                    <div class="sc2-tab-expanded">
+                        <h3 class="sc2-tab-title">Advanced<br>Manufacturing</h3>
+                        <p class="sc2-tab-desc">
+                            Utilizing state-of-the-art facilities, we ensure each product is
+                            crafted with precision. Continuous innovation allows us to incorporate
+                            the latest technologies into our production processes.
+                        </p>
+                        <div class="sc2-tab-stat">
+                            <span class="sc2-tab-stat-num">~82,000 m²</span>
+                            <span class="sc2-tab-stat-label">Total factory area</span>
+                        </div>
+                        <a asp-controller="Pages" asp-action="SupplayChain" class="sc2-tab-cta">
+                            View Interactive Visualizer
+                            <span class="sc2-tab-cta-arrow"><i class="fas fa-arrow-right"></i></span>
+                        </a>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Tab 4 -->
+            <div class="sc2-tab">
+                <div class="sc2-tab-bg">
+                    <img src="~/assets/GPI Website Visuals/About Us/Logistics & Distribution.jpg" alt="Logistics">
+                </div>
+                <div class="sc2-tab-overlay"></div>
+                <div class="sc2-tab-inner">
+                    <div class="sc2-tab-collapsed">
+                        <span class="sc2-tab-num">04</span>
+                        <span class="sc2-tab-short">Logistics &amp;<br>Distribution</span>
+                    </div>
+                    <div class="sc2-tab-expanded">
+                        <h3 class="sc2-tab-title">Logistics &amp;<br>Distribution</h3>
+                        <p class="sc2-tab-desc">
+                            Our robust logistics network ensures timely delivery and efficient
+                            distribution. We employ sophisticated tracking systems to monitor
+                            shipments in real-time, guaranteeing orders arrive on schedule.
+                        </p>
+                        <div class="sc2-tab-stat">
+                            <span class="sc2-tab-stat-num">400+</span>
+                            <span class="sc2-tab-stat-label">Clients across EMEA</span>
+                        </div>
+                        <a asp-controller="Pages" asp-action="SupplayChain" class="sc2-tab-cta">
+                            View Interactive Visualizer
+                            <span class="sc2-tab-cta-arrow"><i class="fas fa-arrow-right"></i></span>
+                        </a>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </div>
+</section>
+<!-- HTML -->
+<section id="QHSE" class="qhse-section" style="padding-top:35px">
+    <div class="container">
+        <div class="qhse-hero">
+            <img src="~/assets/GPI Website Visuals/About Us/QUALITY-ASSURANCE.jpg"
+                 alt="Quality assurance and certifications at GPI facilities"
+                 loading="lazy">
+            <div class="qhse-overlay" aria-hidden="true"></div>
+            <div class="qhse-content fade-in">
+                <h2 class="qhse-title">QHSE &amp; Energy Management Systems</h2>
+                <p class="qhse-subtitle">
+                    At GPI, we prioritize quality, health, safety, environmental sustainability, and energy management
+                    in all our operations, ensuring compliance with international standards for quality management,
+                    environmental responsibility, and occupational safety.
+                </p>
+                <a asp-controller="Pages" asp-action="QHSE" class="qhse-btn">
+                    Know More About Our QHSE
+                    <span class="qhse-btn-circle" aria-hidden="true">
+                        <i class="fas fa-arrow-right"></i>
+                    </span>
+                </a>
+            </div>
+        </div>
+    </div>
+</section>
+
+
+<!-- ===== Script ===== -->
+<script>
+        document.addEventListener("DOMContentLoaded", function () {
+            // Intersection Observer for fade-in animations
+            const elements = document.querySelectorAll(".fade-in");
+            const observer = new IntersectionObserver((entries) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        entry.target.classList.add("show");
+                    }
+                });
+            }, { threshold: 0.2 });
+
+            elements.forEach(el => observer.observe(el));
+
+            // Hero Slider Logic
+            const slides = document.querySelectorAll(".hero-slide");
+            const dots = document.querySelectorAll(".slider-dot");
+            const prevBtn = document.querySelector(".prev-arrow");
+            const nextBtn = document.querySelector(".next-arrow");
+            const progressBar = document.querySelector(".slider-progress-bar");
+
+            if (slides.length > 0) {
+                let currentSlide = 0;
+                const slideInterval = 6000; // 6 seconds per slide
+                let progressInterval;
+                let progressPercent = 0;
+                const progressStepTime = 40; // Update progress every 40ms
+
+                function showSlide(index) {
+                    // Remove active class from all slides and dots
+                    slides.forEach(slide => {
+                        slide.classList.remove("active");
+                    });
+                    dots.forEach(dot => {
+                        dot.classList.remove("active");
+                    });
+
+                    // Wrap index
+                    if (index >= slides.length) {
+                        currentSlide = 0;
+                    } else if (index < 0) {
+                        currentSlide = slides.length - 1;
+                    } else {
+                        currentSlide = index;
+                    }
+
+                    // Add active class to current slide and dot
+                    slides[currentSlide].classList.add("active");
+                    dots[currentSlide].classList.add("active");
+
+                    // Reset progress bar
+                    resetProgress();
+                }
+
+                function nextSlide() {
+                    showSlide(currentSlide + 1);
+                }
+
+                function prevSlide() {
+                    showSlide(currentSlide - 1);
+                }
+
+                function resetProgress() {
+                    clearInterval(progressInterval);
+                    progressPercent = 0;
+                    if (progressBar) progressBar.style.width = "0%";
+
+                    // Only start progress bar if autoplay is running
+                    startProgress();
+                }
+
+                function startProgress() {
+                    const totalSteps = slideInterval / progressStepTime;
+                    progressInterval = setInterval(() => {
+                        progressPercent += 100 / totalSteps;
+                        if (progressBar) progressBar.style.width = Math.min(progressPercent, 100) + "%";
+
+                        if (progressPercent >= 100) {
+                            clearInterval(progressInterval);
+                            nextSlide();
+                        }
+                    }, progressStepTime);
+                }
+
+                // Event Listeners for arrows
+                if (nextBtn) {
+                    nextBtn.addEventListener("click", () => {
+                        nextSlide();
+                    });
+                }
+
+                if (prevBtn) {
+                    prevBtn.addEventListener("click", () => {
+                        prevSlide();
+                    });
+                }
+
+                // Event Listeners for dots
+                dots.forEach(dot => {
+                    dot.addEventListener("click", (e) => {
+                        const targetIndex = parseInt(e.target.getAttribute("data-index"));
+                        showSlide(targetIndex);
+                    });
+                });
+
+                // Touch swipe support for mobile
+                let touchStartX = 0;
+                TouchSwipeHelper();
+
+                function TouchSwipeHelper() {
+                    const sliderContainer = document.querySelector(".hero-slider");
+                    if (sliderContainer) {
+                        sliderContainer.addEventListener("touchstart", (e) => {
+                            touchStartX = e.changedTouches[0].screenX;
+                        }, { passive: true });
+
+                        sliderContainer.addEventListener("touchend", (e) => {
+                            const touchEndX = e.changedTouches[0].screenX;
+                            const swipeThreshold = 50;
+                            if (touchStartX - touchEndX > swipeThreshold) {
+                                nextSlide(); // Swiped left, show next
+                            } else if (touchEndX - touchStartX > swipeThreshold) {
+                                prevSlide(); // Swiped right, show prev
+                            }
+                        }, { passive: true });
+                    }
+                }
+
+                // Initialize progress bar/autoplay
+                startProgress();
+            }
+            // ── People strip: manual buttons + auto-scroll ──────────────────────
+            // ── People strip: seamless loop + auto-scroll + manual buttons ──────
+            const peopleWrapper = document.getElementById("peopleGridWrapper");
+
+            if (peopleWrapper) {
+                const peopleGrid = peopleWrapper.querySelector(".people-grid");
+
+                // 1. Clone all cards and append them → creates seamless loop
+                const originalCards = Array.from(peopleGrid.querySelectorAll(".people-card"));
+                originalCards.forEach(card => {
+                    const clone = card.cloneNode(true);
+                    clone.setAttribute("aria-hidden", "true");
+                    peopleGrid.appendChild(clone);
+                });
+
+                const scrollSpeed   = 0.8;   // px per tick — adjust for faster/slower
+                const tickInterval  = 16;    // ms (~60fps)
+                const scrollAmount  = 420;   // px per manual button click
+                let   isPaused      = false;
+                let   autoTimer     = null;
+                let   isManualScrolling = false;
+                let   manualTimeout = null;
+
+                // 2. Auto-scroll loop
+                function startAutoScroll() {
+                    autoTimer = setInterval(() => {
+                        if (isPaused || isManualScrolling) return;
+
+                        peopleWrapper.scrollLeft += scrollSpeed;
+
+                        // When we've scrolled past the original set, jump back silently
+                        const halfWidth = peopleGrid.scrollWidth / 2;
+                        if (peopleWrapper.scrollLeft >= halfWidth) {
+                            // Instant jump — no visible flicker because second half is identical
+                            peopleWrapper.scrollLeft -= halfWidth;
+                        }
+                    }, tickInterval);
+                }
+
+                startAutoScroll();
+
+                // 3. Manual buttons — temporarily flag as manual, then resume auto
+                function manualScroll(direction) {
+                    isManualScrolling = true;
+                    clearTimeout(manualTimeout);
+
+                    peopleWrapper.scrollBy({ left: direction * scrollAmount, behavior: "smooth" });
+
+                    // Resume auto-scroll 1.5s after user stops clicking
+                    manualTimeout = setTimeout(() => {
+                        isManualScrolling = false;
+                    }, 1500);
+                }
+
+                document.querySelector(".scroll-left")?.addEventListener("click", () => {
+                    manualScroll(-1);
+                });
+
+                document.querySelector(".scroll-right")?.addEventListener("click", () => {
+                    manualScroll(1);
+                });
+
+                // 4. Pause on hover / touch
+                peopleWrapper.addEventListener("mouseenter", () => isPaused = true);
+                peopleWrapper.addEventListener("mouseleave", () => isPaused = false);
+                peopleWrapper.addEventListener("touchstart",  () => {
+                    isPaused = true;
+                }, { passive: true });
+                peopleWrapper.addEventListener("touchend", () => {
+                    setTimeout(() => isPaused = false, 1000);
+                }, { passive: true });
+            }
+            // ── Supply Chain tabs ────────────────────────
+            const scTabs = document.querySelectorAll(".sc2-tab");
+
+            if (scTabs.length) {
+                scTabs.forEach(tab => {
+                    tab.addEventListener("mouseenter", () => {
+                        scTabs.forEach(t => t.classList.remove("active"));
+                        tab.classList.add("active");
+                    });
+                });
+
+                // On mobile — click instead of hover
+                scTabs.forEach(tab => {
+                    tab.addEventListener("click", () => {
+                        scTabs.forEach(t => t.classList.remove("active"));
+                        tab.classList.add("active");
+                    });
+                });
+            }
+    });
+</script> @*  peopleWrapper.addEventListener("touchstart",  () => {
+                isPaused = true;
+            }, { passive: true });
+            peopleWrapper.addEventListener("touchend", () => {
+                setTimeout(() => isPaused = false, 1000);
+            }, { passive: true });
+        }
+        // ── Supply Chain tabs ────────────────────────
+        const scTabs = document.querySelectorAll(".sc2-tab");
+
+        if (scTabs.length) {
+            scTabs.forEach(tab => {
+                tab.addEventListener("mouseenter", () => {
+                    scTabs.forEach(t => t.classList.remove("active"));
+                    tab.classList.add("active");
+                });
+            });
+
+            // On mobile — click instead of hover
+            scTabs.forEach(tab => {
+                tab.addEventListener("click", () => {
+                    scTabs.forEach(t => t.classList.remove("active"));
+                    tab.classList.add("active");
+                });
+            });
+        }
+});
+</script> *@

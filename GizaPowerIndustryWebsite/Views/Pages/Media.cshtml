@@ -1,0 +1,893 @@
+﻿@* ============================================================
+   Media.cshtml
+   Content-only view — relies on _Layout.cshtml for <html>,
+   <head>, header and footer. Drop this into Views/Home (or
+   wherever routes to it) alongside your existing layout.
+
+   Font link (add to _Layout.cshtml <head> if not already global):
+   <link rel="preconnect" href="https://fonts.googleapis.com">
+   <link href="https://fonts.googleapis.com/css2?family=Oswald:wght@500;600;700&family=Inter:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
+============================================================ *@
+
+<style>
+    /* ===== FULL-VIEWPORT VIDEO FIX (Media Page) ===== */
+    .media-page .video-section {
+        position: relative;
+        width: 100vw !important;
+        max-width: none !important;
+        margin-left: calc(-50vw + 50%) !important;
+        margin-right: calc(-50vw + 50%) !important;
+        height: 100vh !important; /* override any inline height */
+        min-height: 500px !important;
+        overflow: hidden;
+        background: #000;
+        box-sizing: border-box;
+    }
+
+        .media-page .video-section .section-video {
+            position: absolute;
+            inset: 0;
+            width: 100% !important;
+            height: 100% !important;
+            max-width: none !important;
+            object-fit: cover !important;
+            display: block;
+            z-index: 0;
+            /* Remove any transform that might interfere with sizing */
+            transform: scale(1) !important;
+        }
+    :root {
+        /* -- brand -- */
+        --primary: #a3191e; /* given */
+        --primary-dark: #7c1317; /* derived, hover/depth */
+        --navy: #06283f; /* matches the navy already used across your site headings */
+        /* -- neutrals -- */
+        --ink: #1c1c1e;
+        --paper: #f7f6f4;
+        --paper-dim: #ece9e4;
+        --steel: #54585d;
+        --copper: #b87333;
+        --line: rgba(28,28,30,0.12);
+        --line-paper: rgba(247,246,244,0.18);
+    }
+
+    .media-page * {
+        box-sizing: border-box;
+    }
+
+    .media-page {
+        background: var(--paper);
+        color: var(--ink);
+    }
+
+        .media-page h1, .media-page h2, .media-page h3 {
+            font-family: 'Oswald',sans-serif;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.01em;
+            margin: 0;
+        }
+
+        .media-page a {
+            color: inherit;
+        }
+
+        .media-page img {
+            display: block;
+            max-width: 100%;
+        }
+
+        .media-page section {
+            padding: clamp(40px,6vw,72px) clamp(20px,5vw,56px);
+        }
+
+        .media-page .shell {
+            max-width: 1400px;
+            margin: 0 auto;
+        }
+
+    /* ---------- filter bar ---------- */
+    .filter-bar {
+        display: flex;
+        gap: 2px;
+        overflow-x: auto;
+        padding: 16px clamp(20px,5vw,56px) 0;
+        max-width: 1400px;
+        margin: 0 auto;
+    }
+
+    .filter-tab {
+        appearance: none;
+        border: none;
+        background: transparent;
+        color: var(--ink);
+        opacity: 0.5;
+        font-family: 'IBM Plex Mono',monospace;
+        font-size: 12px;
+        letter-spacing: 0.08em;
+        padding: 10px 16px;
+        cursor: pointer;
+        white-space: nowrap;
+        border-bottom: 2px solid transparent;
+        transition: opacity 0.2s ease, border-color 0.2s ease;
+    }
+
+        .filter-tab:hover {
+            opacity: 0.8;
+        }
+
+        .filter-tab.active {
+            opacity: 1;
+            border-color: var(--primary);
+            color: var(--primary);
+        }
+
+    /* ---------- video hero ---------- */
+    .video-section {
+        position: relative; /* containing block for absolute children */
+        overflow: hidden;
+        width: 100%;
+        height: 90vh;
+        min-height: 500px;
+    }
+
+    .video-overlay {
+        position: absolute;
+        inset: 0;
+        background: linear-gradient(180deg, rgba(6,40,63,0) 0%, rgba(6,40,63,0.6) 100%);
+        z-index: 1;
+    }
+
+    .section-video {
+        position: absolute;
+        inset: 0;
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+        z-index: 0;
+    }
+
+    /* ---------- section heading ---------- */
+    .media-page .about-header {
+        margin-bottom: 8px;
+    }
+
+    /* ============================================================
+           MEDIA CARD GRID
+        ============================================================= */
+    .media-grid {
+        display: grid;
+        grid-template-columns: repeat(4, 1fr);
+        gap: 26px;
+        margin-top: 32px;
+    }
+
+    @@media (max-width:1100px) {
+        .media-grid {
+            grid-template-columns: repeat(3,1fr);
+        }
+    }
+
+    @@media (max-width:820px) {
+        .media-grid {
+            grid-template-columns: repeat(2,1fr);
+        }
+    }
+
+    @@media (max-width:520px) {
+        .media-grid {
+            grid-template-columns: 1fr;
+        }
+    }
+
+    .media-card {
+        background: #fff;
+        border-radius: 16px;
+        overflow: hidden;
+        border: 1px solid var(--line);
+        box-shadow: 0 4px 18px rgba(6,40,63,0.06);
+        display: flex;
+        flex-direction: column;
+        cursor: pointer;
+        opacity: 0;
+        transform: translateY(16px);
+        transition: opacity 0.5s ease, transform 0.35s cubic-bezier(.25,.46,.45,.94), box-shadow 0.35s ease;
+    }
+
+        .media-card.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        .media-card.is-hidden {
+            display: none;
+        }
+
+        .media-card:hover {
+            transform: translateY(-8px);
+            box-shadow: 0 20px 40px rgba(6,40,63,0.16);
+        }
+
+    .media-card-image {
+        position: relative;
+        aspect-ratio: 4/3;
+        overflow: hidden;
+        background: var(--ink);
+    }
+
+        .media-card-image img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: transform 0.5s ease;
+        }
+
+    .media-card:hover .media-card-image img {
+        transform: scale(1.07);
+    }
+
+    /* darken-on-hover for legibility + play affordance */
+    .media-card-scrim {
+        position: absolute;
+        inset: 0;
+        background: linear-gradient(180deg, rgba(6,40,63,0) 45%, rgba(6,40,63,0.55) 100%);
+        opacity: 0;
+        transition: opacity 0.3s ease;
+    }
+
+    .media-card:hover .media-card-scrim {
+        opacity: 1;
+    }
+
+    .media-card-play {
+        position: absolute;
+        inset: 0;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        opacity: 0;
+        transition: opacity 0.25s ease, transform 0.25s ease;
+        transform: scale(0.85);
+    }
+
+    .media-card:hover .media-card-play {
+        opacity: 1;
+        transform: scale(1);
+    }
+
+    .media-card-play svg {
+        width: 46px;
+        height: 46px;
+        fill: #fff;
+        filter: drop-shadow(0 2px 8px rgba(0,0,0,0.4));
+    }
+
+    /* category pill, top-left over image */
+    .media-card-tag {
+        position: absolute;
+        top: 12px;
+        left: 12px;
+        font-family: 'IBM Plex Mono',monospace;
+        font-size: 10px;
+        letter-spacing: 0.08em;
+        color: #fff;
+        background: var(--cat-color, var(--steel));
+        padding: 5px 10px;
+        border-radius: 100px;
+        z-index: 2;
+    }
+
+    /* gallery-count chip, top-right over image — only rendered when >1 media item */
+    .media-card-count {
+        position: absolute;
+        top: 12px;
+        right: 12px;
+        display: flex;
+        align-items: center;
+        gap: 5px;
+        font-family: 'IBM Plex Mono',monospace;
+        font-size: 11px;
+        color: #fff;
+        background: rgba(6,40,63,0.72);
+        padding: 5px 9px;
+        border-radius: 100px;
+        z-index: 2;
+        backdrop-filter: blur(2px);
+    }
+
+        .media-card-count svg {
+            width: 12px;
+            height: 12px;
+            fill: #fff;
+        }
+
+    /* category colour system — mirrors cable/terminal colour marking */
+    .media-card[data-category="products"] {
+        --cat-color: var(--primary);
+    }
+
+    .media-card[data-category="installations"] {
+        --cat-color: var(--copper);
+    }
+
+    .media-card[data-category="catalogs"] {
+        --cat-color: var(--steel);
+    }
+
+    .media-card[data-category="videos"] {
+        --cat-color: var(--primary-dark);
+    }
+
+    .media-card[data-category="events"] {
+        --cat-color: var(--navy);
+    }
+
+    .media-card-body {
+        padding: 16px 18px 18px;
+        display: flex;
+        flex-direction: column;
+        gap: 6px;
+        border-top: 3px solid var(--cat-color, var(--steel));
+    }
+
+    .media-card-ref {
+        font-family: 'IBM Plex Mono',monospace;
+        font-size: 10.5px;
+        color: var(--cat-color, var(--steel));
+        letter-spacing: 0.06em;
+    }
+
+    .media-card-title {
+        font-family: 'Inter',sans-serif;
+        font-size: 15px;
+        font-weight: 600;
+        color: var(--navy);
+        line-height: 1.35;
+        margin: 0;
+    }
+
+    .media-card-meta {
+        font-family: 'IBM Plex Mono',monospace;
+        font-size: 11px;
+        color: var(--steel);
+        margin: 0;
+    }
+
+    /* ============================================================
+           LIGHTBOX / CAROUSEL
+        ============================================================= */
+    .lightbox {
+        position: fixed;
+        inset: 0;
+        background: rgba(6,40,63,0.88);
+        display: none;
+        align-items: center;
+        justify-content: center;
+        z-index: 1000;
+        padding: 24px;
+        backdrop-filter: blur(3px);
+        -webkit-backdrop-filter: blur(3px);
+    }
+
+        .lightbox.open {
+            display: flex;
+        }
+
+    .lightbox-inner {
+        max-width: 980px;
+        width: 100%;
+        max-height: 92vh;
+        background: var(--ink);
+        position: relative;
+        border-radius: 10px;
+        overflow: hidden;
+        display: flex;
+        flex-direction: column;
+        box-shadow: 0 30px 70px rgba(0,0,0,0.55);
+    }
+
+    .lightbox-close {
+        position: absolute;
+        top: 12px;
+        right: 14px;
+        background: rgba(0,0,0,0.4);
+        border: none;
+        color: #fff;
+        font-family: 'IBM Plex Mono',monospace;
+        font-size: 12px;
+        cursor: pointer;
+        letter-spacing: 0.08em;
+        padding: 8px 12px;
+        border-radius: 100px;
+        z-index: 20;
+        transition: background 0.2s ease;
+    }
+
+        .lightbox-close:hover {
+            background: rgba(0,0,0,0.7);
+        }
+
+    .lightbox-stage {
+        position: relative;
+        background: #000;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        min-height: 320px;
+    }
+
+    .lightbox-media {
+        width: 100%;
+        max-height: 50vh;
+        object-fit: contain;
+        display: block;
+    }
+
+    /* prev / next arrows */
+    .lightbox-nav {
+        position: absolute;
+        top: 50%;
+        transform: translateY(-50%);
+        width: 44px;
+        height: 44px;
+        border-radius: 50%;
+        background: rgba(0,0,0,0.45);
+        border: none;
+        color: #fff;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        cursor: pointer;
+        z-index: 15;
+        transition: background 0.2s ease, transform 0.2s ease;
+    }
+
+        .lightbox-nav:hover {
+            background: rgba(163,25,30,0.85);
+            transform: translateY(-50%) scale(1.06);
+        }
+
+        .lightbox-nav svg {
+            width: 20px;
+            height: 20px;
+            fill: #fff;
+        }
+
+    .lightbox-prev {
+        left: 14px;
+    }
+
+    .lightbox-next {
+        right: 14px;
+    }
+
+    .lightbox-nav.is-hidden {
+        display: none;
+    }
+
+    .lightbox-counter {
+        position: absolute;
+        top: 14px;
+        left: 14px;
+        font-family: 'IBM Plex Mono',monospace;
+        font-size: 11px;
+        color: #fff;
+        background: rgba(0,0,0,0.45);
+        padding: 5px 10px;
+        border-radius: 100px;
+        z-index: 15;
+    }
+
+    .lightbox-info {
+        padding: 14px 20px;
+        color: var(--paper);
+        display: flex;
+        justify-content: space-between;
+        gap: 20px;
+        flex-wrap: wrap;
+        border-top: 1px solid rgba(255,255,255,0.08);
+    }
+
+        .lightbox-info h4 {
+            font-family: 'Inter',sans-serif;
+            font-size: 15.5px;
+            font-weight: 600;
+            margin: 0;
+        }
+
+        .lightbox-info p {
+            font-family: 'IBM Plex Mono',monospace;
+            font-size: 13px;
+            color: var(--copper);
+            margin: 3px 0 0;
+        }
+
+    /* thumbnail strip */
+    .lightbox-thumbs {
+        display: flex;
+        gap: 8px;
+        padding: 10px 16px 14px;
+        overflow-x: auto;
+        background: var(--ink);
+    }
+
+        .lightbox-thumbs::-webkit-scrollbar {
+            display: none;
+        }
+
+    .lightbox-thumb {
+        flex: 0 0 auto;
+        width: 56px;
+        height: 56px;
+        border-radius: 6px;
+        overflow: hidden;
+        border: 2px solid transparent;
+        opacity: 0.55;
+        cursor: pointer;
+        transition: opacity 0.2s ease, border-color 0.2s ease;
+        position: relative;
+    }
+
+        .lightbox-thumb img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        .lightbox-thumb.active {
+            opacity: 1;
+            border-color: var(--primary);
+        }
+
+        .lightbox-thumb:hover {
+            opacity: 0.85;
+        }
+
+        .lightbox-thumb .thumb-play {
+            position: absolute;
+            inset: 0;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: rgba(0,0,0,0.35);
+        }
+
+            .lightbox-thumb .thumb-play svg {
+                width: 14px;
+                height: 14px;
+                fill: #fff;
+            }
+
+    @@media (prefers-reduced-motion: reduce) {
+        .media-page * {
+            animation: none !important;
+            transition: none !important;
+        }
+    }
+
+    .media-page :focus-visible {
+        outline: 2px solid var(--primary);
+        outline-offset: 2px;
+    }
+</style>
+
+<div class="media-page">
+
+    <!-- ================= FILTER BAR ================= -->
+    <nav class="filter-bar" id="filterBar">
+        <button class="filter-tab active" data-filter="all">ALL</button>
+        <button class="filter-tab" data-filter="products">PRODUCTS</button>
+        <button class="filter-tab" data-filter="installations">INSTALLATIONS</button>
+        <button class="filter-tab" data-filter="catalogs">CATALOGS</button>
+        <button class="filter-tab" data-filter="videos">VIDEOS</button>
+        <button class="filter-tab" data-filter="events">EVENTS</button>
+    </nav>
+
+    <!-- ================= VIDEO INTRO ================= -->
+    <section class="video-section" id="video-intro" style="height:99vh !important; min-height:500px !important;">
+        <video class="section-video" autoplay muted loop playsinline>
+            <source src="@Url.Content("~/assets/videos/Horizontal 04_compressed.mp4")" type="video/mp4">
+        </video>
+        <div class="video-overlay"></div>
+    </section>
+    <!-- ================= LIBRARY ================= -->
+    <section id="library">
+        <div class="shell">
+            <div class="about-header">
+                <p class="about-label" style="font-weight:900; color:#a3191e; margin-top:24px !important; margin-bottom:0px !important">Media Library</p>
+                <span class="hero-small reveal-line" style="font-size:28px; font-weight:900; color:#06283f;">
+                    Products, projects &amp; documentation in one place
+                </span>
+            </div>
+
+            <div class="media-grid" id="mediaGrid">
+                <!-- Cards injected by script from mediaItems array below -->
+            </div>
+        </div>
+    </section>
+
+    <!-- ================= LIGHTBOX / CAROUSEL ================= -->
+    <div class="lightbox" id="lightbox" role="dialog" aria-modal="true" aria-label="Media viewer" style="    margin-top: 50px;">
+        <div class="lightbox-inner">
+            <button class="lightbox-close" id="lightboxClose" aria-label="Close">CLOSE ✕</button>
+
+            <div class="lightbox-stage">
+                <span class="lightbox-counter" id="lightboxCounter"></span>
+                <button class="lightbox-nav lightbox-prev" id="lightboxPrev" aria-label="Previous">
+                    <svg viewBox="0 0 24 24"><path d="M15 18l-6-6 6-6" /></svg>
+                </button>
+                <img class="lightbox-media" id="lightboxImg" alt="" style="display:none;">
+                <video class="lightbox-media" id="lightboxVid" controls style="display:none;"></video>
+                <button class="lightbox-nav lightbox-next" id="lightboxNext" aria-label="Next">
+                    <svg viewBox="0 0 24 24"><path d="M9 6l6 6-6 6" /></svg>
+                </button>
+            </div>
+
+            <div class="lightbox-thumbs" id="lightboxThumbs"></div>
+
+            <div class="lightbox-info">
+                <div>
+                    <h4 id="lightboxTitle"></h4>
+                    <p id="lightboxMeta"></p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+</div>
+
+<script>
+    /* ============================================================
+       DATA SOURCE
+       Each item now carries a `media` array instead of a single
+       poster — this is what powers the carousel. One entry per
+       photo/video belonging to that card. Static for now; to pull
+       from a database later, replace this array with:
+       const mediaItems = @@Html.Raw(Json.Serialize(Model.MediaItems));
+       ...and shape MediaItems server-side to match this structure.
+    ============================================================= */
+    const mediaItems = [
+        {
+            id: 5, category: 'events', ref: 'EVT-2026',
+            title: 'Summer Internship Program 2026',
+            meta: 'Careers',
+            media: [
+                { type: 'image', src: '/assets/images/inter1.jfif' },
+                { type: 'image', src: '/assets/images/inter2.jfif' },
+                { type: 'image', src: '/assets/images/inter3.jfif' },
+            ]
+        },
+        {
+            id: 1, category: 'products', ref: 'REF CBL-4022',
+            title: 'XLPE Armoured Power Cable — 4-Core',
+            meta: '0.6/1kV · 25mm²',
+            media: [
+                { type: 'image', src: '/assets/imgs/cables&wires/cables1.png' }
+            ]
+        },
+        {
+            id: 2, category: 'installations', ref: 'PRJ-0119',
+            title: 'Substation Retrofit, Industrial Park East',
+            meta: 'Installation · 2026',
+            media: [
+                { type: 'image', src: '/assets/images/sustainability-transformer.jpg' },
+                { type: 'image', src: '/assets/images/sustainability-workers.jpg' }
+            ]
+        },
+        {
+            id: 3, category: 'products', ref: 'REF MTR-7701',
+            title: 'Digital Smart Meter — Install Walkthrough',
+            meta: 'Product Demo',
+            media: [
+                { type: 'video', src: 'https://www.w3schools.com/html/mov_bbb.mp4', poster: '/assets/images/sustainability-transformer.jpg' }
+            ]
+        },
+        {
+            id: 4, category: 'catalogs', ref: 'CAT-LX-09',
+            title: 'LED High-Bay Lighting Range',
+            meta: 'Catalog · 2026 Edition',
+            media: [
+                { type: 'image', src: '/assets/imgs/aura/Aura.jpg' }
+            ]
+        },
+        {
+            id: 6, category: 'products', ref: 'REF MTR-4410',
+            title: 'Single-Phase Energy Meter, Class 1',
+            meta: 'Product Photography',
+            media: [
+                { type: 'image', src: '/assets/imgs/meters/meter.jpg' }
+            ]
+        },
+        {
+            id: 7, category: 'installations', ref: 'PRJ-0124',
+            title: 'Street Lighting Rollout, Coastal Highway',
+            meta: 'Project Film',
+            media: [
+                { type: 'video', src: 'https://www.w3schools.com/html/mov_bbb.mp4', poster: '/assets/images/sustainability-transformer.jpg' }
+            ]
+        },
+        {
+            id: 8, category: 'videos', ref: 'REF FAC-002',
+            title: 'Factory Floor: Cable Extrusion Line',
+            meta: 'Behind the Scenes',
+            media: [
+                { type: 'video', src: 'https://www.w3schools.com/html/mov_bbb.mp4', poster: '/assets/images/sustainability-transformer.jpg' }
+            ]
+        },
+    ];
+
+    const grid = document.getElementById('mediaGrid');
+    const playIcon = '<svg viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg>';
+    const stackIcon = '<svg viewBox="0 0 24 24"><path d="M12 2 2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5"/></svg>';
+
+    function coverOf(item) {
+        const first = item.media[0];
+        return first.type === 'video' ? (first.poster || '') : first.src;
+    }
+
+    mediaItems.forEach(item => {
+        const card = document.createElement('article');
+        card.className = 'media-card';
+        card.dataset.category = item.category;
+        card.dataset.id = item.id;
+        const isVideo = item.media[0].type === 'video';
+        const count = item.media.length;
+        card.innerHTML = `
+            <div class="media-card-image" tabindex="0" role="button" aria-label="Open ${item.title}">
+              <span class="media-card-tag">${item.category.toUpperCase()}</span>
+              ${count > 1 ? `<span class="media-card-count">${stackIcon}${count}</span>` : ''}
+              <img src="${coverOf(item)}" alt="${item.title}" loading="lazy">
+              <div class="media-card-scrim"></div>
+              ${isVideo ? `<span class="media-card-play">${playIcon}</span>` : ''}
+            </div>
+            <div class="media-card-body">
+              <span class="media-card-ref">${item.ref}</span>
+              <h4 class="media-card-title">${item.title}</h4>
+              <p class="media-card-meta">${item.meta}</p>
+            </div>
+        `;
+        grid.appendChild(card);
+    });
+
+    /* ---------- filtering ---------- */
+    const tabs = document.querySelectorAll('.filter-tab');
+    const cards = document.querySelectorAll('.media-card');
+    tabs.forEach(tab => {
+        tab.addEventListener('click', () => {
+            tabs.forEach(t => t.classList.remove('active'));
+            tab.classList.add('active');
+            const filter = tab.dataset.filter;
+            cards.forEach(c => {
+                const match = filter === 'all' || c.dataset.category === filter;
+                c.classList.toggle('is-hidden', !match);
+            });
+        });
+    });
+
+    /* ---------- scroll reveal ---------- */
+    const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+    if (reduceMotion) {
+        cards.forEach(c => c.classList.add('visible'));
+    } else {
+        const io = new IntersectionObserver((entries) => {
+            entries.forEach(e => {
+                if (e.isIntersecting) { e.target.classList.add('visible'); io.unobserve(e.target); }
+            });
+        }, { threshold: 0.15 });
+        cards.forEach(c => io.observe(c));
+    }
+
+    /* ============================================================
+       LIGHTBOX / CAROUSEL
+    ============================================================= */
+    const lightbox = document.getElementById('lightbox');
+    const lbImg = document.getElementById('lightboxImg');
+    const lbVid = document.getElementById('lightboxVid');
+    const lbTitle = document.getElementById('lightboxTitle');
+    const lbMeta = document.getElementById('lightboxMeta');
+    const lbCounter = document.getElementById('lightboxCounter');
+    const lbThumbs = document.getElementById('lightboxThumbs');
+    const lbPrev = document.getElementById('lightboxPrev');
+    const lbNext = document.getElementById('lightboxNext');
+
+    let activeItem = null;
+    let activeIndex = 0;
+
+    function openLightbox(id) {
+        const item = mediaItems.find(m => m.id === id);
+        if (!item) return;
+        activeItem = item;
+        activeIndex = 0;
+        renderThumbs();
+        showSlide(0);
+        lightbox.classList.add('open');
+        document.body.style.overflow = 'hidden';
+    }
+
+    function closeLightbox() {
+        lightbox.classList.remove('open');
+        lbVid.pause();
+        document.body.style.overflow = '';
+        activeItem = null;
+    }
+
+    function showSlide(index) {
+        if (!activeItem) return;
+        const total = activeItem.media.length;
+        activeIndex = (index + total) % total;
+        const slide = activeItem.media[activeIndex];
+
+        if (slide.type === 'video') {
+            lbVid.src = slide.src;
+            lbVid.poster = slide.poster || '';
+            lbVid.style.display = 'block';
+            lbImg.style.display = 'none';
+            lbVid.load();
+        } else {
+            lbImg.src = slide.src;
+            lbImg.style.display = 'block';
+            lbVid.style.display = 'none';
+            lbVid.pause();
+            lbVid.removeAttribute('src');
+        }
+
+        lbTitle.textContent = activeItem.title;
+        lbMeta.textContent = `${activeItem.ref} · ${activeItem.meta}`;
+        lbCounter.textContent = total > 1 ? `${activeIndex + 1} / ${total}` : '';
+        lbCounter.style.display = total > 1 ? 'block' : 'none';
+
+        const showNav = total > 1;
+        lbPrev.classList.toggle('is-hidden', !showNav);
+        lbNext.classList.toggle('is-hidden', !showNav);
+
+        [...lbThumbs.children].forEach((t, i) => t.classList.toggle('active', i === activeIndex));
+        const activeThumb = lbThumbs.children[activeIndex];
+        if (activeThumb) activeThumb.scrollIntoView({ inline: 'nearest', block: 'nearest', behavior: 'smooth' });
+    }
+
+    function renderThumbs() {
+        lbThumbs.innerHTML = '';
+        if (!activeItem || activeItem.media.length <= 1) return;
+        activeItem.media.forEach((slide, i) => {
+            const thumb = document.createElement('div');
+            thumb.className = 'lightbox-thumb';
+            const thumbSrc = slide.type === 'video' ? (slide.poster || '') : slide.src;
+            thumb.innerHTML = `<img src="${thumbSrc}" alt="">${slide.type === 'video' ? `<span class="thumb-play">${playIcon}</span>` : ''}`;
+            thumb.addEventListener('click', () => showSlide(i));
+            lbThumbs.appendChild(thumb);
+        });
+    }
+
+    grid.addEventListener('click', (e) => {
+        const target = e.target.closest('.media-card-image');
+        if (!target) return;
+        openLightbox(Number(target.closest('.media-card').dataset.id));
+    });
+    grid.addEventListener('keydown', (e) => {
+        if (e.key === 'Enter') {
+            const target = e.target.closest('.media-card-image');
+            if (target) openLightbox(Number(target.closest('.media-card').dataset.id));
+        }
+    });
+
+    lbPrev.addEventListener('click', () => showSlide(activeIndex - 1));
+    lbNext.addEventListener('click', () => showSlide(activeIndex + 1));
+    document.getElementById('lightboxClose').addEventListener('click', closeLightbox);
+    lightbox.addEventListener('click', (e) => { if (e.target === lightbox) closeLightbox(); });
+
+    document.addEventListener('keydown', (e) => {
+        if (!lightbox.classList.contains('open')) return;
+        if (e.key === 'Escape') closeLightbox();
+        if (e.key === 'ArrowLeft') showSlide(activeIndex - 1);
+        if (e.key === 'ArrowRight') showSlide(activeIndex + 1);
+    });
+
+    /* basic touch-swipe support on the stage */
+    const stage = document.querySelector('.lightbox-stage');
+    let touchStartX = 0;
+    stage.addEventListener('touchstart', (e) => { touchStartX = e.changedTouches[0].clientX; }, { passive: true });
+    stage.addEventListener('touchend', (e) => {
+        const dx = e.changedTouches[0].clientX - touchStartX;
+        if (Math.abs(dx) > 40) showSlide(activeIndex + (dx < 0 ? 1 : -1));
+    }, { passive: true });
+</script>

@@ -1,0 +1,569 @@
+﻿@{
+    ViewData["Title"] = "Cables & Wires Products";
+}
+
+<style>
+    .main-content {
+        padding-top: 90px; /* adjust this value as needed */
+    }
+
+    .products-page {
+        display: flex;
+        gap: 30px;
+        padding: 40px 0;
+        align-items: flex-start;
+    }
+
+    /* ===== SIDEBAR ===== */
+    .filter-sidebar {
+        width: 280px;
+        flex-shrink: 0;
+        background: #f8f9fa;
+        padding: 25px;
+        border-radius: 6px;
+    }
+
+        .filter-sidebar h3 {
+            font-size: 1.3rem;
+            font-weight: 600;
+            color: #333;
+            margin-bottom: 20px;
+        }
+
+
+    .filter-group-header {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        cursor: pointer;
+        font-weight: 600;
+        color: #444;
+        margin-bottom: 12px;
+    }
+
+        .filter-group-header .toggle-icon {
+            font-size: 1.2rem;
+            line-height: 1;
+            transition: transform 0.2s;
+        }
+
+    .filter-group.collapsed .toggle-icon {
+        transform: rotate(-90deg);
+    }
+
+    .filter-options {
+        display: flex;
+        flex-direction: column;
+        gap: 10px;
+        overflow: hidden;
+        transition: max-height 0.3s ease;
+    }
+
+    .filter-group.collapsed .filter-options {
+        display: none;
+    }
+
+    .filter-option {
+        display: flex;
+        align-items: flex-start;
+        gap: 8px;
+        font-size: 0.92rem;
+        color: #555;
+        cursor: pointer;
+        flex-direction: row-reverse;
+    }
+
+        .filter-option input {
+            margin-top: 3px;
+            cursor: pointer;
+        }
+
+    .show-more {
+        color: #B82025;
+        font-weight: 600;
+        font-size: 0.9rem;
+        cursor: pointer;
+        text-decoration: none;
+        display: inline-block;
+        margin-top: 5px;
+    }
+
+    /* ===== MAIN LIST ===== */
+    .products-main {
+        flex: 1;
+        width:100%;
+    }
+
+    .products-toolbar {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        flex-wrap: wrap;
+        gap: 15px;
+        padding-bottom: 20px;
+        border-bottom: 1px solid #e0e0e0;
+        margin-bottom: 10px;
+    }
+
+        .products-toolbar h2 {
+            color: #B82025;
+            font-size: 1.3rem;
+            font-weight: 700;
+            margin: 0;
+        }
+
+    .toolbar-controls {
+        display: flex;
+        align-items: center;
+        gap: 15px;
+        flex-wrap: wrap;
+    }
+
+        .toolbar-controls label {
+            font-weight: 600;
+            font-size: 0.85rem;
+            color: #555;
+            margin-right: 5px;
+        }
+
+        .toolbar-controls select {
+            padding: 6px 10px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+            font-size: 0.9rem;
+        }
+
+    .view-toggle {
+        display: flex;
+        gap: 5px;
+    }
+
+        .view-toggle button {
+            width: 38px;
+            height: 38px;
+            border: 1px solid #ccc;
+            background: #fff;
+            border-radius: 4px;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+            .view-toggle button.active {
+                background: #06283F;
+                color: #fff;
+                border-color: #06283F;
+            }
+
+    /* Product rows */
+    .product-list {
+        display: flex;
+        flex-direction: column;
+    }
+
+    .product-row {
+        display: flex;
+        align-items: center;
+        gap: 25px;
+        padding: 18px 0;
+        border-bottom: 1px solid #eee;
+    }
+
+        .product-row img {
+            width: 100px;
+            height: 70px;
+            object-fit: cover;
+            border-radius: 4px;
+            flex-shrink: 0;
+        }
+
+        .product-row .product-name {
+            flex: 1;
+            color: #06283F;
+            font-weight: 700;
+            font-size: 1rem;
+            text-decoration: none;
+        }
+
+        .product-row .btn-spec {
+            border: 1px solid #ccc;
+            border-radius: 4px;
+            background: #fff;
+            padding: 10px 18px;
+            font-size: 0.85rem;
+            color: #555;
+            text-decoration: none;
+            white-space: nowrap;
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+    /* Grid view */
+    .product-list.grid-view {
+        display: grid;
+        grid-template-columns: repeat(3, 1fr);
+        gap: 25px;
+    }
+
+        .product-list.grid-view .product-row {
+            flex-direction: column;
+            align-items: stretch;
+            text-align: center;
+            border: 1px solid #eee;
+            border-radius: 6px;
+            padding: 20px;
+        }
+
+            .product-list.grid-view .product-row img {
+                width: 100%;
+                height: 140px;
+            }
+
+    /* ===== RESPONSIVE ===== */
+    @@media (max-width: 992px) {
+        .products-page {
+            flex-direction: column;
+        }
+
+        .filter-sidebar {
+            width: 100%;
+        }
+
+        .product-list.grid-view {
+            grid-template-columns: repeat(2, 1fr);
+        }
+    }
+
+    @@media (max-width: 576px) {
+        .product-row {
+            flex-wrap: wrap;
+        }
+
+            .product-row .btn-spec {
+                width: 100%;
+                justify-content: center;
+            }
+
+        .product-list.grid-view {
+            grid-template-columns: 1fr;
+        }
+
+        .products-toolbar {
+            flex-direction: column;
+            align-items: flex-start;
+        }
+    }
+</style>
+
+<style>
+    /* ===== FILTER SIDEBAR – Enhanced ===== */
+    /* … keep all your existing styles above, then replace the filter-option part … */
+
+    .filter-option {
+        display: flex;
+        align-items: flex-start;
+        gap: 8px;
+        font-size: 0.92rem;
+        color: #374151;
+        cursor: pointer;
+        flex-direction: row;
+        margin: 0;
+        min-height: 2.25rem; /* ensures uniform row height, checkboxes align */
+    }
+
+        /* Checkbox – fixed size, never shrinks */
+        .filter-option input[type="checkbox"] {
+            appearance: none;
+            -webkit-appearance: none;
+            width: 18px;
+            height: 18px;
+            border: 2px solid #d1d5db;
+            border-radius: 4px;
+            margin: 0;
+            cursor: pointer;
+            position: relative;
+            transition: all 0.2s;
+            flex-shrink: 0; /* critical – prevents shrinking */
+        }
+
+            .filter-option input[type="checkbox"]:checked {
+                background: #B82025;
+                border-color: #B82025;
+            }
+
+                .filter-option input[type="checkbox"]:checked::after {
+                    content: "";
+                    position: absolute;
+                    left: 5px;
+                    top: 2px;
+                    width: 5px;
+                    height: 10px;
+                    border: solid #fff;
+                    border-width: 0 2px 2px 0;
+                    transform: rotate(45deg);
+                }
+
+        /* Label text – wraps and takes available space */
+        .filter-option .option-label {
+            flex: 1 1 auto;
+            min-width: 0;
+            line-height: 1.4;
+        }
+
+        /* Count – stuck to the right, never wraps */
+        .filter-option .count {
+            flex: 0 0 auto;
+            color: #9ca3af;
+            font-size: 0.8rem;
+            white-space: nowrap;
+            margin-left: auto;
+        }
+</style>
+
+
+<div class="main-content">
+    <div class="container">
+        <div class="products-page">
+            <!-- ===== FILTER SIDEBAR ===== -->
+
+            <aside class="filter-sidebar" id="filterSidebar">
+                <div class="sidebar-header">
+                    <h3>Filter by</h3>
+                </div>
+
+                <!-- Category Group -->
+                <div class="filter-group">
+                    <div class="filter-group-header" onclick="toggleGroup(this)">
+                        <span>Category</span>
+                        <svg class="toggle-icon" width="16" height="16" viewBox="0 0 16 16"><polyline points="4,6 8,10 12,6" fill="none" stroke="currentColor" stroke-width="2" /></svg>
+                    </div>
+                    <div class="filter-options">
+                        <!-- 1st visible item -->
+                        <label class="filter-option">
+                            <input type="checkbox" data-filter="category" />
+                            <span class="option-label">Bare Hard and Soft Drawn Copper Conductors</span>
+                            <span class="count">(2)</span>
+                        </label>
+                        <!-- 2nd visible item -->
+                        <label class="filter-option">
+                            <input type="checkbox" data-filter="category" />
+                            <span class="option-label">All Aluminum Conductor (AAC)</span>
+                            <span class="count">(1)</span>
+                        </label>
+                        <!-- 3rd visible item -->
+                        <label class="filter-option">
+                            <input type="checkbox" data-filter="category" />
+                            <span class="option-label">All Aluminum Alloy Conductor (AAAC)</span>
+                            <span class="count">(1)</span>
+                        </label>
+
+                        <!-- Hidden extras -->
+                        <div class="extra-options" style="display:none;">
+                            <label class="filter-option">
+                                <input type="checkbox" data-filter="category" />
+                                <span class="option-label">Aluminum Conductor Steel reinforced (ACSR)</span>
+                                <span class="count">(1)</span>
+                            </label>
+                            <label class="filter-option">
+                                <input type="checkbox" data-filter="category" />
+                                <span class="option-label">Aluminum Conductor Aluminum Clad Steel reinforced (ACSR/AW)</span>
+                                <span class="count">(1)</span>
+                            </label>
+                            <label class="filter-option">
+                                <input type="checkbox" data-filter="category" />
+                                <span class="option-label">Aluminum Alloy Conductor Steel reinforced ACSR</span>
+                                <span class="count">(1)</span>
+                            </label>
+                            <label class="filter-option">
+                                <input type="checkbox" data-filter="category" />
+                                <span class="option-label">Aerial Bundled Cables (ABC)</span>
+                                <span class="count">(1)</span>
+                            </label>
+                        </div>
+
+                        <a class="show-more" href="#" onclick="toggleShowMore(this); return false;">+ Show More</a>
+                    </div>
+                </div>
+            </aside>
+
+            <!-- ===== MAIN PRODUCT LIST ===== -->
+            <div class="products-main">
+                <div class="products-toolbar">
+                    <h2>Overhead Conductors</h2>
+
+                    <div class="toolbar-controls">
+                        <div class="view-toggle">
+                            <button class="active" id="listViewBtn" onclick="setView('list')" title="List view">☰</button>
+                            <button id="gridViewBtn" onclick="setView('grid')" title="Grid view">⊞</button>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="product-list" id="productList">
+                    <div class="product-row" data-category="Bare Hard and Soft Drawn Copper Conductors">
+                        <img src="~/assets/3DImages/OHTL/Bare Copper Conductor.jpg" alt="Bare Copper Conductor" />
+                        <a asp-controller="Pages" asp-action="BareSoft" asp-route-name="Bare Soft Drawn Copper Conductor" asp-route-img="Bare Copper Conductor.jpg" class="product-name">Bare Soft Drawn Copper Conductor</a>
+                        <a href="~/assets/3DImages/OHTL/Stranded Soft Drawn Bare  Copper Conductor .pdf" class="btn-spec" target="_blank">⭳ Specifications PDF</a>
+                    </div>
+                    <div class="product-row" data-category="Bare Hard and Soft Drawn Copper Conductors">
+                        <img src="~/assets/3DImages/OHTL/Bare Copper Conductor.jpg" alt="Bare Copper Conductor" />
+                        <a asp-controller="Pages" asp-action="BareHard" class="product-name">Bare Hard Drawn Copper Conductor</a>
+                        <a href="~/assets/3DImages/OHTL/Stranded Hard Drawn Bare  Copper Conductor .pdf" class="btn-spec" target="_blank">⭳ Specifications PDF</a>
+                    </div>
+                    <div class="product-row" data-category="All Aluminum Conductor (AAC)">
+                        <img src="~/assets/3DImages/OHTL/AAC Conductor.jpg" alt="AAC Conductor" />
+                        <a asp-controller="Pages" asp-action="AAC" class="product-name">AAC Conductor</a>
+                        <a href="~/assets/3DImages/OHTL/AAC.pdf" class="btn-spec" target="_blank">⭳ Specifications PDF</a>
+                    </div>
+                    <div class="product-row" data-category="All Aluminum Alloy Conductor (AAAC)">
+                        <img src="~/assets/3DImages/OHTL/AAAC Conductor.jpg" alt="AAAC Conductor" />
+                        <a asp-controller="Pages" asp-action="AAAC" class="product-name">AAAC Conductor</a>
+                        <a href="~/assets/3DImages/OHTL/AAAC.pdf" class="btn-spec" target="_blank">⭳ Specifications PDF</a>
+                    </div>
+                    <div class="product-row" data-category="Aluminum Conductor Steel reinforced (ACSR)">
+                        <img src="~/assets/3DImages/OHTL/ACSR.jpg" alt="ACSR" />
+                        <a asp-controller="Pages" asp-action="ACSR" class="product-name">ACSR</a>
+                        <a href="~/assets/3DImages/OHTL/ACSR.pdf" class="btn-spec" target="_blank">⭳ Specifications PDF</a>
+                    </div>
+                    <div class="product-row" data-category="Aluminum Conductor Aluminum Clad Steel reinforced (ACSR/AW)">
+                        <img src="~/assets/3DImages/OHTL/ACSR_AW.jpg" alt="ACSR/AW" />
+                        <a asp-controller="Pages" asp-action="ACSRAW" class="product-name">ACSR/AW</a>
+                        <a href="~/assets/3DImages/OHTL/ACSR-AW.pdf" class="btn-spec" target="_blank">⭳ Specifications PDF</a>
+                    </div>
+                    <div class="product-row" data-category="Aluminum Alloy Conductor Steel reinforced ACSR">
+                        <img src="~/assets/3DImages/OHTL/ACSR_W1.jpg" alt="AACSR" />
+                        <a asp-controller="Pages" asp-action="AACSR" class="product-name">AACSR</a>
+                        <a href="~/assets/3DImages/OHTL/AACSR.pdf" class="btn-spec" target="_blank">⭳ Specifications PDF</a>
+                    </div>
+                    <div class="product-row" data-category="Aerial Bundled Cables (ABC)">
+                        <img src="~/assets/3DImages/OHTL/ABC conductor.jpg" alt="ABC Conductor" />
+                        <a asp-controller="Pages" asp-action="ABC" class="product-name">ABC Conductor</a>
+                        <a href="~/assets/3DImages/OHTL/ABC.pdf" class="btn-spec" target="_blank">⭳ Specifications PDF</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    /* ===== Filter products when checkbox is checked / unchecked ===== */
+    document.addEventListener('change', function(e) {
+        if (!e.target.matches('.filter-option input[type="checkbox"]')) return;
+
+        const group = e.target.closest('.filter-group');
+        if (!group) return;
+
+        const allCheckboxes = group.querySelectorAll('.filter-option input[type="checkbox"]');
+
+        // If the clicked checkbox is now unchecked → clear selection and show all
+        if (!e.target.checked) {
+            // uncheck everything in this group (just in case)
+            allCheckboxes.forEach(cb => cb.checked = false);
+            document.querySelectorAll('.product-row').forEach(row => row.style.display = '');
+            updateClearButton();
+            return;
+        }
+
+        // Checked: uncheck all others, then filter
+        allCheckboxes.forEach(cb => {
+            if (cb !== e.target) cb.checked = false;
+        });
+
+        // Get the selected label text
+        const label = e.target.closest('.filter-option');
+        const selectedLabel = label ? label.querySelector('.option-label').textContent.trim() : '';
+
+        // Filter product rows
+        const productRows = document.querySelectorAll('.product-row');
+        productRows.forEach(row => {
+            const category = row.getAttribute('data-category');
+            if (category === selectedLabel) {
+                row.style.display = '';   // show (revert to CSS rule)
+            } else {
+                row.style.display = 'none';
+            }
+        });
+
+        updateClearButton();
+    });
+    function toggleGroup(header) {
+        const group = header.closest('.filter-group');
+        if (!group) return;
+        group.classList.toggle('collapsed');
+    }
+
+    /* ===== Show More / Show Less ===== */
+    function toggleShowMore(link) {
+        const container = link.closest('.filter-options');
+        const extras = container.querySelector('.extra-options');
+        if (!extras) return;
+        if (extras.style.display === 'none' || extras.style.display === '') {
+            extras.style.display = 'block';
+            link.textContent = '− Show Less';
+        } else {
+            extras.style.display = 'none';
+            link.textContent = '+ Show More';
+        }
+    }
+
+    /* ===== Single selection inside each filter group ===== */
+    document.addEventListener('change', function(e) {
+        if (!e.target.matches('.filter-option input[type="checkbox"]')) return;
+        const group = e.target.closest('.filter-group');
+        if (!group) return;
+        // Uncheck all other checkboxes inside the same group
+        const allCheckboxes = group.querySelectorAll('.filter-option input[type="checkbox"]');
+        allCheckboxes.forEach(cb => {
+            if (cb !== e.target) cb.checked = false;
+        });
+        updateClearButton();
+    });
+
+    /* ===== Show / hide "Clear All" button based on any checkbox checked ===== */
+    function updateClearButton() {
+        const anyChecked = document.querySelectorAll('.filter-option input[type="checkbox"]:checked').length > 0;
+        const clearBtn = document.getElementById('clearAllFilters');
+        if (clearBtn) {
+            clearBtn.style.display = anyChecked ? 'inline-block' : 'none';
+        }
+    }
+
+    document.getElementById('clearAllFilters')?.addEventListener('click', function() {
+        document.querySelectorAll('.filter-option input[type="checkbox"]').forEach(cb => cb.checked = false);
+        updateClearButton();
+    });
+
+    // Initial state
+    document.addEventListener('DOMContentLoaded', function() {
+        updateClearButton();
+    });
+
+    /* ===== Mobile Sidebar Toggle ===== */
+    function openMobileSidebar() {
+        document.getElementById('filterSidebar')?.classList.add('open');
+    }
+
+    function closeMobileSidebar() {
+        document.getElementById('filterSidebar')?.classList.remove('open');
+    }
+
+    /* ===== View Toggle (List / Grid) ===== */
+    function setView(mode) {
+        const list = document.getElementById('productList');
+        const listBtn = document.getElementById('listViewBtn');
+        const gridBtn = document.getElementById('gridViewBtn');
+
+        if (mode === 'grid') {
+            list.classList.add('grid-view');
+            gridBtn.classList.add('active');
+            listBtn.classList.remove('active');
+        } else {
+            list.classList.remove('grid-view');
+            listBtn.classList.add('active');
+            gridBtn.classList.remove('active');
+        }
+    }
+</script>

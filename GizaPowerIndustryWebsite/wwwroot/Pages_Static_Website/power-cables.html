@@ -1,0 +1,211 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Power Cables - Giza Power Industry</title>
+    <meta name="description"
+        content="Explore our comprehensive range of power cables including low voltage, medium voltage, and high voltage solutions for all your electrical needs.">
+    <link rel="stylesheet" href="assets/css/site.css">
+
+
+    <link rel="stylesheet" href="assets/css/main.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@200;300;400;500;700;800;900&display=swap"
+        rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+
+</head>
+
+<body>
+    <!--Header -->
+    <!--Header -->
+    <div>
+        <header class="header" id="header">
+            <div class="container-fluid">
+                <nav class="navbar">
+                    <div class="logo">
+                        <img src="assets/images/gpi-logo.png" alt="Giza Power Industry" class="logo-img">
+                    </div>
+
+                    <ul class="nav-menu" id="navMenu">
+                        <li><a href="index.html" class="nav-link" id="link-index">Home</a></li>
+                        <li><a href="about.html" class="nav-link active" id="link-about">About Us</a></li>
+                        <li class="nav-item-dropdown">
+                            <a href="#">Business Lines <i class="fas fa-chevron-down"></i></a>
+                            <ul class="dropdown-menu">
+                                <li><a href="Cables-Wires.html">CABLES & WIRES</a></li>
+                                <li><a href="#">Smart Meters</a></li>
+                                <li><a href="#">Lighting</a></li>
+                            </ul>
+                        </li>
+                        <li><a href="sustainability.html" class="nav-link" id="link-sustainability">Sustainability
+                                Centre</a></li>
+                        <li><a href="news.html" class="nav-link" id="link-news">News</a></li>
+                        <li><a href="partners.html" class="nav-link" id="link-partners">Partners & Clients</a></li>
+                        <li><a href="careers.html" class="nav-link" id="link-careers">Careers</a></li>
+                    </ul>
+
+                    <div class="nav-actions">
+                        <a href="contact.html" class="btn btn-primary">Contact Us</a>
+                        <button class="search-btn" aria-label="Search">
+                            <svg width="20" height="20" viewBox="0 0 20 20" fill="none"
+                                xmlns="http://www.w3.org/2000/svg">
+                                <path d="M9 17A8 8 0 1 0 9 1a8 8 0 0 0 0 16zM19 19l-4.35-4.35" stroke="currentColor"
+                                    stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
+                            </svg>
+                        </button>
+                        <div class="language-selector">
+                            <button class="lang-btn">En</button>
+                        </div>
+                    </div>
+
+                    <button class="mobile-toggle" id="mobileToggle" aria-label="Toggle menu">
+                        <span></span>
+                        <span></span>
+                        <span></span>
+                    </button>
+                </nav>
+            </div>
+        </header>
+    </div>
+
+    <main class="page-main w-full min-w-0 flex flex-col" id="main">
+
+    <!-- Power Cables Hero Section -->
+    <section class="power-cables-hero">
+        <div class="container" style="margin-left: 75px;     
+">
+            <div class="cable-hero-breadcrumb">
+                <a href="index.html">Home</a>
+                <i class="fas fa-chevron-right"></i>
+                <a href="Cables-Wires.html">Business Lines</a>
+                <i class="fas fa-chevron-right"></i>
+                <a href="Cables-Wires.html">Cables & Wires</a>
+                <i class="fas fa-chevron-right"></i>
+                <span>Power Cables</span>
+            </div>
+            <div class="power-cables-header">
+                <h1 class="power-cables-title">Power Cables</h1>
+
+                <!-- Search Bar -->
+                <div class="cable-search-container">
+                    <div class="cable-search">
+                        <svg width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
+                            <path d="M9 17A8 8 0 1 0 9 1a8 8 0 0 0 0 16zM19 19l-4.35-4.35" stroke="currentColor"
+                                stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
+                        </svg>
+                        <input type="text" id="cableSearch" placeholder="Search with cable name...">
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Tabs and Products Section -->
+    <section class="power-cables-section" >
+        <div class="container">
+            <!-- Tab Navigation -->
+            <div class="cable-tabs">
+                <button class="cable-tab active" data-category="low-voltage">
+                    Low Voltage Cables & Building Wires
+                </button>
+                <button class="cable-tab" data-category="medium-voltage">
+                    Medium Voltage Cables
+                </button>
+                <button class="cable-tab" data-category="high-voltage">
+                    High Voltage & Extra High Voltage Cables
+                </button>
+            </div>
+
+
+
+            <!-- Products Grid -->
+            <div class="cable-products-grid" id="productsGrid">
+                <!-- Products will be dynamically inserted here -->
+            </div>
+
+            <!-- No Results Message -->
+            <div class="no-results" id="noResults" style="display: none;">
+                <p>No cables found matching your search.</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    </main>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-grid">
+                <!-- Column 1: Brand & Info -->
+                <div class="footer-col footer-brand">
+                    <img src="assets/images/Frame 12.svg" alt="Giza Power Industry" class="footer-logo-img">
+                    <p class="footer-bio">
+                        Established in 1984, GPI has evolved from a local manufacturer of electrical cables
+                        into an integrated power and infrastructure solutions provider. Our growth is
+                        driven by constant innovation in technology and talent. We are a fast-growing
+                        leading player, extending our global reach across the EMEA region.
+                    </p>
+                </div>
+
+                <!-- Column 2: Overview -->
+                <div class="footer-col">
+                    <h4 class="footer-heading">Overview</h4>
+                    <ul class="footer-links">
+                        <li><a href="about.html">About Us</a></li>
+                        <li><a href="business-lines.html">Business Lines</a></li>
+                        <li><a href="projects.html">Projects</a></li>
+                        <li><a href="sustainability.html">Sustainability Centre</a></li>
+                        <li><a href="news.html">News</a></li>
+                        <li><a href="partners.html">Partners & Clients</a></li>
+                    </ul>
+                </div>
+
+                <!-- Column 3: Help & Support -->
+                <div class="footer-col">
+                    <h4 class="footer-heading">Help and Support</h4>
+                    <ul class="footer-links">
+                        <li><a href="privacy.html">Privacy Policy</a></li>
+                        <li><a href="terms.html">Terms of Use</a></li>
+                        <li><a href="guidelines.html">Regulations and Guidelines</a></li>
+                        <li><a href="careers.html">Careers</a></li>
+                    </ul>
+                </div>
+
+                <!-- Column 4: Social & Tools -->
+                <div class="footer-col">
+                    <h4 class="footer-heading">Follow Us on</h4>
+                    <div class="footer-icon-strip">
+                        <a href="#" class="footer-icon-circle"><i class="fab fa-youtube"></i></a>
+                        <a href="#" class="footer-icon-circle"><i class="fab fa-facebook-f"></i></a>
+                        <a href="#" class="footer-icon-circle"><i class="fab fa-twitter"></i></a>
+                        <a href="#" class="footer-icon-circle"><i class="fab fa-instagram"></i></a>
+                        <a href="#" class="footer-icon-circle"><i class="fab fa-linkedin-in"></i></a>
+                    </div>
+
+                    <h4 class="footer-heading footer-heading-tools">Accessibility Tools</h4>
+                    <div class="footer-icon-strip">
+                        <a href="#" class="footer-icon-circle-small"><i class="fas fa-microphone"></i></a>
+                        <a href="#" class="footer-icon-circle-small"><i class="fas fa-search-plus"></i></a>
+                        <a href="#" class="footer-icon-circle-small"><i class="fas fa-search-minus"></i></a>
+                        <a href="#" class="footer-icon-circle-small"><i class="fas fa-eye"></i></a>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Footer Bottom -->
+            <div class="footer-bottom">
+                <p>All rights reserved to <strong>Giza Power Industry</strong></p>
+            </div>
+        </div>
+    </footer>
+
+    <script src="assets/js/main.js"></script>
+    <script src="assets/js/power-cables.js"></script>
+</body>
+
+</html>

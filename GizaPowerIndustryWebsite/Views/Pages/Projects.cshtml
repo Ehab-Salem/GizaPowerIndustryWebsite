@@ -1,0 +1,532 @@
+﻿<style>
+    /* ===== EPC Projects Info Section ===== */
+    .epc-info-section {
+        padding: 60px 0;
+        background: #ffffff;
+    }
+
+    .epc-intro {
+        max-width: 800px;
+        margin: 0 auto 50px;
+        text-align: center;
+    }
+
+    .epc-lead {
+        font-size: 1.15rem;
+        line-height: 1.8;
+        color: #4B5563;
+        margin: 0 0 1.5rem;
+    }
+
+    /* Statistics Grid */
+    .epc-stats-grid {
+        display: grid;
+        grid-template-columns: repeat(5, 1fr);
+        gap: 20px;
+        max-width: 1000px;
+        margin: 0 auto 50px;
+    }
+
+    .epc-stat-card {
+        background: #fff;
+        border: 1px solid #e5e7eb;
+        border-radius: 12px;
+        padding: 25px 15px;
+        text-align: center;
+        box-shadow: 0 4px 12px rgba(0,0,0,0.03);
+        transition: transform 0.3s, box-shadow 0.3s;
+    }
+
+        .epc-stat-card:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 12px 24px rgba(0,0,0,0.06);
+        }
+
+    .epc-stat-number {
+        display: block;
+        font-size: 2rem;
+        font-weight: 800;
+        color: #a3191e;
+        line-height: 1.2;
+    }
+
+    .epc-stat-unit {
+        display: block;
+        font-size: 0.9rem;
+        font-weight: 600;
+        color: #06283F;
+        margin-top: 2px;
+    }
+
+    .epc-stat-label {
+        display: block;
+        font-size: 0.85rem;
+        color: #6B7280;
+        margin-top: 8px;
+        line-height: 1.4;
+    }
+
+    /* Core Values Block */
+    .epc-values-block {
+        max-width: 800px;
+        margin: 0 auto 50px;
+        background: #F9FAFB;
+        border-left: 4px solid #a3191e;
+        padding: 2rem 2.5rem;
+        border-radius: 0 12px 12px 0;
+    }
+
+    .epc-values-text p {
+        font-size: 1.05rem;
+        line-height: 1.8;
+        color: #374151;
+        margin: 0 0 1.5rem;
+    }
+
+        .epc-values-text p:last-child {
+            margin-bottom: 0;
+        }
+
+    /* Call to Action */
+    .epc-cta {
+        text-align: center;
+        margin-top: 20px;
+    }
+
+    .btn-red-submit {
+        display: inline-flex;
+        align-items: center;
+        gap: 0.75rem;
+        background: #a3191e;
+        color: #fff;
+        padding: 14px 32px;
+        border-radius: 50px;
+        font-size: 1rem;
+        font-weight: 600;
+        text-decoration: none;
+        transition: background 0.3s, transform 0.3s;
+    }
+
+        .btn-red-submit:hover {
+            background: #8b1317 !important;
+            transform: translateY(-2px);
+            box-shadow: 0 8px 20px rgba(163,25,30,0.3) !important;
+        }
+
+    .epc-cta i {
+
+    }
+    .arrow-circle-custom {
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        width: 28px;
+        height: 28px;
+        background: rgba(255,255,255,0.2);
+        border-radius: 50%;
+        font-size: 0.8rem;
+    }
+
+    /* Responsive */
+    @@media (max-width: 992px) {
+        .epc-stats-grid
+
+    {
+        grid-template-columns: repeat(3, 1fr);
+    }
+
+    }
+
+    @@media (max-width: 768px) {
+        .epc-stats-grid
+
+    {
+        grid-template-columns: repeat(2, 1fr);
+    }
+
+    .epc-values-block {
+        padding: 1.5rem;
+    }
+
+    }
+
+    @@media (max-width: 480px) {
+        .epc-stats-grid
+
+    {
+        grid-template-columns: 1fr;
+    }
+
+    }
+</style>
+<style>
+    /* CSS */
+    .visually-hidden {
+        position: absolute;
+        width: 1px;
+        height: 1px;
+        margin: -1px;
+        padding: 0;
+        overflow: hidden;
+        clip: rect(0, 0, 0, 0);
+        white-space: nowrap;
+        border: 0;
+    }
+
+    .epc-stats-grid {
+        display: grid;
+        grid-template-columns: repeat(5, 1fr);
+        gap: 20px;
+        max-width: 1000px;
+        margin: 0 auto 50px;
+        padding: 0;
+        list-style: none;
+    }
+
+    .epc-stat-card {
+        background: #fff;
+        border: 1px solid #e5e7eb;
+        border-radius: 12px;
+        padding: 25px 15px;
+        text-align: center;
+        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.03);
+        transition: transform 0.3s ease, box-shadow 0.3s ease;
+        position: relative;
+        overflow: hidden;
+    }
+
+        .epc-stat-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 3px;
+            background: linear-gradient(90deg, #a3191e, #d44a4f);
+            opacity: 0;
+            transition: opacity 0.3s;
+        }
+
+        .epc-stat-card:hover::before {
+            opacity: 1;
+        }
+
+    .epc-stat-number {
+        display: block;
+        font-size: 2.25rem;
+        font-weight: 800;
+        color: #a3191e;
+        line-height: 1.2;
+        margin: 0;
+    }
+
+    .epc-stat-unit {
+        display: block;
+        font-size: 0.875rem;
+        font-weight: 600;
+        color: #374151;
+        margin-top: 2px;
+    }
+
+    .epc-stat-label {
+        display: block;
+        font-size: 0.875rem;
+        color: #4B5563; /* Improved contrast from #6B7280 */
+        margin-top: 8px;
+        line-height: 1.4;
+    }
+
+    /* Reduced motion support */
+    @@media (prefers-reduced-motion: reduce) {
+        .epc-stat-card, .epc-stat-card::before
+
+    {
+        transition: none !important;
+    }
+
+    .epc-stat-card:hover {
+        transform: none !important;
+        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.03) !important;
+    }
+
+    }
+
+    /* Responsive */
+    @@media (max-width: 992px) {
+        .epc-stats-grid
+
+    {
+        grid-template-columns: repeat(3, 1fr);
+        gap: 16px;
+    }
+
+    }
+
+    @@media (max-width: 768px) {
+        .epc-stats-grid
+
+    {
+        grid-template-columns: repeat(2, 1fr);
+        gap: 12px;
+    }
+
+    .epc-stat-number {
+        font-size: 1.75rem;
+    }
+
+    }
+
+    @@media (max-width: 480px) {
+        .epc-stats-grid
+
+    {
+        grid-template-columns: 1fr;
+        max-width: 320px;
+    }
+
+    }
+    /* CSS */
+    .epc-values-block {
+        max-width: 800px;
+        margin: 0 auto 50px;
+        background: #F9FAFB;
+        padding: 2rem 2.5rem;
+        border-radius: 12px;
+        position: relative;
+        /* Replace border-left with a clean pseudo-element for consistent radius */
+    }
+
+        .epc-values-block::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            bottom: 0;
+            width: 4px;
+            background: #a3191e;
+            border-radius: 12px 0 0 12px;
+        }
+
+    .epc-values-text p {
+        font-size: 1.05rem;
+        line-height: 1.8;
+        color: #374151;
+        margin: 0 0 1.5rem;
+        max-width: 680px;
+    }
+
+        .epc-values-text p:last-child {
+            margin-bottom: 0;
+        }
+
+    .epc-values-text strong {
+        color: #1f2937;
+        font-weight: 700;
+    }
+    /* CSS */
+    .btn-red-submit {
+        display: inline-flex;
+        align-items: center;
+        gap: 0.75rem;
+        background: #a3191e;
+        color: #fff;
+        padding: 14px 32px;
+        border-radius: 50px;
+        font-size: 1rem;
+        font-weight: 600;
+        text-decoration: none;
+        transition: background-color 0.3s ease, transform 0.3s ease, box-shadow 0.3s ease;
+        /* Add focus-visible for keyboard users */
+        outline: none;
+    }
+
+        .btn-red-submit:hover {
+            background: #8b1317;
+            transform: translateY(-2px);
+            box-shadow: 0 8px 20px rgba(163, 25, 30, 0.3);
+        }
+
+        .btn-red-submit:focus-visible {
+            outline: 3px solid #a3191e;
+            outline-offset: 4px;
+            box-shadow: 0 0 0 4px rgba(163, 25, 30, 0.2);
+        }
+
+        .btn-red-submit:active {
+            transform: translateY(0);
+            box-shadow: 0 2px 8px rgba(163, 25, 30, 0.2);
+        }
+
+    .arrow-circle-custom {
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        width: 28px;
+        height: 28px;
+        background: rgba(255, 255, 255, 0.2);
+        border-radius: 50%;
+        transition: transform 0.3s ease;
+    }
+
+    .btn-red-submit:hover .arrow-circle-custom {
+        transform: translateX(4px);
+    }
+
+    /* Reduced motion */
+    @@media (prefers-reduced-motion: reduce) {
+        .btn-red-submit, .arrow-circle-custom
+
+    {
+        transition: none !important;
+    }
+
+    .btn-red-submit:hover {
+        transform: none !important;
+        box-shadow: 0 2px 8px rgba(163, 25, 30, 0.2) !important;
+    }
+
+        .btn-red-submit:hover .arrow-circle-custom {
+            transform: none !important;
+        }
+
+    }
+</style>
+<div class="main-content">
+    <section class="page-title-big-typography mt-0 ipad-top-space-margin cover-background background-position-center-bottom position-relative big-section"
+             style="    padding-top: 175px; background-image: url('@Url.Content("~/assets/GPI Website Visuals/Business Lines/GPI-EPC-Projects.jpg")')">
+        <div class="opacity-extra-medium"></div>
+        <div class="container">
+            <div class="row align-items-center justify-content-center">
+                <div class="col-lg-12 col-md-8 position-relative text-center page-title-extra-large" data-anime='{ "el": "childs", "opacity": [0, 1], "rotateY": [-90, 0], "rotateZ": [-10, 0], "translateY": [80, 0], "translateZ": [50, 0], "staggervalue": 200, "duration": 900, "easing": "easeOutCirc" }'>
+                    <h1 class="fw-600 text-white mb-15px">GPI EPC Projects</h1>
+                    <h2 class="mb-0 text-white">
+                        WELL-INTEGRATED EPC SERVICES GEARED TOWARDS DELIVERING COMPLEX TURN-KEY PROJECTS ON TIME, EVERY TIME.
+                    </h2>
+                </div>
+            </div>
+        </div>
+    </section>
+    <section class="epc-info-section">
+        <div class="container">
+            <div class="epc-intro">
+                <p class="epc-lead">
+                    As a specialist in turn‑key infrastructure projects and electrical works including electricity transmission and distribution, GPI Projects strives to offer its clients an unrivaled experience in delivering hassle‑free and fast‑track turnkey projects.
+                </p>
+                <p class="epc-lead">
+                    Thanks to our integrated Engineering, Procurement & Construction approach, we can deliver even the most complex turnkey projects on schedule and at the highest efficiency.
+                </p>
+            </div>
+
+            <!-- Statistics Cards -->
+            <!-- HTML -->
+            <dl class="epc-stats-grid" aria-label="EPC Projects key statistics">
+                <div class="epc-stat-card" role="group" aria-label="Capital: 250 Million">
+                    <dt class="visually-hidden">Capital</dt>
+                    <dd class="epc-stat-number" data-count="250" data-suffix="M">0</dd>
+                    <dd class="epc-stat-unit">EGP</dd>
+                    <dd class="epc-stat-label">Capital</dd>
+                </div>
+
+                <div class="epc-stat-card" role="group" aria-label="Ongoing Projects: 5">
+                    <dt class="visually-hidden">Ongoing Projects</dt>
+                    <dd class="epc-stat-number" data-count="5">0</dd>
+                    <dd class="epc-stat-label">Ongoing Projects</dd>
+                </div>
+
+                <div class="epc-stat-card" role="group" aria-label="Engineers: 60">
+                    <dt class="visually-hidden">Engineers</dt>
+                    <dd class="epc-stat-number" data-count="60">0</dd>
+                    <dd class="epc-stat-label">Engineers</dd>
+                </div>
+
+                <div class="epc-stat-card" role="group" aria-label="Administrators: 20">
+                    <dt class="visually-hidden">Administrators</dt>
+                    <dd class="epc-stat-number" data-count="20">0</dd>
+                    <dd class="epc-stat-label">Administrators</dd>
+                </div>
+
+                <div class="epc-stat-card" role="group" aria-label="IPMA Certified Engineers: 20">
+                    <dt class="visually-hidden">IPMA Certified Engineers</dt>
+                    <dd class="epc-stat-number" data-count="20">0</dd>
+                    <dd class="epc-stat-label">IPMA Certified Engineers</dd>
+                </div>
+            </dl>
+
+            <!-- Core Values & Philosophy -->
+            <!-- HTML -->
+            <section class="epc-values-block" aria-labelledby="values-heading">
+                <h3 id="values-heading" class="visually-hidden">Core Values and Philosophy</h3>
+                <div class="epc-values-text">
+                    <p>
+                        At GPI Projects, we look forward to enriching the societies in which we operate by creating value through our services and projects, ensuring that adequate standards of sustainability are achieved. Our mission is to integrate the Egyptian construction civilizational heritage with the endless innovations in our industry, while inspiring communities to reach their true potential.
+                    </p>
+                    <p>
+                        <strong>Excellence, dedication, transparency, innovation and accountability</strong> are the core values of our engineering and construction business. Our highly qualified team of certified experts in engineering, construction, and project management is entrusted with carrying out complex projects.
+                    </p>
+                </div>
+            </section>
+
+            <!-- Call to Action -->
+            <!-- HTML -->
+            <div class="epc-cta">
+                <a href="https://gpi-projects.com"
+                   class="btn-red-submit"
+                   aria-label="Contact GPI Projects about your project">
+                    Have a project? Let's talk
+                    <span class="arrow-circle-custom" aria-hidden="true">
+                        <svg width="14" height="14" viewBox="0 0 24 24" fill="none"
+                             stroke="currentColor" stroke-width="2.5"
+                             stroke-linecap="round" stroke-linejoin="round">
+                            <path d="M5 12h14M12 5l7 7-7 7" />
+                        </svg>
+                    </span>
+                </a>
+            </div>
+        </div>
+    </section>
+</div>
+<script>
+        // JavaScript - Count-up animation with reduced motion support
+    document.addEventListener('DOMContentLoaded', () => {
+        const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+        const statNumbers = document.querySelectorAll('.epc-stat-number[data-count]');
+
+        if (prefersReducedMotion) {
+            statNumbers.forEach(el => {
+                const count = parseInt(el.dataset.count, 10);
+                const suffix = el.dataset.suffix || '';
+                el.textContent = count + suffix;
+            });
+            return;
+        }
+
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    const el = entry.target;
+                    const target = parseInt(el.dataset.count, 10);
+                    const suffix = el.dataset.suffix || '';
+                    const duration = 1500;
+                    const startTime = performance.now();
+
+                    function updateCount(currentTime) {
+                        const elapsed = currentTime - startTime;
+                        const progress = Math.min(elapsed / duration, 1);
+                        const eased = 1 - Math.pow(1 - progress, 3); // ease-out cubic
+                        const current = Math.round(target * eased);
+                        el.textContent = current + suffix;
+
+                        if (progress < 1) {
+                            requestAnimationFrame(updateCount);
+                        }
+                    }
+
+                    requestAnimationFrame(updateCount);
+                    observer.unobserve(el);
+                }
+            });
+        }, { threshold: 0.5 });
+
+        statNumbers.forEach(el => observer.observe(el));
+    });
+</script>

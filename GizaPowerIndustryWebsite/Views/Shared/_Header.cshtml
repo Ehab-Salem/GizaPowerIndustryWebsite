@@ -1,0 +1,1368 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <style>
+        /* ===== GLOBAL ===== */
+        :root {
+            --nav-font-size: 1rem;
+            --nav-font-size-mobile: 0.95rem;
+        }
+
+        body {
+            margin: 0;
+        }
+
+        main {
+            margin-top: 70px !im;
+        }
+
+        /* ===== HEADER – FIXED ===== */
+        /* Force fixed header – highest specificity */
+        html body header.headers#headers {
+            position: fixed !important;
+            top: 0 !important;
+            left: 0 !important;
+            right: 0 !important;
+            width: 100% !important;
+            z-index: 9999 !important;
+            background: #ffffff !important;
+            transition: all 0.3s ease;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.05);
+            margin: 0 !important;
+            border: none !important;
+            border-radius: 0 !important;
+        }
+
+        .container-fluid {
+            width: 100%;
+            max-width: 100%;
+            padding: 0 !important;
+        }
+
+        section:first-child {
+            margin-top: 0 !important;
+        }
+
+        /* ===== NAVBAR ===== */
+        .navbars {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 4px 73px;
+            border-radius: 0 !important;
+            flex-wrap: nowrap;
+            min-height: 70px; /* 👈 ADD THIS */
+        }
+
+        .logo-img {
+            height: 50px;
+            transition: 0.3s;
+        }
+
+        /* ===== MENU ===== */
+        .nav-menu {
+            display: flex;
+            list-style: none;
+            gap: 25px;
+            margin: 0;
+            padding: 0;
+        }
+
+            .nav-menu,
+            .nav-menu a,
+            .nav-menu .nav-link,
+            .nav-item-dropdown > a,
+            .dropdown-menu a,
+            .nav-actions .btn,
+            .nav-actions .lang-btn,
+            .search-btn {
+                font-size: var(--nav-font-size);
+                font-family: inherit;
+                line-height: 1.5;
+                text-decoration: none;
+                color: #333;
+                font-weight: 500;
+                position: relative;
+                background: none;
+                border: none;
+                cursor: pointer;
+                white-space: nowrap;
+            }
+
+                .nav-menu .nav-link::after {
+                    content: "";
+                    position: absolute;
+                    width: 0%;
+                    height: 2px;
+                    background: #a3191e;
+                    left: 0;
+                    bottom: -5px;
+                    transition: 0.3s;
+                }
+
+                .nav-menu .nav-link:hover::after {
+                    width: 100%;
+                }
+
+        .nav-item-dropdown {
+            position: relative;
+        }
+
+        /* ===== DROPDOWN — HOVER-INTENT FIX (About Us / News) ===== */
+        .dropdown-menu {
+            position: absolute;
+            top: 100%; /* was 120% — removes the dead gap that broke hover */
+            left: 0;
+            background: white;
+            padding: 10px 0;
+            list-style: none;
+            display: block; /* always in flow now; visibility controlled below */
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+            min-width: 200px;
+            z-index: 1000;
+            opacity: 0;
+            visibility: hidden;
+            transform: translateY(8px);
+            pointer-events: none;
+            transition: opacity 0.2s ease, transform 0.2s ease, visibility 0.2s ease;
+        }
+
+        /* Invisible bridge so the small visual gap never breaks hover */
+        .nav-item-dropdown::after {
+            content: "";
+            position: absolute;
+            left: 0;
+            right: 0;
+            top: 100%;
+            height: 15px;
+        }
+
+        /* JS toggles this class with a grace-period timer (see script at bottom) */
+        .nav-item-dropdown.dropdown-open .dropdown-menu {
+            opacity: 1;
+            visibility: visible;
+            transform: translateY(0);
+            pointer-events: auto;
+        }
+
+        .dropdown-menu li a {
+            display: block;
+            padding: 8px 20px;
+            color: #333;
+            font-size: var(--nav-font-size);
+        }
+
+            .dropdown-menu li a:hover {
+                background: #f5f5f5;
+            }
+
+        /* ===== ACTION BUTTONS ===== */
+        .nav-actions {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+
+        /* ===== METALS LIVE PRICE WIDGET ===== */
+        .metals-widget-wrapper {
+            position: relative;
+            display: inline-flex;
+            align-items: center;
+        }
+
+        .metals-widget-pill {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            background: #ffffff;
+            color: #06283f;
+            padding: 4px 12px;
+            border-radius: 8px;
+            cursor: pointer;
+            height: 36px;
+            box-sizing: border-box;
+            border: 1px solid rgba(6, 40, 63, 0.2);
+            transition: all 0.25s ease;
+            user-select: none;
+        }
+
+        .metals-widget-pill:hover {
+            background: #ffffff;
+            box-shadow: 0 4px 12px rgba(6, 40, 63, 0.2);
+        }
+
+        .metals-pill-badge {
+            background: #B82025;
+            color: #ffffff;
+            font-size: 10px;
+            font-weight: 800;
+            padding: 2px 6px;
+            border-radius: 4px;
+            letter-spacing: 0.5px;
+            text-transform: uppercase;
+        }
+
+        .metals-pill-items {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .metals-pill-item {
+            display: flex;
+            align-items: center;
+            gap: 4px;
+            font-family: 'Segoe UI', Arial, sans-serif;
+            line-height: 1;
+        }
+
+        .pill-sym {
+            font-weight: 800;
+            color: #06283f;
+            font-size: 11px;
+        }
+
+        .pill-price {
+            font-weight: 700;
+            color: #06283f;
+            font-size: 12px;
+            letter-spacing: 0.2px;
+        }
+
+        .pill-indicator {
+            font-size: 9px;
+            font-weight: 900;
+        }
+
+        .pill-indicator.up, .metals-change.up {
+            color: #10B981;
+        }
+
+        .pill-indicator.down, .metals-change.down {
+            color: #EF4444;
+        }
+
+        .metals-pill-arrow {
+            font-size: 10px;
+            color: #06283f;
+            transition: transform 0.25s ease;
+            margin-left: 2px;
+        }
+
+        .metals-widget-wrapper:hover .metals-pill-arrow,
+        .metals-widget-wrapper.dropdown-open .metals-pill-arrow {
+            transform: rotate(180deg);
+            color: #06283f;
+        }
+
+        /* Hover dropdown: Investing.com-style live metals table */
+        .metals-dropdown-menu {
+            position: absolute;
+            top: 100%;
+            right: 0;
+            width: 680px;
+            max-width: calc(100vw - 24px);
+            background: #ffffff;
+            border-radius: 4px;
+            box-shadow: 0 12px 35px rgba(6, 40, 63, 0.2);
+            border: 1px solid #E5E7EB;
+            opacity: 0;
+            visibility: hidden;
+            transform: translateY(12px);
+            transition: opacity 0.25s ease, transform 0.25s ease, visibility 0.25s ease;
+            z-index: 99999;
+            overflow: hidden;
+            pointer-events: none;
+            margin-top: 6px;
+            padding: 0;
+            line-height: 1.3;
+        }
+
+        .inv-metals-widget {
+            direction: rtl;
+            font-family: Arial, Helvetica, sans-serif;
+            color: #232323;
+            background: #fff;
+        }
+
+        .inv-metals-widget .inv-head {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 8px 12px;
+            border-bottom: 1px solid #ececec;
+        }
+
+        .inv-metals-widget .inv-head img {
+            height: 22px;
+            display: block;
+        }
+
+        .inv-metals-widget table {
+            width: 100%;
+            border-collapse: collapse;
+            font-size: 12px;
+        }
+
+        .inv-metals-widget th,
+        .inv-metals-widget td {
+            padding: 8px 8px;
+            border-bottom: 1px solid #f0f0f0;
+            white-space: nowrap;
+            text-align: center;
+        }
+
+        .inv-metals-widget th {
+            background: #f7f7f7;
+            font-weight: 700;
+            color: #555;
+        }
+
+        .inv-metals-widget td.name {
+            text-align: right;
+            font-weight: 700;
+        }
+
+        .inv-metals-widget td.name a {
+            color: #1256a0;
+            text-decoration: none;
+        }
+
+        .inv-metals-widget .up {
+            color: #069c3f;
+            font-weight: 700;
+        }
+
+        .inv-metals-widget .down {
+            color: #d32f2f;
+            font-weight: 700;
+        }
+
+        .inv-metals-widget .flash-up {
+            background: #d4f5e2;
+        }
+
+        .inv-metals-widget .flash-down {
+            background: #fde2e2;
+        }
+
+        .inv-metals-widget .inv-foot {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            padding: 7px 12px;
+            font-size: 11px;
+            color: #777;
+            background: #fafafa;
+        }
+
+        /* Bridge to prevent hover gap break */
+        .metals-widget-wrapper::after {
+            content: "";
+            position: absolute;
+            top: 100%;
+            left: 0;
+            right: 0;
+            height: 12px;
+        }
+
+        .metals-widget-wrapper:hover .metals-dropdown-menu,
+        .metals-widget-wrapper.dropdown-open .metals-dropdown-menu {
+            opacity: 1;
+            visibility: visible;
+            transform: translateY(0);
+            pointer-events: auto;
+        }
+
+        .metals-dropdown-section {
+            border-bottom: 1px solid #E5E7EB;
+        }
+
+        .metals-dropdown-section:last-of-type {
+            border-bottom: none;
+        }
+
+        .metals-section-header {
+            padding: 8px 16px;
+            font-size: 12.5px;
+            font-weight: 800;
+            color: #ffffff;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        .metals-section-header.copper-hdr {
+            background: linear-gradient(135deg, #9C5134 0%, #B85D3B 100%);
+        }
+
+        .metals-section-header.aluminum-hdr {
+            background: linear-gradient(135deg, #5A6D80 0%, #708499 100%);
+        }
+
+        .metals-section-header.lead-hdr {
+            background: linear-gradient(135deg, #374151 0%, #4B5563 100%);
+        }
+
+        .metals-change {
+            font-size: 11px;
+            font-weight: 700;
+            background: rgba(0, 0, 0, 0.25);
+            padding: 2px 7px;
+            border-radius: 4px;
+        }
+
+        .metals-section-body {
+            background: #F9FAFB;
+            padding: 10px 16px;
+        }
+
+        .metals-data-row {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            font-size: 12px;
+            margin-bottom: 5px;
+            color: #374151;
+        }
+
+        .metals-data-row:last-child {
+            margin-bottom: 0;
+        }
+
+        .metals-data-row strong {
+            color: #06283F;
+            font-weight: 700;
+        }
+
+        .m-date {
+            color: #6B7280;
+            font-size: 11px;
+            font-weight: 600;
+        }
+
+        .metals-dropdown-footer {
+            padding: 8px 16px;
+            background: #F3F4F6;
+            font-size: 11px;
+            color: #6B7280;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            border-top: 1px solid #E5E7EB;
+        }
+
+        .metals-pulse-dot {
+            width: 7px;
+            height: 7px;
+            background: #10B981;
+            border-radius: 50%;
+            box-shadow: 0 0 0 2px rgba(16, 185, 129, 0.3);
+            animation: pulseMetals 2s infinite;
+        }
+
+        @@keyframes pulseMetals {
+            0% { box-shadow: 0 0 0 0 rgba(16, 185, 129, 0.6); }
+            70% { box-shadow: 0 0 0 6px rgba(16, 185, 129, 0); }
+            100% { box-shadow: 0 0 0 0 rgba(16, 185, 129, 0); }
+        }
+
+        /* Mobile Responsive */
+        @@media (max-width: 992px) {
+            .metals-widget-pill {
+                padding: 4px 8px;
+                gap: 6px;
+            }
+            .metals-pill-badge {
+                display: none;
+            }
+            .metals-dropdown-menu {
+                right: 0;
+                width: min(680px, calc(100vw - 16px));
+            }
+        }
+
+        .btn-primary {
+            background: #a3191e !important;
+            color: #fff !important;
+            padding: 8px 18px;
+            border-radius: 6px;
+            font-weight: 600;
+        }
+
+        .lang-btn {
+            font-weight: 600;
+            text-transform: uppercase;
+        }
+
+        /* ===== MOBILE TOGGLE ===== */
+        .mobile-toggle {
+            display: none;
+            flex-direction: column;
+            gap: 5px;
+            background: none;
+            border: none;
+            cursor: pointer;
+            padding: 5px;
+        }
+
+            .mobile-toggle span {
+                display: block;
+                width: 25px;
+                height: 3px;
+                background: #333;
+                border-radius: 3px;
+                transition: 0.3s;
+            }
+
+        /* ===== RESPONSIVE ===== */
+        @@media (max-width: 992px) {
+            .navbars
+
+        {
+            padding: 15px 25px;
+        }
+
+        .panel-sidebar {
+            display: none;
+        }
+
+        .panel-content {
+            padding: 0.5rem 1rem;
+        }
+
+        .content-page {
+            max-height: none;
+            overflow: visible;
+        }
+
+        .sub-links a {
+            padding: 0.7rem 1rem;
+            font-size: 1rem;
+        }
+
+        .mobile-toggle {
+            display: flex;
+        }
+
+        .nav-menu {
+            position: absolute;
+            top: 70px;
+            left: 0;
+            right: 0;
+            background: #fff;
+            flex-direction: column;
+            gap: 0;
+            padding: 20px;
+            box-shadow: 0 10px 20px rgba(0,0,0,0.1);
+            display: none;
+            z-index: 999;
+        }
+
+            .nav-menu.active {
+                display: flex;
+            }
+
+            .nav-menu li {
+                padding: 12px 0;
+                border-bottom: 1px solid #eee;
+            }
+
+            .nav-menu .dropdown-menu {
+                position: static;
+                box-shadow: none;
+                padding-left: 15px;
+                display: none;
+            }
+
+        /* Mobile click-to-toggle uses .active, not .dropdown-open */
+        .nav-item-dropdown.active .dropdown-menu {
+            display: block;
+            opacity: 1;
+            visibility: visible;
+            transform: translateY(0);
+            pointer-events: auto;
+            position: static;
+            box-shadow: none;
+            padding-left: 15px;
+        }
+
+        .nav-actions {
+            gap: 10px;
+        }
+
+        }
+
+        @@media (max-width: 576px) {
+            : root
+
+        {
+            --nav-font-size: var(--nav-font-size-mobile);
+        }
+
+        .navbars {
+            padding: 12px 20px;
+        }
+
+        }
+
+        /* ===== BUSINESS LINES MEGA DROPDOWN ===== */
+        .business-dropdown {
+            position: relative;
+        }
+
+        .business-trigger {
+            color: #333;
+            font-weight: 500;
+            text-decoration: none;
+            cursor: pointer;
+        }
+
+        .mega-panel {
+            position: absolute;
+            top: calc(100% + 10px);
+            left: 0;
+            width: auto;
+            background: #fff;
+            border-radius: 16px;
+            box-shadow: 0 25px 50px rgba(0,0,0,0.15);
+            z-index: 9999;
+            display: none;
+            border: 1px solid #E5E7EB;
+            overflow: hidden;
+        }
+
+        .business-dropdown.active .mega-panel {
+            display: block;
+        }
+
+        .panel-container {
+            display: flex;
+        }
+
+        .panel-sidebar {
+            width: 240px;
+            background: #F8F9FA;
+            padding: 1.5rem 1rem;
+            display: flex;
+            flex-direction: column;
+            gap: 0.25rem;
+            border-right: 1px solid #E5E7EB;
+        }
+
+        .panel-category {
+            display: flex;
+            align-items: center;
+            gap: 0.6rem;
+            padding: 0.8rem 1rem;
+            border-radius: 10px;
+            font-size: 0.95rem;
+            font-weight: 600;
+            color: #06283F;
+            cursor: pointer;
+            transition: background 0.2s, color 0.2s;
+        }
+
+            .panel-category .category-icon {
+                font-size: 1.2rem;
+            }
+
+            .panel-category .category-arrow {
+                margin-left: auto;
+                opacity: 0;
+                transition: opacity 0.2s;
+            }
+
+            .panel-category.active,
+            .panel-category:hover {
+                background: #fff;
+                color: #B82025;
+            }
+
+                .panel-category.active .category-arrow,
+                .panel-category:hover .category-arrow {
+                    opacity: 1;
+                }
+
+        .panel-cta {
+            margin-top: auto;
+            text-align: center;
+            display: block;
+            color: #fff;
+            background: #B82025;
+            border-radius: 8px;
+            padding: 0.7rem;
+            text-decoration: none;
+            font-weight: 600;
+            font-size: 0.9rem;
+        }
+
+        .panel-content {
+            flex: 1;
+            padding: 1.5rem;
+            background: #fff;
+        }
+
+        .content-page {
+            display: none;
+        }
+
+            .content-page.active {
+                display: block;
+            }
+
+        .sub-links {
+            display: grid;
+            grid-template-columns: repeat(1, 1fr);
+            gap: 0.75rem 2rem;
+        }
+
+            .sub-links a {
+                display: block;
+                color: #374151;
+                text-decoration: none;
+                font-size: 0.9rem;
+                padding: 0.65rem 1rem; /* more horizontal padding for a "row" feel */
+                border-left: 3px solid transparent; /* reserved for the accent */
+                border-bottom: 1px solid #F3F4F6;
+                transition: all 0.2s ease; /* animate background and border */
+            }
+
+                .sub-links a:hover {
+                    background-color: #F9FAFB; /* light grey row highlight */
+                    border-left-color: #B82025; /* red accent on the left */
+                    color: #B82025; /* keep text red */
+                    padding-left: 1.2rem; /* small indent to emphasize the accent */
+                }
+
+        /* ===== MEGA PANEL RESPONSIVE ===== */
+        @@media (max-width: 992px) {
+            .mega-panel
+
+        {
+            width: 100vw;
+            left: -20px;
+            right: -20px;
+            border-radius: 0;
+        }
+
+        .panel-container {
+            flex-direction: column;
+        }
+
+        .panel-sidebar {
+            width: 100%;
+            border-right: none;
+            border-bottom: 1px solid #E5E7EB;
+            flex-direction: row;
+            flex-wrap: wrap;
+            gap: 0.5rem;
+            padding: 1rem;
+        }
+
+        .panel-category {
+            flex: 1 1 calc(50% - 1rem);
+            justify-content: center;
+            padding: 0.6rem;
+            border: 1px solid #E5E7EB;
+        }
+
+            .panel-category .category-arrow {
+                display: none;
+            }
+
+        .panel-cta {
+            flex: 1 1 100%;
+        }
+
+        .sub-links {
+            grid-template-columns: 1fr;
+        }
+
+        .business-dropdown {
+            width: 100%;
+            border-bottom: 1px solid #eee;
+        }
+
+        .nav-menu li.business-dropdown {
+            border-bottom: none;
+        }
+
+        .business-trigger {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            width: 100%;
+            padding: 8px 0;
+        }
+
+        .mega-panel {
+            position: static;
+            width: 100%;
+            left: auto;
+            right: auto;
+            box-shadow: none;
+            border: none;
+            border-radius: 0;
+            display: none;
+            margin-top: 10px;
+        }
+
+        .business-dropdown.active .mega-panel {
+            display: block;
+        }
+
+        .panel-container {
+            flex-direction: column;
+        }
+
+        .panel-sidebar {
+            width: 100%;
+            border-right: none;
+            border-bottom: 1px solid #E5E7EB;
+            flex-direction: column;
+            padding: 0.5rem;
+        }
+
+        .panel-category {
+            flex: 1 1 100%;
+            padding: 0.7rem 1rem;
+        }
+
+            .panel-category .category-arrow {
+                display: inline;
+                opacity: 1;
+            }
+
+        .panel-content {
+            padding: 1rem;
+        }
+
+        .sub-links {
+            grid-template-columns: 1fr;
+        }
+
+        .content-page {
+            display: none;
+            max-height: 0;
+            overflow: hidden;
+            transition: max-height 0.3s ease;
+        }
+
+            .content-page.active {
+                display: block;
+                max-height: 1000px;
+            }
+
+        .panel-cta {
+            margin-top: 1rem;
+        }
+
+        }
+    </style>
+</head>
+
+<body>
+
+    <header class="headers" id="headers">
+        <div class="container-fluid" style="box-sizing: border-box;">
+            <nav class="navbars">
+                <div class="logo">
+                    <a style="" asp-controller="Pages" asp-action="Home"> <img src="~/assets/Logos/Screenshot 2026-09-06 134609.png" alt="Giza Power Industry" class="logo-img" style="height: 60px !important;"> </a>
+                </div>
+
+                <ul class="nav-menu" id="navMenu">
+                    <li><a asp-controller="Pages" asp-action="Home" class="nav-link" id="link-index">Home</a></li>
+                    <li class="nav-item-dropdown">
+                        <a asp-controller="Pages" asp-action="About" class="nav-link">
+                            About Us <i class="fas fa-chevron-down"></i>
+                        </a>
+                        <ul class="dropdown-menu">
+                            <li><a href="/Pages/About#companyoverview">Company Overview</a></li>
+                            <li><a href="/Pages/About#group-structure-custom">Group Structure</a></li>
+                            <li><a href="/Pages/About#ourpurpose">Our Purpose</a></li>
+                            <li><a href="/Pages/About#corevalue">Core Values</a></li>
+                            <li><a href="/Pages/About#ourhistory">Our History</a></li>
+                            <li><a href="/Pages/About#leadership">Leadership Philosophy</a></li>
+                            <li><a href="/Pages/About#supplychain">Supply Chain</a></li>
+                            <li><a href="/Pages/About#QHSE">QHSE</a></li>
+                        </ul>
+                    </li>
+                    <!-- BUSINESS LINES MEGA DROPDOWN -->
+                    <li class="nav-item-dropdown business-dropdown" id="businessDropdown">
+                        <a asp-controller="Pages" asp-action="Products"
+                           class="nav-link business-trigger" id="businessTrigger">
+                            Business Lines <i class="fas fa-chevron-down"></i>
+                        </a>
+
+                        <div class="mega-panel">
+                            <div class="panel-container">
+                                <div class="panel-sidebar">
+                                    <a asp-controller="Pages" asp-action="CablesWires"
+                                       class="panel-category active" data-target="cables">
+                                        <span>Cables & Wires</span>
+                                        <span class="category-arrow">→</span>
+                                    </a>
+                                    <a asp-controller="Pages" asp-action="Meters"
+                                       class="panel-category" data-target="meters">
+                                        <span>Smart Meters</span>
+                                        <span class="category-arrow">→</span>
+                                    </a>
+                                    <a asp-controller="Pages" asp-action="Lighting"
+                                       class="panel-category" data-target="lighthing">
+                                        <span>Lighting</span>
+                                        <span class="category-arrow">→</span>
+                                    </a>
+                                    <a asp-controller="Pages" asp-action="Projects"
+                                       style="text-align: left;" class="panel-cta">EPC Projects</a>
+                                    <a asp-controller="Pages" asp-action="Products"
+                                       style="text-align: left;" class="panel-cta">View All Products</a>
+                                </div>
+
+                                <div class="panel-content">
+                                    <div class="content-page active" id="content-cables">
+                                        <div class="sub-links">
+                                            <a asp-controller="Pages" asp-action="LowVoltage">Low Voltage Cable</a>
+                                            <a asp-controller="Pages" asp-action="MediumVoltage">Medium Voltage Cable</a>
+                                            <a asp-controller="Pages" asp-action="HighVoltage">High Voltage Cable</a>
+                                            <a asp-controller="Pages" asp-action="OverHead">Overhead Conductor</a>
+                                        </div>
+                                    </div>
+                                    <div class="content-page" id="content-meters">
+                                        <div class="sub-links">
+                                            <a asp-controller="Pages" asp-action="SinglePhaseMeters">Single Phase Meters</a>
+                                            <a asp-controller="Pages" asp-action="ThreePhaseMeters">Three Phase  Meters</a>
+                                        </div>
+                                    </div>
+                                    <div class="content-page" id="content-lighthing">
+                                        <div class="sub-links">
+                                            @* <a asp-controller="Pages" asp-action="IndoorLuminires">Indoor Luminaires</a>
+                                            <a asp-controller="Pages" asp-action="OutdoorLuminires">Outdoor Luminaires</a>
+                                            <a asp-controller="Pages" asp-action="Polarix">Led Bulbs</a>*@
+                                            <a asp-controller="Pages" asp-action="Lighting">Polarix</a> 
+                                            <a asp-controller="Pages" asp-action="Lighting">Aura</a>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </li>
+                    <li><a asp-controller="Pages" asp-action="Sustainability" class="nav-link" id="link-sustainability">Sustainability</a></li>
+                    <li class="nav-item-dropdown">
+                        <!-- News -->
+                        <a asp-controller="Pages" asp-action="News" class="nav-link">
+                            News <i class="fas fa-chevron-down"></i>
+                        </a>
+                        <ul class="dropdown-menu">
+                            <li><a href="/Pages/News#Latest">Latest News</a></li>
+                            <li><a asp-controller="Pages" asp-action="Media">Media</a></li>
+                        </ul>
+                    </li>
+                    <li><a asp-controller="Pages" asp-action="Partners" class="nav-link" id="link-partners">Distributors & Clients</a></li>
+                    <li><a asp-controller="Pages" asp-action="Careers" class="nav-link" id="link-careers">Careers</a></li>
+                </ul>
+
+                <div class="nav-actions">
+                    <!-- Metals: compact header trigger + official Investing.com live widget -->
+                    <div class="metals-widget-wrapper" id="metalsWidget">
+                        <div class="metals-widget-pill" tabindex="0" role="button" aria-haspopup="true" aria-expanded="false" aria-label="Live metals prices">
+                            <span class="metals-pill-badge">LIVE</span>
+                            <div class="metals-pill-items">
+                                <div class="metals-pill-item">
+                                    <span class="pill-sym">CU</span>
+                                    <span class="pill-price" id="pillCuPrice">—</span>
+                                    <span class="pill-indicator" id="pillCuInd"></span>
+                                </div>
+                                <div class="metals-pill-item">
+                                    <span class="pill-sym">AL</span>
+                                    <span class="pill-price" id="pillAlPrice">—</span>
+                                    <span class="pill-indicator" id="pillAlInd"></span>
+                                </div>
+                                <div class="metals-pill-item">
+                                    <span class="pill-sym">PB</span>
+                                    <span class="pill-price" id="pillPbPrice">—</span>
+                                    <span class="pill-indicator" id="pillPbInd"></span>
+                                </div>
+                            </div>
+                            <i class="fas fa-chevron-down metals-pill-arrow"></i>
+                        </div>
+
+                        <div class="metals-dropdown-menu">
+                            <div class="inv-metals-widget" dir="rtl">
+                                <div class="inv-head">
+                                    <a href="https://sa.investing.com" target="_blank" rel="noopener">
+                                        <img src="https://i-invdn-com.investing.com/invwidgets/lightThemeLogo.png" alt="Investing.com">
+                                    </a> 
+                                </div>
+                                <table>
+                                    <thead>
+                                        <tr>
+                                            <th>(CFDs) الرمز</th>
+                                            <th>شهر</th>
+                                            <th>آخر سعر</th>
+                                            <th>الأساس</th>
+                                            <th>أعلى سعر</th>
+                                            <th>أقل سعر</th>
+                                            <th>تغير</th>
+                                            <th>نسبة التغيير</th>
+                                            <th>وقت</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr id="rowCu">
+                                            <td class="name"><a href="https://sa.investing.com/commodities/copper" target="_blank" rel="noopener">النحاس</a></td>
+                                            <td id="cuMonth">—</td>
+                                            <td id="cuLast">—</td>
+                                            <td id="cuPrev">—</td>
+                                            <td id="cuHigh">—</td>
+                                            <td id="cuLow">—</td>
+                                            <td id="cuChg">—</td>
+                                            <td id="cuChgPct">—</td>
+                                            <td id="cuTime">—</td>
+                                        </tr>
+                                        <tr id="rowAl">
+                                            <td class="name"><a href="https://sa.investing.com/commodities/aluminum" target="_blank" rel="noopener">ألومنيوم</a></td>
+                                            <td></td>
+                                            <td id="alLast">—</td>
+                                            <td id="alPrev">—</td>
+                                            <td id="alHigh">—</td>
+                                            <td id="alLow">—</td>
+                                            <td id="alChg">—</td>
+                                            <td id="alChgPct">—</td>
+                                            <td id="alTime">—</td>
+                                        </tr>
+                                        <tr id="rowPb">
+                                            <td class="name"><a href="https://sa.investing.com/commodities/lead" target="_blank" rel="noopener">الرصاص</a></td>
+                                            <td></td>
+                                            <td id="pbLast">—</td>
+                                            <td id="pbPrev">—</td>
+                                            <td id="pbHigh">—</td>
+                                            <td id="pbLow">—</td>
+                                            <td id="pbChg">—</td>
+                                            <td id="pbChgPct">—</td>
+                                            <td id="pbTime">—</td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                                <div class="inv-foot">
+                                    <span class="metals-pulse-dot"></span>
+                                    <span>Live commodities • <span id="metalsUpdated">Metals</span></span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <a style="height: 36px !important;" asp-controller="Pages" asp-action="Contact" class="btn btn-primary" >Contact Us</a>
+                </div>
+
+                <button class="mobile-toggle" id="mobileToggle" aria-label="Toggle menu">
+                    <span></span>
+                    <span></span>
+                    <span></span>
+                </button>
+            </nav>
+        </div>
+    </header>
+
+    <script>
+        // Force the header to stay fixed regardless of CSS conflicts
+        (function() {
+            var header = document.getElementById('headers');
+            if (header) {
+                header.style.position = 'fixed';
+                header.style.top = '0';
+                header.style.left = '0';
+                header.style.right = '0';
+                header.style.width = '100%';
+                header.style.zIndex = '9999';
+            }
+        })();
+    </script>
+
+    <script>
+        // Business Lines mega-panel (unchanged logic, already hover-intent safe)
+        (function() {
+          const dropdown = document.getElementById('businessDropdown');
+          const trigger = document.getElementById('businessTrigger');
+          const categories = document.querySelectorAll('.panel-category');
+          const contentPages = document.querySelectorAll('.content-page');
+          let hoverTimeout = null;
+
+          function isMobile() {
+            return window.innerWidth <= 992;
+          }
+
+          // ---------- DESKTOP : HOVER OPENS THE PANEL ----------
+          trigger.addEventListener('mouseenter', () => {
+            if (!isMobile()) {
+              clearTimeout(hoverTimeout);
+              dropdown.classList.add('active');
+            }
+          });
+
+          dropdown.addEventListener('mouseenter', () => {
+            if (!isMobile()) {
+              clearTimeout(hoverTimeout);
+              dropdown.classList.add('active');
+            }
+          });
+
+          dropdown.addEventListener('mouseleave', () => {
+            if (!isMobile()) {
+              hoverTimeout = setTimeout(() => {
+                if (!dropdown.matches(':hover')) {
+                  dropdown.classList.remove('active');
+                }
+              }, 200);
+            }
+          });
+
+          // ---------- CLICK ON TRIGGER JUST NAVIGATES (no JS needed) ----------
+          // (It's a normal link now – no preventDefault)
+
+          // ---------- SIDEBAR CATEGORIES : HOVER SWITCHES PANEL, CLICK NAVIGATES ----------
+          categories.forEach(cat => {
+            function activate() {
+              const target = cat.getAttribute('data-target');
+              categories.forEach(c => c.classList.remove('active'));
+              contentPages.forEach(p => p.classList.remove('active'));
+              cat.classList.add('active');
+              document.getElementById('content-' + target).classList.add('active');
+            }
+
+            cat.addEventListener('mouseenter', () => {
+              if (!isMobile()) activate();
+            });
+
+            // On desktop, just activate before navigation (no preventDefault)
+            cat.addEventListener('click', (e) => {
+              if (!isMobile()) {
+                activate();
+                // let the link work normally
+              }
+            });
+          });
+
+          // ---------- CLOSE PANEL IF CLICKING OUTSIDE ----------
+          document.addEventListener('click', function(e) {
+            if (!dropdown.contains(e.target)) {
+              dropdown.classList.remove('active');
+            }
+          });
+
+        })();
+    </script>
+
+    <script>
+        // ===== NEW: Hover-intent fix for the simple dropdowns (About Us / News) =====
+        // Same grace-period pattern as the Business Lines mega-panel above, so the
+        // menu no longer disappears the instant the mouse crosses the gap on its
+        // way down from the nav link to the dropdown items.
+        (function () {
+            const simpleDropdowns = document.querySelectorAll('.nav-item-dropdown:not(#businessDropdown)');
+
+            function isMobile() {
+                return window.innerWidth <= 992;
+            }
+
+            simpleDropdowns.forEach(function (dropdown) {
+                let closeTimer = null;
+
+                function openMenu() {
+                    if (isMobile()) return;
+                    clearTimeout(closeTimer);
+                    // close any other open simple dropdowns first
+                    simpleDropdowns.forEach(d => {
+                        if (d !== dropdown) d.classList.remove('dropdown-open');
+                    });
+                    dropdown.classList.add('dropdown-open');
+                }
+
+                function scheduleClose() {
+                    if (isMobile()) return;
+                    clearTimeout(closeTimer);
+                    closeTimer = setTimeout(() => {
+                        if (!dropdown.matches(':hover')) {
+                            dropdown.classList.remove('dropdown-open');
+                        }
+                    }, 250); // grace period so a fast diagonal move doesn't kill it
+                }
+
+                dropdown.addEventListener('mouseenter', openMenu);
+                dropdown.addEventListener('mouseleave', scheduleClose);
+            });
+
+            // Close on outside click (desktop)
+            document.addEventListener('click', function (e) {
+                simpleDropdowns.forEach(function (dropdown) {
+                    if (!dropdown.contains(e.target)) {
+                        dropdown.classList.remove('dropdown-open');
+                    }
+                });
+            });
+        })();
+    </script>
+
+    <script>
+        // 2. Scroll effect (visual polish only)
+        window.addEventListener("scroll", function () {
+            const header = document.getElementById("headers");
+            if (window.scrollY > 50) {
+                header.style.boxShadow = "0 4px 15px rgba(0,0,0,0.1)";
+                header.querySelector(".navbars").style.padding = "10px 40px";
+                header.querySelector(".logo-img").style.height = "40px";
+            } else {
+                header.style.boxShadow = "0 2px 10px rgba(0,0,0,0.05)";
+                header.querySelector(".navbars").style.padding = "15px 40px";
+                header.querySelector(".logo-img").style.height = "50px";
+            }
+        });
+
+        // 3. Mobile menu toggle
+        const mobileToggle = document.getElementById('mobileToggle');
+        const navMenu = document.getElementById('navMenu');
+        mobileToggle.addEventListener('click', () => {
+            navMenu.classList.toggle('active');
+        });
+
+        // 4. Handle About Us / News dropdown on mobile (click-to-toggle, uses .active)
+        document.querySelectorAll('.nav-item-dropdown > a').forEach(link => {
+            link.addEventListener('click', function (e) {
+                if (link.id === 'businessTrigger') return; // skip Business Lines – handled separately
+                if (window.innerWidth <= 992) {
+                    e.preventDefault();
+                    this.parentElement.classList.toggle('active');
+                }
+            });
+        });
+    </script>
+
+    <script>
+        // ===== METALS LIVE FEED & INTERACTION SCRIPT =====
+        (function () {
+            const widget = document.getElementById('metalsWidget');
+            if (!widget) return;
+
+            let closeTimer = null;
+            function isMobile() { return window.innerWidth <= 992; }
+
+            // Desktop Hover with Grace Period
+            widget.addEventListener('mouseenter', () => {
+                if (isMobile()) return;
+                clearTimeout(closeTimer);
+                widget.classList.add('dropdown-open');
+            });
+
+            widget.addEventListener('mouseleave', () => {
+                if (isMobile()) return;
+                clearTimeout(closeTimer);
+                closeTimer = setTimeout(() => {
+                    if (!widget.matches(':hover')) {
+                        widget.classList.remove('dropdown-open');
+                    }
+                }, 200);
+            });
+
+            // Mobile / Click Toggle
+            const pill = widget.querySelector('.metals-widget-pill');
+            if (pill) {
+                pill.addEventListener('click', (e) => {
+                    if (isMobile()) {
+                        e.stopPropagation();
+                        widget.classList.toggle('dropdown-open');
+                    }
+                });
+            }
+
+            document.addEventListener('click', (e) => {
+                if (!widget.contains(e.target)) {
+                    widget.classList.remove('dropdown-open');
+                }
+            });
+
+            function formatNum(value, digits) {
+                return Number(value).toLocaleString('en-US', {
+                    minimumFractionDigits: digits,
+                    maximumFractionDigits: digits
+                });
+            }
+
+            function paint(el, text, up) {
+                if (!el) return;
+                el.textContent = text;
+                el.classList.remove('up', 'down');
+                if (up === true) el.classList.add('up');
+                if (up === false) el.classList.add('down');
+            }
+
+            function flashLast(cell, up) {
+                if (!cell) return;
+                cell.classList.remove('flash-up', 'flash-down');
+                cell.classList.add(up ? 'flash-up' : 'flash-down');
+                setTimeout(() => cell.classList.remove('flash-up', 'flash-down'), 700);
+            }
+
+            function updateRow(prefix, quote, digits) {
+                if (!quote) return;
+                const up = quote.change >= 0;
+                const lastEl = document.getElementById(prefix + 'Last');
+                const prevText = lastEl && lastEl.dataset.value;
+                paint(lastEl, formatNum(quote.price, digits), up);
+                if (lastEl) lastEl.dataset.value = String(quote.price);
+                if (prevText && prevText !== String(quote.price)) {
+                    flashLast(lastEl, Number(quote.price) >= Number(prevText));
+                }
+                paint(document.getElementById(prefix + 'Prev'), formatNum(quote.open, digits));
+                paint(document.getElementById(prefix + 'High'), formatNum(quote.high ?? quote.price, digits));
+                paint(document.getElementById(prefix + 'Low'), formatNum(quote.low ?? quote.price, digits));
+                paint(document.getElementById(prefix + 'Chg'), (up ? '' : '') + formatNum(quote.change, digits), up);
+                paint(document.getElementById(prefix + 'ChgPct'), (up ? '' : '') + formatNum(quote.changePercent, 2) + '%', up);
+                paint(document.getElementById(prefix + 'Time'), quote.time || quote.date || '');
+            }
+
+            function updatePill(priceId, indId, quote, digits) {
+                if (!quote) return;
+                const pEl = document.getElementById(priceId);
+                const indEl = document.getElementById(indId);
+                if (pEl) pEl.textContent = formatNum(quote.price, digits);
+                if (indEl) {
+                    const up = quote.change >= 0;
+                    indEl.className = 'pill-indicator ' + (up ? 'up' : 'down');
+                    indEl.textContent = up ? '▲' : '▼';
+                }
+            }
+
+            async function fetchMetalsData() {
+                try {
+                    const res = await fetch('/api/metals');
+                    if (!res.ok) return;
+                    const data = await res.json();
+                    if (!data || !data.success) return;
+                    updatePill('pillCuPrice', 'pillCuInd', data.copper, 4);
+                    updatePill('pillAlPrice', 'pillAlInd', data.aluminum, 2);
+                    updatePill('pillPbPrice', 'pillPbInd', data.lead, 2);
+                    updateRow('cu', data.copper, 4);
+                    updateRow('al', data.aluminum, 2);
+                    updateRow('pb', data.lead, 2);
+                    const upd = document.getElementById('metalsUpdated');
+                    if (upd && data.lastUpdated) upd.textContent = data.lastUpdated;
+                } catch (e) {
+                    console.log('Metals live feed unavailable');
+                }
+            }
+
+            if (document.readyState === 'loading') {
+                document.addEventListener('DOMContentLoaded', fetchMetalsData);
+            } else {
+                fetchMetalsData();
+            }
+            setInterval(fetchMetalsData, 30000);
+        })();
+    </script>
+</body>
+</html>

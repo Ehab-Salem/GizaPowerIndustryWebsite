@@ -1,0 +1,81 @@
+﻿<style>
+    .interactive-banner-style-03 figure a::before {
+        background: linear-gradient(to top, rgba(45, 48, 145, 0.9) 0%, rgba(45, 48, 145, 0) 100%) !important;
+    }
+</style>
+
+
+<div class="main-content">
+    <!-- start page title -->
+    <section class="page-title-big-typography mt-0 ipad-top-space-margin cover-background background-position-center-bottom position-relative big-section"
+             style="background-image: url('@Url.Content("~/assets/imgs/polarix/Indoor-&-outdoor.jpg")')">
+
+        <div class="opacity-extra-medium bg-dark-slate-blue"></div>
+        <div class="container">
+            <div class="row align-items-center justify-content-center">
+                <div class="col-lg-12 col-md-8 position-relative text-center page-title-extra-large" data-anime='{ "el": "childs", "opacity": [0, 1], "rotateY": [-90, 0], "rotateZ": [-10, 0], "translateY": [80, 0], "translateZ": [50, 0], "staggervalue": 200, "duration": 900, "easing": "easeOutCirc" }'>
+                    <h1 class="fw-600 text-white mb-15px">POLARIX</h1>
+                    <h2 class="mb-0 text-white">Advanced Indoor & Outdoor LED Lighting Solutions for Modern Environments</h2>
+                </div>
+            </div>
+        </div>
+    </section>
+    <!-- end page title -->
+    <!-- start page title -->
+    <section class="ipad-top-space-margin md-pt-0 pt-0 pb-0">
+        <div class="container">
+            <div class="row align-items-center justify-content-center">
+                <div class="col-12 text-center position-relative page-title-double-large">
+                    <div class="d-flex flex-column justify-content-center extra-very-small-screen">
+                        <!-- <h1 class="text-dark-gray alt-font ls-minus-1px fw-700 mb-20px">Call to action</h1> -->
+                        <h2 class="text-dark-gray d-inline-block fw-400 ls-0px mb-0">
+                            Polarix delivers a complete portfolio of indoor and outdoor LED lighting fixtures engineered for efficiency, reliability, and modern architectural integration. Backed by GPI’s industrial expertise, our solutions support commercial, residential, industrial, hospitality, retail, and infrastructure applications through precision illumination, durable construction, and high-performance lighting technologies designed for long-term operational excellence.
+                        </h2>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+    </section>
+    <!-- end page title -->
+    <!-- start section -->
+    <section class="big-section" style="padding-top: 0px;padding-bottom: 10px;">
+        <div class="container">
+            <div class="row row-cols-1 row-cols-lg-2 row-cols-md-2 g-3 justify-content-center" data-anime='{"el": "childs", "translateY": [0, 0], "perspective": [1000,1200], "scale": [1.1, 1], "rotateX": [50, 0], "opacity": [0,1], "duration": 800, "delay": 200, "staggervalue": 300, "easing": "easeOutQuad" }'>
+
+                <!-- start interactive banner item -->
+                <div class="col interactive-banner-style-03 transition-inner-all center">
+                    <div class="position-relative overflow-hidden border-radius-6px last-paragraph-no-margin">
+                        <figure class="m-0">
+                            <a asp-controller="Pages" asp-action="IndoorLuminaires" class="h-100 w-100 d-inline-block bg-transparent">
+                                <div class="position-absolute top-0px left-0px w-100 h-100 z-index-1"></div>
+                                <img src="~/assets/imgs/polarix/in-door.jpg" alt="" />
+                                <figcaption class="d-flex flex-column w-100 h-100 p-60px lg-p-35px z-index-1 bg-transparent">
+                                    <a asp-controller="Pages" asp-action="IndoorLuminaires" class="align-self-start fs-24 fw-600 ls-1px text-uppercase text-white">Indoor luminaires</a>
+                                </figcaption>
+                            </a>
+                        </figure>
+                    </div>
+                </div>
+                <!-- end interactive banner item -->
+                <!-- start interactive banner item -->
+                <div class="col interactive-banner-style-03 transition-inner-all center">
+                    <div class="position-relative overflow-hidden border-radius-6px last-paragraph-no-margin">
+                        <figure class="m-0">
+                            <a asp-controller="Pages" asp-action="OutdoorLuminaires" class="h-100 w-100 d-inline-block">
+                                <div class="position-absolute top-0px left-0px w-100 h-100 z-index-1"></div>
+                                <img src="~/assets/imgs/polarix/outdoor.jpg" alt="" />
+                                <figcaption class="d-flex flex-column w-100 h-100 p-60px lg-p-35px z-index-1 bg-transparent">
+                                    <a asp-controller="Pages" asp-action="OutdoorLuminaires" class="align-self-start fs-24 fw-600 ls-1px text-uppercase text-white">Outdoor luminaires</a>
+                                </figcaption>
+                            </a>
+                        </figure>
+                    </div>
+                </div>
+                <!-- end interactive banner item -->
+            </div>
+            </div>
+    </section>
+    <!-- end section -->
+
+</div>

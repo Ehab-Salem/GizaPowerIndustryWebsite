@@ -1,0 +1,62 @@
+﻿@{
+    ViewData["Title"] = "Power Cables";
+}
+<!-- Power Cables Hero Section -->
+<section class="power-cables-hero">
+    <div class="container" style="margin-left: 75px;
+">
+        <div class="cable-hero-breadcrumb">
+            <a href="index.html">Home</a>
+            <i class="fas fa-chevron-right"></i>
+            <a href="Cables-Wires.html">Business Lines</a>
+            <i class="fas fa-chevron-right"></i>
+            <a href="Cables-Wires.html">Cables & Wires</a>
+            <i class="fas fa-chevron-right"></i>
+            <span>Power Cables</span>
+        </div>
+        <div class="power-cables-header">
+            <h1 class="power-cables-title">Power Cables</h1>
+
+            <!-- Search Bar -->
+            <div class="cable-search-container">
+                <div class="cable-search">
+                    <svg width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <path d="M9 17A8 8 0 1 0 9 1a8 8 0 0 0 0 16zM19 19l-4.35-4.35" stroke="currentColor"
+                              stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
+                    </svg>
+                    <input type="text" id="cableSearch" placeholder="Search with cable name...">
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Tabs and Products Section -->
+<section class="power-cables-section">
+    <div class="container">
+        <!-- Tab Navigation -->
+        <div class="cable-tabs">
+            <button class="cable-tab active" data-category="low-voltage">
+                Low Voltage Cables & Building Wires
+            </button>
+            <button class="cable-tab" data-category="medium-voltage">
+                Medium Voltage Cables
+            </button>
+            <button class="cable-tab" data-category="high-voltage">
+                High Voltage & Extra High Voltage Cables
+            </button>
+        </div>
+
+
+
+        <!-- Products Grid -->
+        <div class="cable-products-grid" id="productsGrid">
+            <!-- Products will be dynamically inserted here -->
+        </div>
+
+        <!-- No Results Message -->
+        <div class="no-results" id="noResults" style="display: none;">
+            <p>No cables found matching your search.</p>
+        </div>
+    </div>
+</section>

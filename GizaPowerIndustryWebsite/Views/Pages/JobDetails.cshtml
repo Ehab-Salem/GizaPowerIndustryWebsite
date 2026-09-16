@@ -1,0 +1,907 @@
+﻿@model GizaPowerIndustryWebsite.Models.VacancyDetailsViewModel
+
+@{
+    ViewData["Title"] = Model.JobTitle;
+}
+<style>
+    .sustainability-hero {
+        position: relative;
+        width: 100%;
+        height: 70vh;
+        overflow: hidden;
+        padding-top: 0 !important;
+    }
+
+    .sustainability-hero-bg {
+        position: absolute;
+        inset: 0;
+        width: 100%;
+        height: 100%;
+    }
+
+        .sustainability-hero-bg img {
+            width: 800%;
+            height: 100%;
+            object-fit: cover;
+            display: block;
+        }
+
+    .sustainability-hero-overlay {
+        position: absolute;
+        inset: 0;
+        z-index: 1;
+    }
+
+    .sustainability-hero-content {
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        z-index: 3;
+        text-align: center;
+        width: 100%;
+    }
+
+    .sustainability-hero-title {
+        color: #fff;
+        font-size: 72px;
+        font-weight: 700;
+        letter-spacing: 6px;
+        font-family: Arial, sans-serif;
+    }
+
+    @@media (max-width: 768px) {
+        .sustainability-hero-title {
+            font-size: 42px;
+        }
+    }
+    /* Responsive adjustment */
+    @@media (max-width: 768px) {
+        .sustainability-hero {
+            height: 55vh;
+        }
+
+        .sustainability-hero-title {
+            font-size: 2.2rem;
+        }
+
+        .sustainability-hero-subtitle {
+            font-size: 1rem;
+        }
+    }
+    /* Main title – bold, sentence case */
+    .sustainability-hero-title {
+        font-size: clamp(2.5rem, 6vw, 4.5rem);
+        font-weight: 800;
+        color: #fff;
+        margin: 0 0 1rem;
+        line-height: 1.1;
+        text-transform: none;
+    }
+
+    /*Subtitle–light,supportive*/
+    .sustainability-hero-subtitle {
+        font-size: clamp(1rem, 2.5vw, 1.4rem);
+        font-weight: 300;
+        color: rgba(255, 255, 255, 0.9);
+        margin: 0;
+        line-height: 1.6;
+        text-transform: none;
+    }
+    /*Responsive adjustment*/
+    @@media (max-width: 768px) {
+        .sustainability-hero {
+            height: 55vh;
+        }
+
+        .sustainability-hero-title {
+            font-size: 2.2rem;
+        }
+
+        .sustainability-hero-subtitle {
+            font-size: 1rem;
+        }
+    }
+
+    /* =========================================================
+       APPLY SHEET — in-page slide-in panel (replaces navigation
+       to a separate Apply page)
+       ========================================================= */
+
+    /* Fallback value; overridden at runtime by JS with the real
+       header height so the sheet/overlay never sit on top of it. */
+    :root {
+        --header-height: 80px;
+    }
+
+    .apply-sheet-overlay {
+        position: fixed;
+        top: var(--header-height);
+        left: 0;
+        right: 0;
+        bottom: 0;
+        background: rgba(6, 40, 63, 0.55);
+        z-index: 900;
+        opacity: 0;
+        pointer-events: none;
+        transition: opacity .25s ease;
+    }
+
+        .apply-sheet-overlay.is-open {
+            opacity: 1;
+            pointer-events: auto;
+        }
+
+    .apply-sheet {
+        position: fixed;
+        top: var(--header-height);
+        right: 0;
+        height: calc(100% - var(--header-height));
+        width: min(560px, 100%);
+        background: #fff;
+        z-index: 901;
+        box-shadow: -8px 0 30px rgba(0,0,0,.15);
+        transform: translateX(100%);
+        transition: transform .3s ease;
+        display: flex;
+        flex-direction: column;
+    }
+
+        .apply-sheet.is-open {
+            transform: translateX(0);
+        }
+
+    .apply-sheet-header {
+        display: flex;
+        align-items: flex-start;
+        justify-content: space-between;
+        gap: 1rem;
+        padding: 1.5rem 1.75rem;
+        border-bottom: 1px solid #eceef1;
+        flex-shrink: 0;
+    }
+
+    .apply-sheet-heading {
+        margin: 0;
+    }
+
+    .apply-sheet-title {
+        margin: 0 0 .25rem;
+        font-size: 1.4rem;
+        font-weight: 700;
+        color: #1a2b4c;
+    }
+
+    .apply-sheet-subtitle {
+        margin: 0;
+        font-size: .9rem;
+        color: #5a6472;
+    }
+
+    .apply-sheet-close {
+        background: #f4f5f7;
+        border: none;
+        width: 36px;
+        height: 36px;
+        border-radius: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        cursor: pointer;
+        color: #1a2b4c;
+        font-size: 1rem;
+        flex-shrink: 0;
+        transition: background .15s ease, color .15s ease;
+    }
+
+        .apply-sheet-close:hover {
+            background: #c0392b;
+            color: #fff;
+        }
+
+    .apply-sheet-body {
+        padding: 1.75rem;
+        overflow-y: auto;
+        flex: 1;
+    }
+
+    body.apply-sheet-locked {
+        overflow: hidden;
+    }
+
+    /* Reused apply-form styling (matches the standalone Apply page) */
+    .apply-form-grid {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 1.1rem 1.25rem;
+    }
+
+    .apply-field-full {
+        grid-column: 1 / -1;
+    }
+
+    .apply-label {
+        display: block;
+        font-weight: 600;
+        color: #1a2b4c;
+        margin-bottom: .4rem;
+        font-size: .9rem;
+    }
+
+    .apply-input {
+        width: 100%;
+        padding: .7rem .9rem;
+        border: 1px solid #d9dde3;
+        border-radius: 8px;
+        font-size: .95rem;
+        font-family: inherit;
+        transition: border-color .15s ease, box-shadow .15s ease;
+    }
+
+        .apply-input:focus {
+            outline: none;
+            border-color: #c0392b;
+            box-shadow: 0 0 0 3px rgba(192,57,43,.12);
+        }
+
+    .apply-field-error {
+        color: #c0392b;
+        font-size: .8rem;
+        margin-top: .3rem;
+        display: block;
+        min-height: 1em;
+    }
+
+    .apply-error-banner, .apply-success-banner {
+        border-radius: 8px;
+        padding: .9rem 1.1rem;
+        margin-bottom: 1.25rem;
+        font-weight: 500;
+        font-size: .9rem;
+        display: none;
+    }
+
+    .apply-error-banner {
+        background: #fdeceb;
+        color: #c0392b;
+        border: 1px solid #f3b8b3;
+    }
+
+    .apply-success-banner {
+        background: #e9f7ef;
+        color: #1e7e42;
+        border: 1px solid #b7e4c7;
+    }
+
+    .apply-file-input {
+        display: none;
+    }
+
+    .apply-file-drop {
+        display: flex;
+        align-items: center;
+        gap: .6rem;
+        border: 1.5px dashed #c7ccd4;
+        border-radius: 8px;
+        padding: 1rem;
+        cursor: pointer;
+        color: #5a6472;
+        font-size: .88rem;
+        transition: border-color .15s ease, background .15s ease;
+    }
+
+        .apply-file-drop:hover {
+            border-color: #c0392b;
+            background: #fdf6f5;
+        }
+
+        .apply-file-drop i {
+            color: #c0392b;
+            font-size: 1.2rem;
+        }
+
+    .apply-submit-btn {
+        margin-top: 1.75rem;
+        border: none;
+        cursor: pointer;
+        width: 100%;
+        justify-content: center;
+    }
+
+        .apply-submit-btn[disabled] {
+            opacity: .65;
+            cursor: not-allowed;
+        }
+
+    .apply-sheet-success-state {
+        display: none;
+        text-align: center;
+        padding: 2rem 0;
+    }
+
+        .apply-sheet-success-state .apply-success-icon {
+            width: 64px;
+            height: 64px;
+            border-radius: 50%;
+            background: #e9f7ef;
+            color: #1e7e42;
+            font-size: 1.8rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto 1rem;
+        }
+
+        .apply-sheet-success-state h3 {
+            margin: 0 0 .5rem;
+            color: #1a2b4c;
+        }
+
+        .apply-sheet-success-state p {
+            color: #5a6472;
+            margin: 0 0 1.5rem;
+        }
+
+    @@media (max-width: 640px) {
+        .apply-form-grid {
+            grid-template-columns: 1fr;
+        }
+
+        .apply-sheet {
+            width: 100%;
+        }
+    }
+</style>
+<!-- Hero Section -->
+<section class="sustainability-hero" style="border-radius:0px">
+    <!-- Background Image -->
+    <div class="sustainability-hero-bg">
+        <img src="~/assets/GPI Website Visuals/Careers/Job Description.jpg" alt="Careers">
+    </div>
+    <!-- Dark overlay for readability -->
+    <div class="sustainability-hero-overlay"></div>
+
+    <!-- Centred text content -->
+    <div class="job-hero-content">
+        <h1 class="job-hero-title">@Model.JobTitle</h1>
+    </div>
+</section>
+@* <!-- Job Details Hero Section -->
+<section class="job-hero" style="padding:7rem 4rem 2rem 2rem;">
+    <div class="container-fluid">
+        <div class="job-hero-container">
+            <div class="job-hero-bg">
+                <img src="~/assets/images/job-details-hero.jpg" style="object-fit:cover" alt="@Model.JobTitle">
+            </div>
+            <div class="job-hero-overlay"></div>
+            <div class="job-hero-content">
+                <h1 class="job-hero-title">@Model.JobTitle</h1>
+            </div>
+        </div>
+    </div>
+</section> *@
+
+<!-- Job Details Content -->
+<section class="job-details-section">
+    <div class="container">
+        <div class="job-details-grid">
+            <!-- Left Column - Job Information -->
+            <div class="job-info-column">
+
+                <!-- Job Summary -->
+                <div class="job-section">
+                    <h2 class="job-section-title">Job Summary</h2>
+                    <p class="job-section-text">@Model.JobSummary</p>
+                </div>
+
+                <!-- Requirements -->
+                @if (Model.Requirements.Any())
+                {
+                    <div class="job-section">
+                        <h2 class="job-section-title">Requirements</h2>
+                        <ul class="job-list">
+                            @foreach (var req in Model.Requirements)
+                            {
+                                <li>@req</li>
+                            }
+                        </ul>
+                    </div>
+                }
+
+                <!-- Responsibilities -->
+                @if (Model.Responsibilities.Any())
+                {
+                    <div class="job-section">
+                        <h2 class="job-section-title">Responsibilities</h2>
+                        <ul class="job-list navy-bullets">
+                            @foreach (var resp in Model.Responsibilities)
+                            {
+                                <li>@resp</li>
+                            }
+                        </ul>
+                    </div>
+                }
+
+                <!-- Preferred Skills -->
+                @if (Model.Skills.Any())
+                {
+                    <div class="job-section">
+                        <h2 class="job-section-title">Preferred Skills</h2>
+                        <div class="skills-tags">
+                            @foreach (var skill in Model.Skills)
+                            {
+                                <span class="skill-tag">@skill</span>
+                            }
+                        </div>
+                    </div>
+                }
+            </div>
+
+            <!-- Right Column - Job Details Sidebar -->
+            <div class="job-sidebar-column">
+                <div class="job-sidebar">
+                    <h3 class="sidebar-title">Job Details</h3>
+
+                    <div class="sidebar-item">
+                        <div class="sidebar-icon">
+                            <img src="~/assets/icons/briefcase-red.png" alt="" width="20">
+                        </div>
+                        <div class="sidebar-text">
+                            <p class="sidebar-label">Department</p>
+                            <p class="sidebar-value">@Model.Department</p>
+                        </div>
+                    </div>
+
+                    <div class="sidebar-item">
+                        <div class="sidebar-icon">
+                            <img src="~/assets/icons/location-red.png" alt="" width="20">
+                        </div>
+                        <div class="sidebar-text">
+                            <p class="sidebar-label">Location</p>
+                            <p class="sidebar-value">@Model.Location</p>
+                        </div>
+                    </div>
+
+                    <div class="sidebar-item">
+                        <div class="sidebar-icon">
+                            <img src="~/assets/icons/clock-red.png" alt="" width="20">
+                        </div>
+                        <div class="sidebar-text">
+                            <p class="sidebar-label">Job Type</p>
+                            <p class="sidebar-value">@Model.EmploymentType</p>
+                        </div>
+                    </div>
+
+                    <div class="sidebar-item">
+                        <div class="sidebar-icon">
+                            <img src="~/assets/icons/verify-red.png" alt="" width="20">
+                        </div>
+                        <div class="sidebar-text">
+                            <p class="sidebar-label">Seniority Level</p>
+                            <p class="sidebar-value">@Model.SeniorityLevel</p>
+                        </div>
+                    </div>
+
+                    @if (Model.Languages.Any())
+                    {
+                        <div class="sidebar-item">
+                            <div class="sidebar-icon">
+                                <img src="~/assets/icons/lang-red.png" alt="" width="20">
+                            </div>
+                            <div class="sidebar-text">
+                                <p class="sidebar-label">Language Requirement</p>
+                                <p class="sidebar-value">
+                                    @string.Join(", ", Model.Languages.Select(l => $"{l.Language} ({l.Level})"))
+                                </p>
+                            </div>
+                        </div>
+                    }
+
+                    <!-- CHANGED: was <a asp-action="ApplyJob" ...> navigating to a separate page.
+                         Now a plain button that opens the in-page apply sheet below. -->
+                    <button type="button" class="btn-sidebar-apply" id="openApplyBtn">
+                        Apply Now
+                        <span class="icon-circle">
+                            <i class="fas fa-arrow-right"></i>
+                        </span>
+                    </button>
+                </div>
+
+                <!-- Related Jobs in Sidebar -->
+                @if (Model.RelatedJobs.Any())
+                {
+                    <div class="sidebar-related-jobs">
+                        <h3 class="sidebar-title">Related Jobs</h3>
+
+                        <div class="related-jobs-list">
+                            @foreach (var related in Model.RelatedJobs)
+                            {
+                                <div class="related-job-card">
+                                    <div class="related-job-info">
+                                        <h4 class="related-job-title">@related.JobTitle</h4>
+                                        <div class="related-job-meta">
+                                            <span class="related-meta-item">
+                                                <img src="~/assets/icons/location-red.png" alt="" width="16">
+                                                @related.Location
+                                            </span>
+                                            <span class="related-meta-item">
+                                                <img src="~/assets/icons/clock-red.png" alt="" width="16">
+                                                @related.EmploymentType
+                                            </span>
+                                        </div>
+                                    </div>
+                                    <a asp-action="JobDetails" asp-controller="Pages" asp-route-id="@related.Id" class="btn-related-circle">
+                                        <i class="fas fa-arrow-right"></i>
+                                    </a>
+                                </div>
+                            }
+                        </div>
+                    </div>
+                }
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- =========================================================
+     APPLY SHEET — slides in over the current page.
+     Same fields/action as the old standalone Apply page, but
+     submitted via fetch() so the user never leaves this page.
+     ========================================================= -->
+<div class="apply-sheet-overlay" id="applySheetOverlay"></div>
+<aside class="apply-sheet" id="applySheet" role="dialog" aria-modal="true" aria-labelledby="applySheetTitle">
+    <div class="apply-sheet-header">
+        <div class="apply-sheet-heading">
+            <h2 class="apply-sheet-title" id="applySheetTitle">Apply for @Model.JobTitle</h2>
+            <p class="apply-sheet-subtitle">@Model.Department</p>
+        </div>
+        <button type="button" class="apply-sheet-close" id="closeApplyBtn" aria-label="Close">
+            <i class="fas fa-times"></i>
+        </button>
+    </div>
+
+    <div class="apply-sheet-body">
+
+        <div class="apply-error-banner" id="applyErrorBanner">
+            <i class="fas fa-exclamation-circle"></i>
+            <span id="applyErrorText">Please fix the highlighted fields below and try again.</span>
+        </div>
+
+        <div class="apply-success-banner" id="applyToastBanner">
+            <i class="fas fa-check-circle"></i>
+            Application submitted successfully.
+        </div>
+
+        <!-- Success state shown after a successful submit -->
+        <div class="apply-sheet-success-state" id="applySuccessState">
+            <div class="apply-success-icon"><i class="fas fa-check"></i></div>
+            <h3>Application sent!</h3>
+            <p>Thanks for applying to @Model.JobTitle. Our team will review your application and get back to you.</p>
+            <button type="button" class="btn-sidebar-apply apply-submit-btn" id="applyDoneBtn" style="max-width:220px;margin:0 auto;">
+                Done
+            </button>
+        </div>
+
+        <form id="applyForm" method="post" enctype="multipart/form-data" class="apply-form" novalidate>
+            @Html.AntiForgeryToken()
+            <input type="hidden" name="VacancyId" value="@Model.Id" />
+            <input type="hidden" name="JobTitle" value="@Model.JobTitle" />
+            <input type="hidden" name="DepartmentName" value="@Model.Department" />
+
+            <div class="apply-form-grid">
+
+                <div class="apply-field">
+                    <label class="apply-label" for="applyName">Full Name</label>
+                    <input id="applyName" name="Name" class="apply-input" placeholder="e.g. Ahmed Mostafa" required />
+                    <span class="apply-field-error" data-error-for="Name"></span>
+                </div>
+
+                <div class="apply-field">
+                    <label class="apply-label" for="applyEmail">Email</label>
+                    <input id="applyEmail" name="Email" type="email" class="apply-input" placeholder="name@example.com" required />
+                    <span class="apply-field-error" data-error-for="Email"></span>
+                </div>
+
+                <div class="apply-field">
+                    <label class="apply-label" for="applyPhone">Phone</label>
+                    <input id="applyPhone" name="Phone" class="apply-input" placeholder="+20 1xx xxx xxxx" required />
+                    <span class="apply-field-error" data-error-for="Phone"></span>
+                </div>
+
+                <div class="apply-field">
+                    <label class="apply-label" for="applyAddress">Address</label>
+                    <input id="applyAddress" name="Address" class="apply-input" placeholder="City, Country" required />
+                    <span class="apply-field-error" data-error-for="Address"></span>
+                </div>
+
+                <div class="apply-field">
+                    <label class="apply-label" for="applyExperience">Experience (years)</label>
+                    <input id="applyExperience" name="Experience" type="number" min="0" max="60" class="apply-input" required />
+                    <span class="apply-field-error" data-error-for="Experience"></span>
+                </div>
+
+                <div class="apply-field">
+                    <label class="apply-label" for="applyCurrentSalary">Current Salary</label>
+                    <input id="applyCurrentSalary" name="CurrentSalary" class="apply-input" placeholder="e.g. 15,000 EGP" />
+                    <span class="apply-field-error" data-error-for="CurrentSalary"></span>
+                </div>
+
+                <div class="apply-field">
+                    <label class="apply-label" for="applyExpectedSalary">Expected Salary</label>
+                    <input id="applyExpectedSalary" name="ExpectedSalary" type="number" min="0" step="0.01" class="apply-input" />
+                    <span class="apply-field-error" data-error-for="ExpectedSalary"></span>
+                </div>
+
+                <div class="apply-field apply-field-full">
+                    <label class="apply-label" for="CvFile">CV / Resume</label>
+                    <label for="CvFile" class="apply-file-drop" id="cvDropLabel">
+                        <i class="fas fa-cloud-upload-alt"></i>
+                        <span id="cvFileText">Choose a file or drag it here — PDF or Word, max 5MB</span>
+                    </label>
+                    <input name="CvFile" type="file" accept=".pdf,.doc,.docx" class="apply-file-input" id="CvFile" required />
+                    <span class="apply-field-error" data-error-for="CvFile"></span>
+                </div>
+
+            </div>
+
+            <button type="submit" class="btn-sidebar-apply apply-submit-btn" id="applySubmitBtn">
+                <span id="applySubmitText">Submit Application</span>
+                <span class="icon-circle">
+                    <i class="fas fa-arrow-right"></i>
+                </span>
+            </button>
+        </form>
+    </div>
+</aside>
+
+@section Scripts {
+    <script>
+        (function () {
+            var openBtn = document.getElementById('openApplyBtn');
+            var closeBtn = document.getElementById('closeApplyBtn');
+            var doneBtn = document.getElementById('applyDoneBtn');
+            var overlay = document.getElementById('applySheetOverlay');
+            var sheet = document.getElementById('applySheet');
+            var form = document.getElementById('applyForm');
+            var errorBanner = document.getElementById('applyErrorBanner');
+            var errorText = document.getElementById('applyErrorText');
+            var successState = document.getElementById('applySuccessState');
+            var submitBtn = document.getElementById('applySubmitBtn');
+            var submitText = document.getElementById('applySubmitText');
+            var cvInput = document.getElementById('CvFile');
+            var cvText = document.getElementById('cvFileText');
+
+            // Keep the sheet/overlay pinned below the real header instead
+            // of a hardcoded pixel value. Tries a few common header
+            // selectors — if your header uses a different one, add it here.
+            function syncHeaderHeightVar() {
+                var header = document.querySelector('header, .site-header, .main-header, #header, nav.navbar, .navbar');
+                var height = header ? header.getBoundingClientRect().height : 80;
+                document.documentElement.style.setProperty('--header-height', height + 'px');
+            }
+            syncHeaderHeightVar();
+            window.addEventListener('resize', syncHeaderHeightVar);
+            window.addEventListener('load', syncHeaderHeightVar);
+
+            // TODO (backend): the ApplyJob POST action should detect the
+            // 'X-Requested-With: XMLHttpRequest' header (or check
+            // Request.Headers["X-Requested-With"] == "XMLHttpRequest") and,
+            // for AJAX calls, return a JSON result instead of a redirect/view:
+            //   - success:  200 OK  { success: true }
+            //   - invalid:  400/422 { success: false, errors: { "Email": ["..."] } }
+            // The script below already handles both shapes; if the action
+            // still returns a normal MVC view/redirect, submissions will be
+            // treated as "success" whenever the HTTP status is in the 2xx
+            // range, and field-level errors won't be shown.
+            var applyActionUrl = '@Url.Action("ApplyJob", "Pages", new { id = Model.Id })';
+
+            function openSheet() {
+                overlay.classList.add('is-open');
+                sheet.classList.add('is-open');
+                document.body.classList.add('apply-sheet-locked');
+                var firstField = document.getElementById('applyName');
+                if (firstField) { firstField.focus(); }
+            }
+
+            function closeSheet() {
+                overlay.classList.remove('is-open');
+                sheet.classList.remove('is-open');
+                document.body.classList.remove('apply-sheet-locked');
+            }
+
+            function resetSheetToForm() {
+                form.style.display = '';
+                successState.style.display = 'none';
+                errorBanner.style.display = 'none';
+                clearFieldErrors();
+            }
+
+            function clearFieldErrors() {
+                document.querySelectorAll('#applyForm .apply-field-error').forEach(function (el) {
+                    el.textContent = '';
+                });
+            }
+
+            function showFieldErrors(errors) {
+                clearFieldErrors();
+                var unmatched = [];
+                Object.keys(errors || {}).forEach(function (field) {
+                    var messages = errors[field];
+                    if (!messages || !messages.length) { return; }
+                    var el = document.querySelector('#applyForm [data-error-for="' + field + '"]');
+                    if (el) {
+                        el.textContent = messages[0];
+                    } else {
+                        // Errors not tied to a specific field (e.g. id/VacancyId
+                        // mismatch) fall back to the banner text.
+                        unmatched.push(messages[0]);
+                    }
+                });
+                if (unmatched.length) {
+                    errorText.textContent = unmatched[0];
+                }
+            }
+            
+            // Mirrors the server-side rules in PagesController.ApplyJob so
+            // obviously-invalid submissions are caught instantly, without a
+            // round trip. The server remains the source of truth — these
+            // checks are for UX only.
+            var EMAIL_PATTERN = /^[^\s]+[^\s]+\.[^\s]+$/;
+            var PHONE_PATTERN = /^[0-9+\-\s()]{7,20}$/;
+            var ALLOWED_CV_EXTENSIONS = ['.pdf', '.doc', '.docx'];
+            var MAX_CV_BYTES = 5 * 1024 * 1024;
+
+            function validateClientSide() {
+                var errors = {};
+                var name = document.getElementById('applyName').value.trim();
+                var email = document.getElementById('applyEmail').value.trim();
+                var phone = document.getElementById('applyPhone').value.trim();
+                var address = document.getElementById('applyAddress').value.trim();
+                var experience = document.getElementById('applyExperience').value;
+                var expectedSalary = document.getElementById('applyExpectedSalary').value;
+                var cvFiles = cvInput.files;
+
+                if (!name) {
+                    errors.Name = ['Please enter your full name.'];
+                }
+
+                if (!email) {
+                    errors.Email = ['Please enter your email address.'];
+                } else if (!EMAIL_PATTERN.test(email)) {
+                    errors.Email = ['Please enter a valid email address.'];
+                }
+
+                if (!phone) {
+                    errors.Phone = ['Please enter your phone number.'];
+                } else if (!PHONE_PATTERN.test(phone)) {
+                    errors.Phone = ['Please enter a valid phone number.'];
+                }
+
+                if (!address) {
+                    errors.Address = ['Please enter your address.'];
+                }
+
+                if (experience === '' || experience === null) {
+                    errors.Experience = ['Please enter your years of experience.'];
+                } else {
+                    var expNum = Number(experience);
+                    if (isNaN(expNum) || expNum < 0 || expNum > 60) {
+                        errors.Experience = ['Experience must be between 0 and 60 years.'];
+                    }
+                }
+
+                if (expectedSalary !== '' && expectedSalary !== null) {
+                    var salaryNum = Number(expectedSalary);
+                    if (isNaN(salaryNum) || salaryNum < 0) {
+                        errors.ExpectedSalary = ['Expected salary must be a positive number.'];
+                    }
+                }
+
+                if (!cvFiles || cvFiles.length === 0) {
+                    errors.CvFile = ['Please attach your CV.'];
+                } else {
+                    var file = cvFiles[0];
+                    var dotIndex = file.name.lastIndexOf('.');
+                    var ext = dotIndex >= 0 ? file.name.substring(dotIndex).toLowerCase() : '';
+                    if (ALLOWED_CV_EXTENSIONS.indexOf(ext) === -1) {
+                        errors.CvFile = ['Only PDF or Word documents are allowed.'];
+                    } else if (file.size > MAX_CV_BYTES) {
+                        errors.CvFile = ['File size must not exceed 5 MB.'];
+                    }
+                }
+
+                return errors;
+            }
+
+            openBtn.addEventListener('click', function () {
+                resetSheetToForm();
+                openSheet();
+            });
+
+            closeBtn.addEventListener('click', closeSheet);
+            overlay.addEventListener('click', closeSheet);
+            if (doneBtn) {
+                doneBtn.addEventListener('click', function () {
+                    closeSheet();
+                    setTimeout(function () {
+                        form.reset();
+                        cvText.textContent = 'Choose a file or drag it here — PDF or Word, max 5MB';
+                        resetSheetToForm();
+                    }, 250);
+                });
+            }
+
+            document.addEventListener('keydown', function (e) {
+                if (e.key === 'Escape' && sheet.classList.contains('is-open')) {
+                    closeSheet();
+                }
+            });
+
+            cvInput.addEventListener('change', function () {
+                cvText.textContent = this.files.length ? this.files[0].name : 'Choose a file or drag it here — PDF or Word, max 5MB';
+            });
+
+            var successMessageEl = successState.querySelector('p');
+            var successMessageDefault = successMessageEl ? successMessageEl.textContent : '';
+
+            form.addEventListener('submit', function (e) {
+                e.preventDefault();
+                errorBanner.style.display = 'none';
+                clearFieldErrors();
+
+                var clientErrors = validateClientSide();
+                if (Object.keys(clientErrors).length > 0) {
+                    showFieldErrors(clientErrors);
+                    errorText.textContent = 'Please fix the highlighted fields below and try again.';
+                    errorBanner.style.display = 'block';
+                    return;
+                }
+
+                submitBtn.disabled = true;
+                submitText.textContent = 'Submitting...';
+
+                var formData = new FormData(form);
+
+                fetch(applyActionUrl, {
+                    method: 'POST',
+                    body: formData,
+                    headers: { 'X-Requested-With': 'XMLHttpRequest' },
+                    credentials: 'same-origin'
+                })
+                    .then(function (response) {
+                        return response.json()
+                            .catch(function () { return null; })
+                            .then(function (data) {
+                                if (response.ok) {
+                                    return data; // { success: true, message: "..." }
+                                }
+                                // Non-2xx: data is { success:false, errors:{...} }
+                                // when the controller could parse it, or null
+                                // if the response wasn't JSON at all.
+                                throw data || {};
+                            });
+                    })
+                    .then(function (data) {
+                        if (successMessageEl) {
+                            successMessageEl.textContent = (data && data.message) || successMessageDefault;
+                        }
+                        form.style.display = 'none';
+                        successState.style.display = 'block';
+                    })
+                    .catch(function (err) {
+                        if (err && err.errors) {
+                            errorText.textContent = 'Please fix the highlighted fields below and try again.';
+                            showFieldErrors(err.errors); // may overwrite errorText for unmatched (non-field) errors
+                        } else {
+                            errorText.textContent = 'Something went wrong submitting your application. Please try again.';
+                        }
+                        errorBanner.style.display = 'block';
+                    })
+                    .finally(function () {
+                        submitBtn.disabled = false;
+                        submitText.textContent = 'Submit Application';
+                    });
+            });
+        })();
+    </script>
+}

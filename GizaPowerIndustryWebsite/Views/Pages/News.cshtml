@@ -1,0 +1,1104 @@
+@{
+    ViewData["Title"] = "News";
+}
+<style>
+    /* ===== Latest News Grid – Responsive ===== */
+    .latest-news-grid {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 2rem;
+    }
+
+    /* --- Featured Article --- */
+    .featured-article {
+        position: relative;
+        overflow: hidden;
+        border-radius: 12px;
+    }
+
+    .featured-article-image-container {
+        position: relative;
+        height: 100%;
+        min-height: 400px;
+    }
+
+        .featured-article-image-container img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            display: block;
+        }
+
+    .featured-article-overlay {
+        position: absolute;
+        inset: 0;
+        background: linear-gradient( to top, rgba(0, 0, 0, 0.75) 0%, rgba(0, 0, 0, 0.2) 60% );
+        border-radius: 12px;
+    }
+
+    .featured-article-content {
+        position: absolute;
+        bottom: 0;
+        left: 0;
+        right: 0;
+        padding: 2rem;
+        color: #fff;
+    }
+
+    .article-badge {
+        display: inline-block;
+        background: #B82025;
+        color: #fff;
+        padding: 0.25rem 1rem;
+        border-radius: 50px;
+        font-size: 25px;
+        font-weight: 600;
+        text-transform: uppercase;
+        letter-spacing: 0.5px;
+        margin-bottom: 1rem;
+    }
+
+    .featured-article-title {
+        font-size: clamp(1.25rem, 3vw, 2rem);
+        font-weight: 800;
+        margin-bottom: 0.75rem;
+        line-height: 1.3;
+    }
+
+    .featured-article-excerpt {
+        font-size: 0.95rem;
+        line-height: 1.7;
+        opacity: 0.9;
+        display: -webkit-box;
+        -webkit-line-clamp: 3;
+        -webkit-box-orient: vertical;
+        overflow: hidden;
+    }
+
+    /* --- Side Articles List --- */
+    .side-articles-list {
+        display: flex;
+        flex-direction: column;
+        gap: 1.5rem;
+    }
+
+    .side-article-item {
+        display: flex;
+        gap: 1.5rem;
+        background: #fff;
+        border: 1px solid #F3F4F6;
+        border-radius: 12px;
+        overflow: hidden;
+        transition: box-shadow 0.3s;
+    }
+
+        .side-article-item:hover {
+            box-shadow: 0 8px 25px rgba(0,0,0,0.08);
+        }
+
+    .side-article-img-box {
+        position: relative;
+        width: 180px;
+        flex-shrink: 0;
+    }
+
+        .side-article-img-box img {
+            width: 100%;
+            height: 100%;
+            display: block;
+        }
+
+    .side-image-overlay {
+        position: absolute;
+        inset: 0;
+        background: linear-gradient(to top, rgba(0,0,0,0.4), transparent);
+    }
+
+    .side-article-badge {
+        position: absolute;
+        top: 12px;
+        left: 12px;
+        background: #B82025;
+        color: #fff;
+        padding: 0.2rem 0.8rem;
+        border-radius: 50px;
+        font-size: 0.7rem;
+        font-weight: 600;
+        text-transform: uppercase;
+    }
+
+    .side-article-text {
+        padding: 1.25rem 1.25rem 1.25rem 0;
+        display: flex;
+        flex-direction: column;
+        flex: 1;
+    }
+
+    .side-article-date {
+        font-size: 0.8rem;
+        color: #9CA3AF;
+        margin-bottom: 0.5rem;
+    }
+
+    .side-article-title {
+        font-size: 1rem;
+        font-weight: 700;
+        color: #06283F;
+        margin: 0 0 0.5rem;
+        line-height: 1.4;
+    }
+
+    .side-article-excerpt {
+        font-size: 0.875rem;
+        color: #6B7280;
+        line-height: 1.6;
+        flex: 1;
+        display: -webkit-box;
+        -webkit-line-clamp: 2;
+        -webkit-box-orient: vertical;
+        overflow: hidden;
+        margin: 0 0 0.75rem;
+    }
+
+    .read-more-link {
+        font-size: 0.85rem;
+        font-weight: 600;
+        color: #B82025;
+        text-decoration: none;
+        display: inline-flex;
+        align-items: center;
+        gap: 0.4rem;
+        transition: gap 0.2s;
+    }
+
+        .read-more-link:hover {
+            gap: 0.7rem;
+        }
+
+    /* ===== Responsive Breakpoints ===== */
+
+    /* Tablets */
+    @@media (max-width: 992px) {
+        .latest-news-grid {
+            grid-template-columns: 1fr;
+        }
+
+        .featured-article-image-container {
+            min-height: 300px;
+        }
+
+        .side-article-item {
+            flex-direction: column;
+        }
+
+        .side-article-img-box {
+            width: 100%;
+            height: 200px;
+        }
+
+        .side-article-text {
+            padding: 1.25rem;
+        }
+    }
+
+    /* Mobiles */
+    @@media (max-width: 600px) {
+        .latest-news-grid {
+            gap: 1.5rem;
+        }
+
+        .featured-article-content {
+            padding: 1.5rem;
+        }
+
+        .featured-article-image-container {
+            min-height: 250px;
+        }
+
+        .side-article-img-box {
+            height: 180px;
+        }
+    }
+
+    /* Section Header Style matching Home.cshtml */
+    .about-label {
+        font-weight: 900;
+        font-size: 40px;
+        color: #a3191e;
+        margin-top: 24px !important;
+        margin-bottom: 0px !important;
+        line-height: 1.2;
+    }
+
+    .hero-small {
+        font-size: 24px;
+        font-weight: 700;
+        color: #06283f;
+        display: block;
+        line-height: 1.3;
+        margin-top: 6px;
+    }
+
+    @@media (max-width: 768px) {
+        .about-label {
+            font-size: 30px !important;
+        }
+        .hero-small {
+            font-size: 18px !important;
+        }
+    }
+</style>
+
+<!-- ============================================================
+     COMPANY LIFE / INTERNSHIP SPOTLIGHT — styles
+     Scoped locally so it doesn't collide with anything global.
+============================================================= -->
+<style>
+    .spotlight-section {
+        padding: 1rem 0 3rem;
+    }
+
+    .spotlight-card {
+        display: grid;
+        grid-template-columns: 1.1fr 1fr;
+        background: #fff;
+        border: 1px solid #F3F4F6;
+        border-radius: 16px;
+        overflow: hidden;
+        box-shadow: 0 8px 30px rgba(6,40,63,0.07);
+    }
+
+    .spotlight-media {
+        position: relative;
+        min-height: 360px;
+        cursor: pointer;
+        overflow: hidden;
+    }
+
+        .spotlight-media img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            display: block;
+            transition: transform 0.5s ease;
+        }
+
+        .spotlight-media:hover img {
+            transform: scale(1.05);
+        }
+
+    .spotlight-media-overlay {
+        position: absolute;
+        inset: 0;
+        background: linear-gradient(180deg, rgba(6,40,63,0) 55%, rgba(6,40,63,0.55) 100%);
+    }
+
+    .spotlight-count-badge {
+        position: absolute;
+        top: 16px;
+        left: 16px;
+        display: inline-flex;
+        align-items: center;
+        gap: 6px;
+        background: rgba(6,40,63,0.72);
+        color: #fff;
+        font-size: 0.78rem;
+        font-weight: 600;
+        padding: 6px 12px;
+        border-radius: 50px;
+        backdrop-filter: blur(2px);
+    }
+
+    .spotlight-expand {
+        position: absolute;
+        right: 16px;
+        bottom: 16px;
+        width: 42px;
+        height: 42px;
+        border-radius: 50%;
+        background: rgba(255,255,255,0.92);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        opacity: 0;
+        transform: translateY(6px);
+        transition: opacity 0.25s ease, transform 0.25s ease;
+    }
+
+        .spotlight-expand svg {
+            width: 18px;
+            height: 18px;
+            stroke: #B82025;
+            fill: none;
+            stroke-width: 2;
+        }
+
+    .spotlight-media:hover .spotlight-expand {
+        opacity: 1;
+        transform: translateY(0);
+    }
+
+    .spotlight-content {
+        padding: 2.4rem 2.6rem;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        gap: 0.9rem;
+    }
+
+    .spotlight-title {
+        font-size: clamp(1.35rem, 2.4vw, 1.9rem);
+        font-weight: 800;
+        color: #06283F;
+        line-height: 1.28;
+        margin: 0;
+    }
+
+    .spotlight-desc {
+        font-size: 0.95rem;
+        line-height: 1.7;
+        color: #6B7280;
+        margin: 0;
+    }
+
+    .spotlight-view-btn {
+        appearance: none;
+        border: none;
+        align-self: flex-start;
+        display: inline-flex;
+        align-items: center;
+        gap: 0.5rem;
+        background: #B82025;
+        color: #fff;
+        font-size: 12px;
+        font-weight: 600;
+        padding: 7px 13px;
+        border-radius: 50px;
+        cursor: pointer;
+        transition: gap 0.2s ease, background 0.2s ease;
+        margin-top: 0.3rem;
+    }
+
+        .spotlight-view-btn:hover {
+            gap: 0.85rem;
+            background: #8f1519;
+        }
+
+    .spotlight-thumbs {
+        display: flex;
+        gap: 10px;
+        margin-top: 0.6rem;
+    }
+
+    .spotlight-thumb {
+        width: 64px;
+        height: 64px;
+        border-radius: 8px;
+        object-fit: cover;
+        cursor: pointer;
+        border: 2px solid transparent;
+        opacity: 0.75;
+        transition: opacity 0.2s ease, border-color 0.2s ease;
+    }
+
+        .spotlight-thumb:hover {
+            opacity: 1;
+            border-color: #B82025;
+        }
+
+    @@media (max-width: 900px) {
+        .spotlight-card {
+            grid-template-columns: 1fr;
+        }
+
+        .spotlight-media {
+            min-height: 280px;
+        }
+
+        .spotlight-content {
+            padding: 1.8rem;
+        }
+    }
+
+    /* ---------- lightbox / carousel ---------- */
+    .il-lightbox {
+        position: fixed;
+        inset: 0;
+        background: rgba(6,40,63,0.88);
+        display: none;
+        align-items: center;
+        justify-content: center;
+        z-index: 1000;
+        padding: 24px;
+        backdrop-filter: blur(3px);
+        -webkit-backdrop-filter: blur(3px);
+    }
+
+        .il-lightbox.open {
+            display: flex;
+        }
+
+    .il-lightbox-inner {
+        max-width: 900px;
+        width: 100%;
+        background: #101820;
+        border-radius: 10px;
+        overflow: hidden;
+        box-shadow: 0 30px 70px rgba(0,0,0,0.55);
+    }
+
+    .il-lightbox-close {
+        position: absolute;
+        top: 12px;
+        right: 14px;
+        background: rgba(0,0,0,0.4);
+        border: none;
+        color: #fff;
+        font-size: 0.75rem;
+        font-weight: 600;
+        letter-spacing: 0.06em;
+        cursor: pointer;
+        padding: 8px 12px;
+        border-radius: 50px;
+        z-index: 20;
+        transition: background 0.2s ease;
+    }
+
+        .il-lightbox-close:hover {
+            background: rgba(0,0,0,0.7);
+        }
+
+    .il-stage {
+        position: relative;
+        background: #000;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        min-height: 320px;
+    }
+
+        .il-stage img {
+            width: 100%;
+            max-height: 62vh;
+            object-fit: contain;
+            display: block;
+        }
+
+    .il-nav {
+        position: absolute;
+        top: 50%;
+        transform: translateY(-50%);
+        width: 42px;
+        height: 42px;
+        border-radius: 50%;
+        background: rgba(0,0,0,0.45);
+        border: none;
+        color: #fff;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        cursor: pointer;
+        z-index: 15;
+        transition: background 0.2s ease, transform 0.2s ease;
+    }
+
+        .il-nav:hover {
+            background: rgba(184,32,37,0.85);
+            transform: translateY(-50%) scale(1.06);
+        }
+
+        .il-nav svg {
+            width: 18px;
+            height: 18px;
+            fill: #fff;
+        }
+
+    .il-prev {
+        left: 14px;
+    }
+
+    .il-next {
+        right: 14px;
+    }
+
+    .il-counter {
+        position: absolute;
+        top: 14px;
+        left: 14px;
+        font-size: 0.75rem;
+        color: #fff;
+        background: rgba(0,0,0,0.45);
+        padding: 5px 10px;
+        border-radius: 50px;
+        z-index: 15;
+    }
+
+    .il-thumbs {
+        display: flex;
+        gap: 8px;
+        padding: 12px 16px;
+        background: #101820;
+        overflow-x: auto;
+    }
+
+    .il-thumb {
+        flex: 0 0 auto;
+        width: 56px;
+        height: 56px;
+        border-radius: 6px;
+        overflow: hidden;
+        border: 2px solid transparent;
+        opacity: 0.55;
+        cursor: pointer;
+        transition: opacity 0.2s ease, border-color 0.2s ease;
+    }
+
+        .il-thumb img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        .il-thumb.active {
+            opacity: 1;
+            border-color: #B82025;
+        }
+
+    .sustainability-hero {
+        position: relative;
+        width: 100%;
+        height: 70vh;
+        overflow: hidden;
+        padding-top: 0 !important;
+    }
+
+    .sustainability-hero-bg {
+        position: absolute;
+        inset: 0;
+        width: 100%;
+        height: 100%;
+    }
+
+    .sustainability-hero-bg img {
+        width: 800%;
+        height: 100%;
+        object-fit: cover;
+        display: block;
+    }
+
+    .sustainability-hero-overlay {
+        position: absolute;
+        inset: 0;
+        background: linear-gradient(to bottom, rgb(6 40 63 / 27%), rgb(6 40 63 / 71%));
+        z-index: 1;
+    }
+
+    .sustainability-hero-content {
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        z-index: 3;
+        text-align: center;
+        width: 100%;
+    }
+
+    .sustainability-hero-title {
+        color: #fff;
+        font-size: 72px;
+        font-weight: 700;
+        letter-spacing: 6px;
+        font-family: Arial, sans-serif;
+    }
+
+    @@media (max-width: 768px) {
+        .sustainability-hero-title {
+            font-size: 42px;
+        }
+    }
+    /* Responsive adjustment */
+    @@media (max-width: 768px) {
+        .sustainability-hero {
+            height: 55vh;
+        }
+
+        .sustainability-hero-title {
+            font-size: 2.2rem;
+        }
+
+        .sustainability-hero-subtitle {
+            font-size: 1rem;
+        }
+
+        .featured-article-title
+        {
+            line-height: 1 !important;
+        }
+    }
+    /* Main title – bold, sentence case */
+    .sustainability-hero-title {
+        font-size: clamp(2.5rem, 6vw, 4.5rem);
+        font-weight: 800;
+        color: #fff;
+        margin: 0 0 1rem;
+        line-height: 1.1;
+        text-transform: none; /* sentence case */
+    }
+
+    /* Subtitle – light, supportive */
+    .sustainability-hero-subtitle {
+        font-size: clamp(1rem, 2.5vw, 1.4rem);
+        font-weight: 300;
+        color: rgba(255, 255, 255, 0.9);
+        margin: 0;
+        line-height: 1.6;
+        text-transform: none;
+    }
+    /* Responsive adjustment */
+    @@media (max-width: 768px) {
+        .sustainability-hero {
+            height: 55vh;
+        }
+
+        .sustainability-hero-title {
+            font-size: 2.2rem;
+        }
+
+        .sustainability-hero-subtitle {
+            font-size: 1rem;
+        }
+    }
+</style>
+
+<!-- Hero Section -->
+@* <section class="qa-hero" style="padding:7rem 0 2rem 0;">
+    <div class="qa-hero-image-container">
+        <img src="~/assets/images/news-hero-bg.jpg" alt="News">
+        <div class="qa-hero-image-overlay"></div>
+        <div class="outline-text-sustainability">NEWS</div>
+    </div>
+</section> *@
+<!-- Hero Section -->
+<!-- Full‑width Hero Banner -->
+<section class="sustainability-hero" style="border-radius:0px">
+    <!-- Background Image -->
+    <div class="sustainability-hero-bg">
+        <img src="~/assets/GPI Website Visuals/News/New Banner.jpg" alt="News">
+    </div>
+    <!-- Dark overlay for readability -->
+    <div class="sustainability-hero-overlay"></div>
+
+    <!-- Centred text content -->
+    <div class="sustainability-hero-content">
+        <h1 class="sustainability-hero-title">News</h1>
+        <p class="sustainability-hero-subtitle">
+            Lastest News and Updates from Giza Power Industry
+        </p>
+    </div>
+</section>
+
+<!-- Latest News Section -->
+<section class="latest-news-section" id="Latest" style="padding: 40px 0 50px;">
+    <div class="container">
+        <div class="about-header text-center mb-60px" style="text-align: left !important; margin-bottom: 30px !important;">
+            <p class="about-label" style="font-weight: 900; color: #a3191e; margin-top:24px !important; margin-bottom:0px !important">
+                Latest News
+            </p>
+            <span class="hero-small reveal-line" style="font-size: 25px; font-weight: 700; color: #06283f;">
+                STAY UPDATED WITH OUR RECENT STORIES &amp; ACHIEVEMENTS
+            </span>
+        </div>
+        <div class="latest-news-grid">
+            <!-- Featured Article (Large) -->
+            <article class="featured-article">
+                <div class="featured-article-image-container">
+                    <img src="~/assets/GPI Website Visuals/News/GPI Acquires BASEC Certification for Medium Voltage Cables.jpg" alt="GPI Acquires BASEC Certification">
+                    <div class="featured-article-overlay"></div>
+                    <div class="featured-article-content">
+                        <span class="article-badge">Certifications</span>
+                        <h3 class="featured-article-title">
+                            GPI Acquires BASEC Certification for Medium Voltage
+                            Cables
+                        </h3>
+                        <p class="featured-article-excerpt">
+                            Built since 1984 on a total area of 81,745 m2 at the industrial area of Abo Rawash, GPI
+                            is today one of the best modern factories in the region to manufacture and supply
+                            electrical cables with cutting-edge technology and unparalleled quality serving diverse
+                            industries.
+                        </p>
+                    </div>
+                </div>
+            </article>
+
+            <!-- Side Articles List -->
+            <div class="side-articles-list">
+                <article class="side-article-item">
+                    <div class="side-article-img-box">
+                        <img src="~/assets/GPI Website Visuals/News/latest-news-side-1.jpg" alt="GPI Launches New Lighting Division">
+                        <div class="side-image-overlay"></div>
+                        <span class="side-article-badge">Business Lines</span>
+                    </div>
+                    <div class="side-article-text">
+                        <span class="side-article-date">23 Nov 2025</span>
+                        <h4 class="side-article-title">
+                            GPI Launches New Lighting Division for Indoor & Outdoor
+                            Solutions
+                        </h4>
+                        <p class="side-article-excerpt">
+                            GPI announces the official launch of its Lighting Division,
+                            featuring advanced, energy-efficient LED solutions tailored for various sectors
+                        </p>
+                        <a asp-controller="Pages" asp-action="NewsDetails" class="read-more-link">
+                            Read More <i class="fas fa-arrow-right"></i>
+                        </a>
+                    </div>
+                </article>
+
+                <article class="side-article-item">
+                    <div class="side-article-img-box">
+                        <img src="~/assets/GPI Website Visuals/News/latest-news-side-2.jpg" alt="GPI Reduces Carbon Footprint">
+                        <div class="side-image-overlay"></div>
+                        <span class="side-article-badge">Sustainability</span>
+                    </div>
+                    <div class="side-article-text">
+                        <span class="side-article-date">15 Dec 2025</span>
+                        <h4 class="side-article-title">
+                            GPI Reduces Its Carbon Footprint by 18% Through Advanced
+                            Manufacturing Practices
+                        </h4>
+                        <p class="side-article-excerpt">
+                            The company continues to invest in sustainable technologies
+                            in line with global environmental standards and Egypt's 2030 vision.
+                        </p>
+                        <a asp-controller="Pages" asp-action="NewsDetails" class="read-more-link">
+                            Read More <i class="fas fa-arrow-right"></i>
+                        </a>
+                    </div>
+                </article>
+
+                <article class="side-article-item">
+                    <div class="side-article-img-box">
+                        <img src="~/assets/GPI Website Visuals/News/latest-news-side-3.jpg" alt="GPI Exports Expansion">
+                        <div class="side-image-overlay"></div>
+                        <span class="side-article-badge">Company Updates</span>
+                    </div>
+                    <div class="side-article-text">
+                        <span class="side-article-date">28 Jan 2026</span>
+                        <h4 class="side-article-title">
+                            GPI Exports Expand to 25 Countries Across the EMEA Region
+                        </h4>
+                        <p class="side-article-excerpt">
+                            With continued growth, GPI now exports high-quality cables,
+                            meters, and lighting products to more than 25 countries in Europe, Africa, and the
+                            Middle East.
+                        </p>
+                        <a asp-controller="Pages" asp-action="NewsDetails" class="read-more-link">
+                            Read More <i class="fas fa-arrow-right"></i>
+                        </a>
+                    </div>
+                </article>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- ============================================================
+     COMPANY LIFE / INTERNSHIP SPOTLIGHT
+     A photo highlight, not a press article — kept visually
+     distinct from the news cards around it, with its own
+     gallery + carousel rather than a "read more" link to a
+     detail page (there isn't a full article for this one).
+============================================================= -->
+<section class="spotlight-section" style="padding: 20px 0 60px;">
+    <div class="container">
+        <div class="about-header text-center mb-60px" style="text-align: left !important; margin-bottom: 30px !important;">
+            <p class="about-label" style="font-weight: 900; color: #a3191e; margin-top:24px !important; margin-bottom:0px !important">
+                Life at GPI
+            </p>
+            <span class="hero-small reveal-line" style="font-size: 25px; font-weight: 700; color: #06283f;">
+                NURTURING TALENT &amp; BUILDING TOMORROW'S LEADERS
+            </span>
+        </div>
+
+        <div class="spotlight-card">
+            <div class="spotlight-media" id="ilOpen" tabindex="0" role="button" aria-label="View internship photo gallery">
+                <img src="~/assets/images/inter1.jfif" alt="GPI Summer Internship Program 2026">
+                <div class="spotlight-media-overlay"></div>
+                <span class="spotlight-count-badge">
+                    <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <rect x="3" y="3" width="18" height="14" rx="2" />
+                        <path d="M3 13l4-4 4 4 6-6 4 4" />
+                    </svg>
+                    3 Photos
+                </span>
+                <span class="spotlight-expand">
+                    <svg viewBox="0 0 24 24"><path d="M15 3h6v6M9 21H3v-6M21 3l-7 7M3 21l7-7" /></svg>
+                </span>
+            </div>
+
+            <div class="spotlight-content">
+                <span class="about-label" style="font-weight: 900; color: #a3191e; margin-top:24px !important; margin-bottom:0px !important" >
+                    Careers
+                </span>
+                <h3 class="spotlight-title" style="font-size: 28px; font-weight: 800; color: #06283F; margin-bottom: 14px; line-height: 1.25;">
+                    Summer Internship Program 2026
+                </h3>
+                <p class="spotlight-desc">
+                    Every year, GPI welcomes a new cohort of interns across engineering, manufacturing
+                    and corporate functions — pairing them with mentors on the factory floor and in the
+                    field to get hands-on experience with real projects from day one.
+                </p>
+                <button  class="about-label" style="font-weight: 900; color: #a3191e; margin-top:24px !important; margin-bottom:0px !important"  id="ilViewBtn" type="button">
+                    View Gallery <span>→</span>
+                </button>
+                <div class="spotlight-thumbs">
+                    <img class="spotlight-thumb" data-index="1" src="~/assets/images/inter2.jfif" alt="Internship photo 2">
+                    <img class="spotlight-thumb" data-index="2" src="~/assets/images/inter3.jfif" alt="Internship photo 3">
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Internship gallery lightbox -->
+<div class="il-lightbox" id="ilLightbox" role="dialog" aria-modal="true" aria-label="Internship photo gallery">
+    <div class="il-lightbox-inner" style="position:relative;">
+        <button class="il-lightbox-close" id="ilClose" aria-label="Close">CLOSE ✕</button>
+        <div class="il-stage">
+            <span class="il-counter" id="ilCounter"></span>
+            <button class="il-nav il-prev" id="ilPrev" aria-label="Previous">
+                <svg viewBox="0 0 24 24"><path d="M15 18l-6-6 6-6" /></svg>
+            </button>
+            <img id="ilImg" src="" alt="">
+            <button class="il-nav il-next" id="ilNext" aria-label="Next">
+                <svg viewBox="0 0 24 24"><path d="M9 6l6 6-6 6" /></svg>
+            </button>
+        </div>
+        <div class="il-thumbs" id="ilThumbs"></div>
+    </div>
+</div>
+
+<!-- All News Section -->
+<section class="all-news-section" style="display:none">
+    <div class="container">
+        <!-- News Grid -->
+        <div class="news-grid-area">
+            <h2 class="section-title-red" style="color:#a3191e; font-size:40px">All News</h2>
+
+            <div class="news-articles-grid">
+                <!-- Article 1 -->
+                <article class="news-card">
+                    <div class="news-card-image">
+                        <img src="~/assets/images/latest-news-side-1.jpg" alt="News">
+                        <div class="news-card-overlay"></div>
+                        <span class="article-badge">Business Lines</span>
+                    </div>
+                    <div class="news-card-content">
+                        <div class="article-meta">
+                            <span class="article-date">23 Nov 2025</span>
+                        </div>
+                        <h3 class="news-card-title">
+                            GPI Launches New Lighting Division for Indoor & Outdoor
+                            Solutions
+                        </h3>
+                        <p class="news-card-excerpt">
+                            Giza Power Industry has officially launched its new lighting division, offering
+                            exclusive and innovative lighting solutions for both indoor and outdoor
+                            applications...
+                        </p>
+                        <a asp-controller="Pages" asp-action="NewsDetails" class="read-more-link">
+                            Read More <i class="fas fa-arrow-right"></i>
+                        </a>
+                    </div>
+                </article>
+
+                <!-- Article 2 -->
+                <article class="news-card">
+                    <div class="news-card-image">
+                        <img src="~/assets/images/latest-news-side-2.jpg" alt="News">
+                        <span class="article-badge">Business Lines</span>
+                    </div>
+                    <div class="news-card-content">
+                        <div class="article-meta">
+                            <span class="article-date">01 Dec 2025</span>
+                        </div>
+                        <h3 class="news-card-title">Tech Innovations Conference Set to Explore Future of AI</h3>
+                        <p class="news-card-excerpt">
+                            The annual Tech Innovations Conference will focus on breakthroughs in AI technology,
+                            featuring industry leaders and expert panels.
+                        </p>
+                        <a asp-controller="Pages" asp-action="NewsDetails" class="read-more-link">
+                            Read More <i class="fas fa-arrow-right"></i>
+                        </a>
+                    </div>
+                </article>
+
+                <!-- Article 3 -->
+                <article class="news-card">
+                    <div class="news-card-image">
+                        <img src="~/assets/images/news-card-3.png" alt="News">
+                        <span class="article-badge">Business Lines</span>
+                    </div>
+                    <div class="news-card-content">
+                        <div class="article-meta">
+                            <span class="article-date">15 Dec 2025</span>
+                        </div>
+                        <h3 class="news-card-title">
+                            Global Green Initiative: New Standards for Sustainable
+                            Manufacturing
+                        </h3>
+                        <p class="news-card-excerpt">
+                            A coalition of manufacturers announces new sustainability standards aimed at
+                            reducing environmental impact and promoting eco-friendly practices.
+                        </p>
+                        <a asp-controller="Pages" asp-action="NewsDetails" class="read-more-link">
+                            Read More <i class="fas fa-arrow-right"></i>
+                        </a>
+                    </div>
+                </article>
+
+                <!-- Article 4 -->
+                <article class="news-card">
+                    <div class="news-card-image">
+                        <img src="~/assets/images/latest-news-side-3.png" alt="News">
+                        <span class="article-badge">Business Lines</span>
+                    </div>
+                    <div class="news-card-content">
+                        <div class="article-meta">
+                            <span class="article-date">23 Nov 2025</span>
+                        </div>
+                        <h3 class="news-card-title">
+                            GPI Launches New Lighting Division for Indoor & Outdoor
+                            Solutions
+                        </h3>
+                        <p class="news-card-excerpt">
+                            Giza Power Industry has officially launched its new lighting division, offering
+                            exclusive and innovative lighting solutions...
+                        </p>
+                        <a asp-controller="Pages" asp-action="NewsDetails" class="read-more-link">
+                            Read More <i class="fas fa-arrow-right"></i>
+                        </a>
+                    </div>
+                </article>
+
+                <!-- Article 5 -->
+                <article class="news-card">
+                    <div class="news-card-image">
+                        <img src="~/assets/images/latest-news-side-1.jpg" alt="News">
+                        <div class="news-card-overlay"></div>
+                        <span class="article-badge">Business Lines</span>
+                    </div>
+                    <div class="news-card-content">
+                        <div class="article-meta">
+                            <span class="article-date">01 Dec 2025</span>
+                        </div>
+                        <h3 class="news-card-title">Tech Innovations Conference Set to Explore Future of AI</h3>
+                        <p class="news-card-excerpt">
+                            The annual Tech Innovations Conference will focus on breakthroughs in AI technology,
+                            featuring industry leaders...
+                        </p>
+                        <a asp-controller="Pages" asp-action="NewsDetails" class="read-more-link">
+                            Read More <i class="fas fa-arrow-right"></i>
+                        </a>
+                    </div>
+                </article>
+
+                <!-- Article 6 -->
+                <article class="news-card">
+                    <div class="news-card-image">
+                        <img src="~/assets/images/latest-news-feature.jpg" alt="News">
+                        <span class="article-badge">Business Lines</span>
+                    </div>
+                    <div class="news-card-content">
+                        <div class="article-meta">
+                            <span class="article-date">15 Dec 2025</span>
+                        </div>
+                        <h3 class="news-card-title">
+                            Global Green Initiative: New Standards for Sustainable
+                            Manufacturing
+                        </h3>
+                        <p class="news-card-excerpt">
+                            A coalition of manufacturers announces new sustainability standards aimed at
+                            reducing environmental impact...
+                        </p>
+                        <a asp-controller="Pages" asp-action="NewsDetails" class="read-more-link">
+                            Read More <i class="fas fa-arrow-right"></i>
+                        </a>
+                    </div>
+                </article>
+            </div>
+        </div>
+
+    </div>
+</section>
+
+<script>
+    /* ============================================================
+       Internship gallery — simple single-item carousel.
+       Static array for now; swap for @@Html.Raw(Json.Serialize(...))
+       if/when this comes from the database like the Media page does.
+    ============================================================= */
+    const ilMedia = [
+        { src: '@Url.Content("~/assets/images/inter1.jfif")' },
+        { src: '@Url.Content("~/assets/images/inter2.jfif")' },
+        { src: '@Url.Content("~/assets/images/inter3.jfif")' }
+    ];
+
+    const ilLightbox = document.getElementById('ilLightbox');
+    const ilImg = document.getElementById('ilImg');
+    const ilCounter = document.getElementById('ilCounter');
+    const ilThumbs = document.getElementById('ilThumbs');
+    const ilPrev = document.getElementById('ilPrev');
+    const ilNext = document.getElementById('ilNext');
+    let ilIndex = 0;
+
+    function ilShow(index) {
+        ilIndex = (index + ilMedia.length) % ilMedia.length;
+        ilImg.src = ilMedia[ilIndex].src;
+        ilCounter.textContent = `${ilIndex + 1} / ${ilMedia.length}`;
+        [...ilThumbs.children].forEach((t, i) => t.classList.toggle('active', i === ilIndex));
+    }
+
+    function ilRenderThumbs() {
+        ilThumbs.innerHTML = '';
+        ilMedia.forEach((m, i) => {
+            const t = document.createElement('div');
+            t.className = 'il-thumb';
+            t.innerHTML = `<img src="${m.src}" alt="">`;
+            t.addEventListener('click', () => ilShow(i));
+            ilThumbs.appendChild(t);
+        });
+    }
+
+    function ilOpen(startIndex) {
+        ilRenderThumbs();
+        ilShow(startIndex || 0);
+        ilLightbox.classList.add('open');
+        document.body.style.overflow = 'hidden';
+    }
+
+    function ilClose() {
+        ilLightbox.classList.remove('open');
+        document.body.style.overflow = '';
+    }
+
+    document.getElementById('ilOpen').addEventListener('click', () => ilOpen(0));
+    document.getElementById('ilOpen').addEventListener('keydown', (e) => { if (e.key === 'Enter') ilOpen(0); });
+    document.getElementById('ilViewBtn').addEventListener('click', () => ilOpen(0));
+
+    document.querySelectorAll('.spotlight-thumb').forEach(thumb => {
+        thumb.addEventListener('click', () => ilOpen(Number(thumb.dataset.index)));
+    });
+
+    ilPrev.addEventListener('click', () => ilShow(ilIndex - 1));
+    ilNext.addEventListener('click', () => ilShow(ilIndex + 1));
+    document.getElementById('ilClose').addEventListener('click', ilClose);
+    ilLightbox.addEventListener('click', (e) => { if (e.target === ilLightbox) ilClose(); });
+
+    document.addEventListener('keydown', (e) => {
+        if (!ilLightbox.classList.contains('open')) return;
+        if (e.key === 'Escape') ilClose();
+        if (e.key === 'ArrowLeft') ilShow(ilIndex - 1);
+        if (e.key === 'ArrowRight') ilShow(ilIndex + 1);
+    });
+</script>

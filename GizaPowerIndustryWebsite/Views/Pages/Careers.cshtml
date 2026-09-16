@@ -1,0 +1,2159 @@
+@model GizaPowerIndustryWebsite.Models.CareersViewModel
+@{
+    ViewData["Title"] = "Careers";
+}
+<style>
+    /* ===== Clean Equal‑Height Culture Grid ===== */
+    .culture-grid-equal {
+        display: grid;
+        grid-template-columns: repeat(5, 1fr);
+        gap: 24px;
+    }
+
+    /* Card Base */
+    .culture-card-equal {
+        position: relative;
+        border-radius: 18px;
+        padding: 38px 30px 32px;
+        display: flex;
+        flex-direction: column;
+        background: #ffffff;
+        border: 1px solid #f0f2f5;
+        box-shadow: 0 4px 20px rgba(0, 0, 0, 0.03);
+        height: 100%;
+        overflow: hidden;
+        transition: all 0.35s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+    }
+
+    /* Beautiful Red Top Border Accent */
+    .culture-card-equal::before {
+        content: "";
+        position: absolute;
+        top: 0;
+        left: 0;
+        right: 0;
+        height: 4px;
+        background: linear-gradient(90deg, #B82025 0%, #E63946 100%);
+        border-radius: 18px 18px 0 0;
+        transition: height 0.3s ease, box-shadow 0.3s ease;
+    }
+
+    /* Hover Animation */
+    .culture-card-equal:hover {
+        transform: translateY(-8px);
+        box-shadow: 0 18px 38px rgba(184, 32, 37, 0.09), 0 4px 16px rgba(0, 0, 0, 0.05);
+        border-color: rgba(184, 32, 37, 0.25);
+    }
+
+    .culture-card-equal:hover::before {
+        height: 6px;
+        box-shadow: 0 2px 10px rgba(184, 32, 37, 0.4);
+    }
+
+    /* White Card Typography */
+    .culture-card-white {
+        background: #fff;
+    }
+
+    .culture-card-white .culture-card-title {
+        color: #06283f;
+        transition: color 0.3s ease;
+    }
+
+    .culture-card-equal:hover .culture-card-title {
+        color: #B82025;
+    }
+
+    .culture-card-white .culture-preview,
+    .culture-card-white .culture-full {
+        color: #6b7280;
+    }
+
+    /* Icon */
+    .culture-card-icon {
+        margin-bottom: 24px;
+    }
+
+    .culture-card-icon img {
+        width: 50px;
+        height: auto;
+        transition: transform 0.35s ease;
+    }
+
+    .culture-card-equal:hover .culture-card-icon img {
+        transform: scale(1.12) rotate(4deg);
+    }
+
+    /* Title */
+    .culture-card-title {
+        font-size: 1.35rem;
+        font-weight: 900;
+        text-transform: uppercase;
+        line-height: 1.3;
+        margin: 0 0 16px;
+    }
+
+    /* Text Handling */
+    .culture-preview {
+        font-size: 0.9375rem;
+        line-height: 1.6;
+        margin: 0;
+    }
+
+    .culture-full {
+        display: none;
+        font-size: 0.9375rem;
+        line-height: 1.6;
+        margin: 0;
+    }
+
+    .culture-card-body.expanded .culture-full {
+        display: block;
+    }
+
+    .culture-card-body.expanded .culture-preview {
+        display: none;
+    }
+
+    /* Read More Button */
+    .culture-read-more {
+        background: none;
+        border: none;
+        font-weight: 600;
+        cursor: pointer;
+        padding: 0;
+        margin-top: 14px;
+        font-size: 0.9rem;
+        text-decoration: underline;
+        color: #B82025;
+        display: inline-block;
+        transition: color 0.2s ease, transform 0.2s ease;
+    }
+
+    .culture-read-more:hover {
+        color: #8b1317;
+        transform: translateX(3px);
+    }
+
+    /* Responsive */
+    @@media (max-width: 992px) {
+        .culture-grid-equal {
+            grid-template-columns: repeat(2, 1fr);
+        }
+    }
+
+    @@media (max-width: 600px) {
+        .culture-grid-equal {
+            grid-template-columns: 1fr;
+        }
+    }
+</style>
+<style>
+    /* ==================== CULTURE & GROWTH ==================== */
+    .culture-growth {
+        padding: 100px 0;
+        background: #ffffff;
+    }
+
+    .culture-title {
+        font-size: clamp(2.5rem, 5vw, 4.25rem);
+        line-height: 1.1;
+        color: #06283f;
+        margin-bottom: 60px;
+        font-family: 'Neulis Sans', 'Montserrat', sans-serif;
+        font-weight: 300;
+        text-transform: capitalize;
+    }
+
+        .culture-title .bold {
+            font-weight: 900;
+        }
+
+    /* ----- GRID LAYOUT (Desktop: 5 columns) ----- */
+    .culture-grid {
+        display: grid;
+        grid-template-columns: repeat(5, 1fr);
+        gap: 24px;
+        margin-bottom: 20px;
+    }
+
+    /* ----- CARD BASE ----- */
+    .culture-card {
+        padding: 50px 30px 40px;
+        border-radius: 20px;
+        min-height: 275px;
+        display: grid;
+        grid-template-columns: auto 1fr; /* icon | title */
+        grid-template-rows: auto 1fr; /* row1: icon+title, row2: paragraph */
+        align-items: start;
+        gap: 0 16px;
+        transition: all 0.3s ease;
+        position: relative;
+        overflow: hidden;
+    }
+
+        .culture-card:hover {
+            transform: translateY(-8px);
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.08);
+        }
+
+        /* ----- ICON ----- */
+        .culture-card .culture-icon {
+            grid-row: 1;
+            grid-column: 1;
+            display: flex;
+            align-items: center;
+            justify-content: flex-start;
+            margin: 0;
+            background: transparent;
+            border: none;
+        }
+
+    .culture-red .culture-icon img,
+    .culture-white .culture-icon img {
+        width: 50px;
+        height: auto;
+        display: block;
+    }
+
+    /* ----- CONTENT WRAPPER (invisible) ----- */
+    .culture-card .culture-card-content {
+        display: contents; /* h3 and p become direct grid items */
+    }
+
+    /* ----- TITLE (next to icon on row 1) ----- */
+    .culture-card h3 {
+        grid-row: 1;
+        grid-column: 2;
+        margin: 0;
+        text-transform: uppercase;
+        font-weight: 900;
+        font-size: 1.35rem;
+        line-height: 1.3;
+        align-self: start;
+    }
+
+    /* ----- PARAGRAPH (full width row 2) ----- */
+    .culture-card p {
+        grid-row: 2;
+        grid-column: 1 / -1;
+        margin: 0;
+        margin-top: 16px;
+        font-size: 0.9375rem;
+        line-height: 1.6;
+    }
+
+    /* ----- RED CARD COLOURS ----- */
+    .culture-red {
+        background: #b82025;
+        color: #ffffff;
+    }
+
+        .culture-red::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            right: 0;
+            width: 77%;
+            height: 95%;
+            background: url('../icons/culture-red-bg.png') no-repeat bottom right;
+            background-size: contain;
+            opacity: 1.15;
+            z-index: 0;
+            pointer-events: none;
+        }
+
+        .culture-red h3,
+        .culture-red p {
+            color: #ffffff;
+            position: relative;
+            z-index: 1;
+        }
+
+        .culture-red p {
+            color: rgba(255, 255, 255, 0.85);
+        }
+
+    /* ----- WHITE CARD COLOURS ----- */
+    .culture-white {
+        background: #ffffff;
+        border: 1px solid #f3f4f6;
+        box-shadow: 0 4px 20px rgba(0, 0, 0, 0.03);
+    }
+
+        .culture-white h3 {
+            color: #06283f;
+        }
+
+        .culture-white p {
+            color: #6b7280;
+        }
+
+    /* ==================== RESPONSIVE ==================== */
+
+    /* 3 columns on smaller desktops (≤1200px) */
+    @@media (max-width: 1200px) {
+        .culture-grid
+
+    {
+        grid-template-columns: repeat(3, 1fr);
+    }
+
+    .culture-card {
+        min-height: auto;
+    }
+
+    }
+
+    /* 2 columns on tablets (≤992px) */
+    @@media (max-width: 992px) {
+        .culture-grid
+
+    {
+        grid-template-columns: repeat(2, 1fr);
+        gap: 20px;
+    }
+
+    .culture-growth .container-fluid[style*="padding: 0 6rem"],
+    .culture-growth .header-container-careers[style*="padding: 0 6rem"] {
+        padding-left: 2rem !important;
+        padding-right: 2rem !important;
+    }
+
+    .culture-card {
+        padding: 35px 25px 30px;
+        min-height: auto;
+    }
+
+    }
+
+    /* Large phones (≤768px) – still 2 columns */
+    @@media (max-width: 768px) {
+        .culture-grid
+
+    {
+        grid-template-columns: 1fr 1fr;
+        gap: 16px;
+    }
+
+    .culture-title {
+        margin-bottom: 40px;
+    }
+
+    }
+
+    /* Single column on small phones (≤600px) */
+    @@media (max-width: 600px) {
+        .culture-grid
+
+    {
+        grid-template-columns: 1fr;
+        gap: 16px;
+    }
+
+    .culture-growth .container-fluid[style*="padding: 0 6rem"],
+    .culture-growth .header-container-careers[style*="padding: 0 6rem"] {
+        padding-left: 1.25rem !important;
+        padding-right: 1.25rem !important;
+    }
+
+    .culture-card {
+        padding: 30px 20px 25px;
+        min-height: auto;
+        /* Stack everything vertically */
+        grid-template-columns: 1fr;
+        grid-template-rows: auto auto auto;
+    }
+
+        /* Icon → row 1 */
+        .culture-card .culture-icon {
+            grid-row: 1;
+            grid-column: 1;
+            margin-bottom: 12px;
+        }
+
+        /* Title → row 2 */
+        .culture-card h3 {
+            grid-row: 2;
+            grid-column: 1;
+            margin: 0 0 8px 0;
+            font-size: 1.15rem;
+        }
+
+        /* Paragraph → row 3 */
+        .culture-card p {
+            grid-row: 3;
+            grid-column: 1;
+            margin-top: 8px;
+            font-size: 0.875rem;
+        }
+
+    .culture-red .culture-icon img,
+    .culture-white .culture-icon img {
+        width: 40px;
+    }
+
+    }
+</style>
+<style>
+    .internship-section {
+        padding: 100px 0;
+        background: #FFFFFF;
+    }
+
+    .internship-badge {
+        color: #B82025;
+        font-weight: 700;
+        font-size: 3rem;
+        letter-spacing: 0.1em;
+        display: inline-block;
+    }
+
+    .internship-main-title {
+        font-size: clamp(2.5rem, 5vw, 4rem);
+        color: #06283F;
+        line-height: 1.1;
+        margin-bottom: 1.5rem;
+        font-weight: 300;
+    }
+
+        .internship-main-title .bold {
+            font-weight: 900;
+        }
+
+    .internship-subtitle {
+        font-size: 1.0625rem;
+        line-height: 1.8;
+        color: #6B7280;
+        margin-bottom: 30px;
+    }
+
+    /* ----- Filters ----- */
+    .internship-filters {
+        display: flex;
+        justify-content: space-around;
+        gap: 1rem;
+        margin-bottom: 60px;
+        border-bottom: 1px solid #E5E7EB;
+        padding-bottom: 0;
+        flex-wrap: wrap;
+    }
+
+    .filter-btn {
+        padding: 1rem 0;
+        font-size: 1rem;
+        font-weight: 600;
+        color: #4B5563;
+        background: transparent;
+        border: none;
+        cursor: pointer;
+        transition: all 0.3s ease;
+        position: relative;
+        bottom: -1px;
+    }
+
+        .filter-btn:hover {
+            color: #06283F;
+        }
+
+        .filter-btn.active {
+            color: #4B5563; /* neutral colour */
+        }
+
+            .filter-btn.active::after {
+                content: '';
+                position: absolute;
+                bottom: -4px;
+                left: 0;
+                width: 100%;
+                height: 3px;
+                background: #B82025; 
+                border-radius: 2px;
+            }
+
+    /* ----- Job List ----- */
+    .internship-list {
+        display: flex;
+        flex-direction: column;
+        gap: 1.5rem;
+    }
+
+    .internship-item {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        padding: 25px 40px;
+        background: #FFFFFF;
+        border: 1px solid #F3F4F6;
+        border-radius: 12px;
+        transition: all 0.3s ease;
+        box-shadow: 0 4px 15px rgba(0, 0, 0, 0.02);
+    }
+
+        .internship-item:hover {
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.05);
+            transform: translateY(-2px);
+        }
+
+    .internship-title {
+        font-size: 1.5rem;
+        font-weight: 800;
+        color: #06283F;
+        margin-bottom: 1rem;
+    }
+
+    .internship-meta {
+        display: flex;
+        gap: 2rem;
+        flex-wrap: wrap;
+    }
+
+    .meta-item {
+        display: flex;
+        align-items: center;
+        gap: 0.6rem;
+        font-size: 0.9375rem;
+        color: #9CA3AF;
+        font-weight: 500;
+    }
+
+        .meta-item img {
+            flex-shrink: 0;
+        }
+
+    /* ----- Apply Button ----- */
+    .btn-apply-job {
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        gap: 0.75rem;
+        padding: 0.8rem 1.8rem;
+        font-size: 1rem;
+        font-weight: 600;
+        color: #fff;
+        background: #B82025;
+        border-radius: 90px;
+        transition: all 0.3s ease;
+        white-space: nowrap;
+        flex-shrink: 0;
+        width: auto;
+        min-width: 140px;
+    }
+
+        .btn-apply-job:hover {
+            background: #9d1b1f;
+            transform: translateX(5px);
+        }
+
+        .btn-apply-job .icon-circle {
+            background: white;
+            width: 32px;
+            height: 32px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: #B82025;
+            font-size: 0.8rem;
+        }
+
+    /* ----- Responsive (small screens) ----- */
+    @@media (max-width: 768px) {
+        .internship-item
+
+    {
+        padding: 20px;
+    }
+
+    .internship-meta {
+        gap: 1rem;
+    }
+
+    }
+
+    @@media (max-width: 640px) {
+        .internship-item
+
+    {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 1rem;
+    }
+
+    .btn-apply-job {
+        width: 100%;
+        justify-content: center;
+        min-width: 0;
+    }
+
+    .internship-filters {
+        justify-content: flex-start;
+        gap: 0.5rem;
+    }
+
+    .filter-btn {
+        padding: 0.75rem 0;
+        font-size: 0.9rem;
+    }
+    }
+    /* ----- Search & Filter Wrapper ----- */
+    .internship-filters-wrapper {
+        display: flex;
+        flex-direction: column;
+        gap: 1.5rem;
+    }
+
+    /* ----- Search Bar ----- */
+    .internship-search {
+        position: relative;
+        max-width: 500px;
+        width: 100%;
+    }
+
+        .internship-search .search-icon {
+            position: absolute;
+            left: 16px;
+            top: 50%;
+            transform: translateY(-50%);
+            pointer-events: none;
+        }
+
+        .internship-search input {
+            width: 100%;
+            padding: 0.9rem 3rem 0.9rem 3rem;
+            border: 1px solid #E5E7EB;
+            border-radius: 12px;
+            font-size: 1rem;
+            font-family: inherit;
+            background: #F9FAFB;
+            transition: border-color 0.2s ease, box-shadow 0.2s ease;
+            outline: none;
+        }
+
+            .internship-search input:focus {
+                border-color: #B82025;
+                box-shadow: 0 0 0 3px rgba(184,32,37,0.1);
+                background: #fff;
+            }
+
+    .search-clear {
+        position: absolute;
+        right: 12px;
+        top: 50%;
+        transform: translateY(-50%);
+        background: none;
+        border: none;
+        cursor: pointer;
+        display: none;
+        padding: 4px;
+        border-radius: 50%;
+    }
+
+        .search-clear:hover {
+            background: #F3F4F6;
+        }
+
+    /* Show clear button when input is not empty */
+    .internship-search input:not(:placeholder-shown) ~ .search-clear {
+        display: flex;
+    }
+
+    /* Keep filter row as before */
+    .internship-filters {
+        display: flex;
+        gap: 1rem;
+        margin-bottom: 0;
+        border-bottom: 1px solid #E5E7EB;
+        padding-bottom: 0;
+        flex-wrap: wrap;
+    }
+</style>
+<style>
+    /* ===== Culture Message – Text Only ===== */
+    .culture-message {
+        padding: 30px 0;
+        background: #F7F8F8; /* soft neutral background */
+    }
+
+    .message-block {
+        margin: 0 auto;
+        position: relative;
+        padding: 50px 60px;
+        background: #fff;
+        border-radius: 20px;
+        box-shadow: 0 10px 40px rgba(0, 0, 0, 0.04);
+    }
+
+    /* Decorative accent bar */
+    .message-accent {
+        position: absolute;
+        top: 0;
+        left: 60px;
+        width: 80px;
+        height: 4px;
+        background: #B82025;
+        border-radius: 0 0 4px 4px;
+    }
+
+    .message-heading {
+        font-size: 40px;
+        font-weight: 800;
+        color: #06283F;
+        line-height: 1.2;
+        margin: 0 0 24px;
+        text-transform: uppercase;
+        letter-spacing: -0.5px;
+    }
+
+    .text-red {
+        color: #B82025;
+    }
+
+    .message-body {
+        font-size: 1.1rem;
+        line-height: 1.8;
+        color: #4B5563;
+        margin: 0 0 36px;
+    }
+
+    /* CTA Button */
+    .btn-message-cta {
+        display: inline-flex;
+        align-items: center;
+        gap: 10px;
+        background: #B82025;
+        color: #fff;
+        padding: 14px 32px;
+        border-radius: 50px;
+        text-decoration: none;
+        font-weight: 600;
+        font-size: 1rem;
+        transition: background 0.3s ease, transform 0.3s ease;
+    }
+
+        .btn-message-cta:hover {
+            background: #8b1317;
+            transform: translateY(-2px);
+            box-shadow: 0 8px 20px rgba(184,32,37,0.3);
+        }
+
+    .cta-arrow {
+        transition: transform 0.2s;
+    }
+
+    .btn-message-cta:hover .cta-arrow {
+        transform: translateX(4px);
+    }
+
+    /* Responsive */
+    @@media (max-width: 600px) {
+        .culture-message
+    {
+        padding: 20px 0;
+    }
+
+    .message-block {
+        padding: 40px 24px;
+        border-radius: 12px;
+    }
+
+    .message-accent {
+        left: 24px;
+    }
+
+    }
+</style>
+<style>
+    <style >
+    /* ===== Summer Internship CTA ===== */
+    .summer-internship-cta {
+        padding: 40px 0; /* more balanced top/bottom spacing */
+        background: #ffffff;
+    }
+
+    .cta-card {
+        margin: 0 auto;
+        background: #06283F;
+        border-radius: 20px;
+        padding: 40px; /* reduce outer padding so content can expand */
+        text-align: left;
+        color: #fff;
+        position: relative;
+        box-shadow: 0 20px 40px rgba(0,0,0,0.08);
+        display: flex;
+        align-items: stretch;
+        gap: 24px; /* less gap between text and image */
+        overflow: hidden;
+    }
+
+    .cta-content {
+        flex: 1 1 50%; /* take half of the card */
+        max-width: none; /* remove max-width restriction */
+        z-index: 2;
+    }
+
+    .cta-badge {
+        display: inline-block;
+        background: #B82025;
+        color: #fff;
+        font-size: 0.85rem;
+        font-weight: 700;
+        letter-spacing: 2px;
+        padding: 6px 20px;
+        border-radius: 50px;
+        margin-bottom: 25px;
+    }
+
+    .cta-heading {
+        font-size: 40px;
+        font-weight: 800;
+        line-height: 1.1;
+        text-transform: uppercase;
+        margin: 0 0 20px;
+        color: #fff;
+    }
+
+        .cta-heading .text-red {
+            color: #B82025;
+        }
+
+    .cta-text {
+        font-size: 1.1rem;
+        line-height: 1.7;
+        color: rgba(255,255,255,0.85);
+        margin-bottom: 20px;
+    }
+
+    .btn-cta-red {
+        display: inline-flex;
+        align-items: center;
+        gap: 10px;
+        background: #B82025;
+        color: #fff;
+        padding: 14px 36px;
+        border-radius: 50px;
+        font-size: 1rem;
+        font-weight: 600;
+        text-decoration: none;
+        transition: background 0.3s ease, transform 0.3s ease;
+    }
+
+        .btn-cta-red:hover {
+            background: #8b1317;
+            transform: translateY(-2px);
+            box-shadow: 0 10px 25px rgba(184,32,37,0.4);
+        }
+
+    .cta-arrow {
+        transition: transform 0.2s;
+    }
+
+    .btn-cta-red:hover .cta-arrow {
+        transform: translateX(4px);
+    }
+
+    /* ----- Spotlight Media (image block) ----- */
+    .spotlight-media {
+        flex: 1 1 50%; /* take half of the card */
+        max-width: none; /* remove max-width restriction */
+        position: relative;
+        border-radius: 12px;
+        overflow: hidden;
+        min-height: 320px; /* ensure a good minimum height */
+    }
+
+        .spotlight-media img {
+            position: absolute;
+            inset: 0;
+            width: 100%;
+            height: 100%;
+            object-fit: cover; /* image fills the whole block */
+            display: block;
+        }
+
+    .spotlight-media-overlay {
+        position: absolute;
+        inset: 0;
+        background: linear-gradient(to top, rgba(0,0,0,0.6), rgba(0,0,0,0.1));
+    }
+
+    /* Responsive adjustments */
+    @@media (max-width: 992px) {
+        .cta-card
+
+    {
+        flex-direction: column;
+        padding: 30px;
+        gap: 20px;
+    }
+
+    .spotlight-media {
+        flex: 1 1 auto;
+        max-width: 100%;
+        min-height: 220px;
+    }
+
+    .cta-content {
+        max-width: 100%;
+    }
+
+    }
+
+    @@media (max-width: 600px) {
+        .summer-internship-cta
+
+    {
+        padding: 40px 0;
+    }
+
+    .cta-card {
+        padding: 25px 20px;
+        border-radius: 12px;
+    }
+
+    }
+</style>
+<style>
+    /* ===== Vacancies Alternative Layout – Professional Table Style ===== */
+    .vacancies-section-alt {
+        background: #ffffff;
+    }
+
+    .vacancy-table {
+        display: flex;
+        flex-direction: column;
+        gap: 2px;
+        background: #E5E7EB; /* subtle separator line between rows */
+        border-radius: 12px;
+        overflow: hidden;
+    }
+
+    .vacancy-row {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        background: #ffffff;
+        padding: 20px 30px;
+        transition: background 0.2s ease;
+    }
+
+        .vacancy-row:hover {
+            background: #F9FAFB;
+        }
+
+    .vacancy-info {
+        flex: 1;
+    }
+
+    .vacancy-title {
+        font-size: 1.25rem;
+        font-weight: 700;
+        color: #06283F;
+        margin: 0 0 8px 0;
+    }
+
+    .vacancy-meta {
+        display: flex;
+        gap: 2rem;
+        flex-wrap: wrap;
+    }
+
+    /* The same meta-item style from your internship section is reused – no need to redefine.
+       It already has the correct font, color, and icon alignment. */
+
+    /* Apply Button – slightly different from internship button */
+    .btn-vacancy-apply {
+        display: inline-flex;
+        align-items: center;
+        gap: 0.75rem;
+        padding: 0.8rem 1.8rem;
+        font-size: 1rem;
+        font-weight: 600;
+        color: #fff;
+        background: #B82025; /* dark navy instead of red – distinct look */
+        border-radius: 90px;
+        text-decoration: none;
+        transition: background 0.3s ease, transform 0.3s ease;
+        white-space: nowrap;
+        flex-shrink: 0;
+    }
+
+        .btn-vacancy-apply:hover {
+            color: #ffffffff!important; /* red on hover – brand tie-in */
+            transform: translateX(5px)!important;
+        }
+
+        .btn-vacancy-apply .icon-circle {
+            background: #fff;
+            width: 32px;
+            height: 32px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: #06283F;
+            font-size: 0.8rem;
+        }
+
+    /* Responsive */
+    @@media (max-width: 768px) {
+        .vacancy-row
+
+    {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 16px;
+    }
+
+    .btn-vacancy-apply {
+        width: 100%;
+        justify-content: center;
+    }
+
+    }
+</style>
+<style>
+    /* ===== Vacancies Modern Layout ===== */
+
+    /* Scrollable filter tabs */
+    .filter-tabs-scroll-wrapper {
+        position: relative;
+        margin-bottom: 40px;
+    }
+
+    .filter-tabs-scroll {
+        display: flex;
+        gap: 8px;
+        overflow-x: auto;
+        scrollbar-width: none; /* Firefox */
+        -ms-overflow-style: none; /* IE/Edge */
+        padding-bottom: 8px; /* space for the active underline */
+        border-bottom: 1px solid #E5E7EB;
+        flex-wrap: nowrap;
+    }
+
+        .filter-tabs-scroll::-webkit-scrollbar {
+            display: none; /* Chrome/Safari */
+        }
+
+        .filter-tabs-scroll .filter-btn {
+            flex: 0 0 auto; /* prevent shrinking */
+            white-space: nowrap;
+            padding: 0.8rem 1.2rem;
+            border: none;
+            background: transparent;
+            font-weight: 600;
+            color: #4B5563;
+            cursor: pointer;
+            position: relative;
+            transition: color 0.2s;
+        }
+
+            .filter-tabs-scroll .filter-btn:hover {
+                color: #06283F;
+            }
+
+            .filter-tabs-scroll .filter-btn.active {
+                color: #B82025;
+            }
+
+                .filter-tabs-scroll .filter-btn.active::after {
+                    content: '';
+                    position: absolute;
+                    bottom: -9px;
+                    left: 0;
+                    width: 100%;
+                    height: 3px;
+                    background: #B82025;
+                    border-radius: 2px;
+                }
+
+    /* Vacancy Cards */
+    .vacancy-list-modern {
+        display: flex;
+        flex-direction: column;
+        gap: 1rem;
+    }
+
+    .vacancy-card {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        padding: 24px 30px;
+        background: #fff;
+        border: 1px solid #F3F4F6;
+        border-radius: 12px;
+        transition: box-shadow 0.3s ease, transform 0.3s ease;
+    }
+
+        .vacancy-card:hover {
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.05);
+            transform: translateY(-2px);
+        }
+
+    .vacancy-card-left {
+        flex: 1;
+    }
+
+    .vacancy-card-title {
+        font-size: 1.25rem;
+        font-weight: 700;
+        color: #06283F;
+        margin: 0 0 8px 0;
+    }
+
+    .vacancy-card-meta {
+        display: flex;
+        gap: 2rem;
+        flex-wrap: wrap;
+    }
+
+    /* Reuse existing meta-item styles – no changes needed */
+
+    /* ============================================================
+       FIND YOUR ROLE SECTION  (fyr-*)
+       ============================================================ */
+    .fyr-section {
+        background: #fff;
+    }
+
+    /* Header */
+    .fyr-header {
+        margin-bottom: 28px;
+    }
+
+    .fyr-title {
+        font-size: clamp(1.8rem, 3vw, 2.6rem);
+        font-weight: 800;
+        color: #111827;
+        margin: 0 0 8px;
+        letter-spacing: -0.5px;
+    }
+
+    .fyr-title-accent {
+        color: #a3191e;
+    }
+
+    .fyr-subtitle {
+        font-size: 0.95rem;
+        color: #6B7280;
+        margin: 0;
+        max-width: 620px;
+        line-height: 1.6;
+    }
+
+    /* Search bar */
+    .fyr-search-wrap {
+        position: relative;
+        display: flex;
+        align-items: center;
+        border: 1.5px solid #E5E7EB;
+        border-radius: 50px;
+        padding: 0 18px;
+        height: 52px;
+        background: #fff;
+        margin-bottom: 20px;
+        transition: border-color 0.2s;
+    }
+
+    .fyr-search-wrap:focus-within {
+        border-color: #a3191e;
+        box-shadow: 0 0 0 3px rgba(163,25,30,0.08);
+    }
+
+    .fyr-search-icon {
+        flex-shrink: 0;
+        margin-right: 10px;
+    }
+
+    .fyr-search-wrap input {
+        flex: 1;
+        border: none;
+        outline: none;
+        font-size: 0.92rem;
+        color: #374151;
+        background: transparent;
+    }
+
+    .fyr-search-wrap input::placeholder {
+        color: #9CA3AF;
+    }
+
+    .fyr-clear-btn {
+        background: none;
+        border: none;
+        cursor: pointer;
+        padding: 4px;
+        display: flex;
+        align-items: center;
+        opacity: 0.6;
+        transition: opacity 0.2s;
+    }
+
+    .fyr-clear-btn:hover { opacity: 1; }
+
+    /* Dropdown filters row */
+    .fyr-filters-row {
+        display: flex;
+        gap: 12px;
+        flex-wrap: wrap;
+        margin-bottom: 36px;
+        position: relative;
+        z-index: 50;
+    }
+
+    .fyr-dropdown {
+        position: relative;
+    }
+
+    .fyr-drop-btn {
+        display: flex;
+        align-items: center;
+        gap: 8px;
+        padding: 10px 18px;
+        border: 1.5px solid #E5E7EB;
+        border-radius: 50px;
+        background: #fff;
+        font-size: 0.88rem;
+        color: #374151;
+        cursor: pointer;
+        white-space: nowrap;
+        transition: border-color 0.2s, box-shadow 0.2s;
+        font-family: inherit;
+    }
+
+    .fyr-drop-btn:hover {
+        border-color: #a3191e;
+    }
+
+    .fyr-drop-btn--active {
+        border-color: #a3191e;
+        color: #a3191e;
+        background: #fff5f5;
+    }
+
+    .fyr-drop-menu {
+        display: none;
+        position: absolute;
+        top: calc(100% + 6px);
+        left: 0;
+        min-width: 200px;
+        background: #fff;
+        border: 1px solid #E5E7EB;
+        border-radius: 12px;
+        box-shadow: 0 8px 24px rgba(0,0,0,0.10);
+        list-style: none;
+        margin: 0;
+        padding: 6px 0;
+        z-index: 999;
+    }
+
+    .fyr-drop-menu.open { display: block; }
+
+    .fyr-drop-item {
+        padding: 10px 18px;
+        font-size: 0.88rem;
+        color: #374151;
+        cursor: pointer;
+        transition: background 0.15s;
+    }
+
+    .fyr-drop-item:hover { background: #F9FAFB; }
+    .fyr-drop-item.active { color: #a3191e; font-weight: 600; }
+
+    /* Cards grid — 3 columns */
+    .fyr-grid {
+        display: grid;
+        grid-template-columns: repeat(3, 1fr);
+        gap: 20px;
+    }
+
+    @@media (max-width: 1024px) {
+        .fyr-grid { grid-template-columns: repeat(2, 1fr); }
+    }
+
+    @@media (max-width: 640px) {
+        .fyr-grid { grid-template-columns: 1fr; }
+        .fyr-filters-row { gap: 8px; }
+    }
+
+    /* Individual card */
+    .fyr-card {
+        display: flex;
+        flex-direction: column;
+        background: #fff;
+        border: 1.5px solid #E5E7EB;
+        border-radius: 14px;
+        padding: 22px 24px 20px;
+        transition: box-shadow 0.25s, transform 0.25s, border-color 0.25s;
+    }
+
+    .fyr-card:hover {
+        box-shadow: 0 12px 32px rgba(0,0,0,0.08);
+        transform: translateY(-3px);
+        border-color: #d1d5db;
+    }
+
+    /* Card top row */
+    .fyr-card-top {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        margin-bottom: 16px;
+    }
+
+    .fyr-card-location {
+        display: flex;
+        align-items: center;
+        gap: 5px;
+        font-size: 0.82rem;
+        color: #6B7280;
+    }
+
+    .fyr-badge {
+        font-size: 0.72rem;
+        font-weight: 700;
+        letter-spacing: 0.04em;
+        color: #a3191e;
+        background: #fff0f0;
+        border: 1px solid #fcd5d5;
+        border-radius: 50px;
+        padding: 3px 10px;
+        white-space: nowrap;
+    }
+
+    /* Card body */
+    .fyr-card-body {
+        flex: 1;
+        margin-bottom: 16px;
+    }
+
+    .fyr-card-title {
+        font-size: 1.05rem;
+        font-weight: 700;
+        color: #111827;
+        margin: 0 0 8px;
+        line-height: 1.35;
+    }
+
+    .fyr-card-summary {
+        font-size: 0.85rem;
+        color: #a3191e;
+        line-height: 1.55;
+        margin: 0;
+        display: -webkit-box;
+        -webkit-line-clamp: 3;
+        -webkit-box-orient: vertical;
+        overflow: hidden;
+    }
+
+    /* Card meta row */
+    .fyr-card-meta {
+        display: flex;
+        gap: 16px;
+        flex-wrap: wrap;
+        margin-bottom: 20px;
+        padding-top: 14px;
+        border-top: 1px solid #F3F4F6;
+    }
+
+    .fyr-meta-item {
+        display: flex;
+        align-items: center;
+        gap: 5px;
+        font-size: 0.82rem;
+        color: #6B7280;
+    }
+
+    /* Card actions */
+    .fyr-card-actions {
+        display: flex;
+        gap: 10px;
+    }
+
+    .fyr-btn-outline {
+        flex: 1;
+        text-align: center;
+        padding: 10px 14px;
+        border: 1.5px solid #D1D5DB;
+        border-radius: 8px;
+        font-size: 0.85rem;
+        font-weight: 500;
+        color: #374151;
+        text-decoration: none;
+        transition: border-color 0.2s, color 0.2s;
+        white-space: nowrap;
+    }
+
+    .fyr-btn-outline:hover {
+        border-color: #a3191e;
+        color: #a3191e;
+    }
+
+    .fyr-btn-solid {
+        flex: 1;
+        text-align: center;
+        padding: 10px 14px;
+        background: #B82025;
+        border: 1.5px solid #B82025;
+        border-radius: 8px;
+        font-size: 0.85rem;
+        font-weight: 600;
+        color: #fff;
+        text-decoration: none;
+        transition: background 0.2s, border-color 0.2s;
+        white-space: nowrap;
+    }
+
+    .fyr-btn-solid:hover {
+        background: #a3191e;
+        border-color: #a3191e;
+        color: #fff;
+    }
+
+    /* Empty / no-results states */
+    .fyr-empty,
+    .fyr-no-results {
+        font-size: 0.95rem;
+        color: #6B7280;
+        text-align: center;
+        padding: 40px 0;
+        grid-column: 1 / -1;
+    }
+
+    /* ---- FYR Animations ---- */
+    @@keyframes fyrFadeUp {
+        from { opacity: 0; transform: translateY(28px); }
+        to   { opacity: 1; transform: translateY(0); }
+    }
+    @@keyframes fyrFadeIn {
+        from { opacity: 0; }
+        to   { opacity: 1; }
+    }
+    @@keyframes fyrCardPop {
+        from { opacity: 0; transform: translateY(36px) scale(0.97); }
+        to   { opacity: 1; transform: translateY(0)  scale(1); }
+    }
+
+    /* Header, search, filters start hidden — JS reveals them */
+    .fyr-header,
+    .fyr-search-wrap,
+    .fyr-filters-row {
+        opacity: 0;
+        transform: translateY(24px);
+    }
+
+    .fyr-header.fyr-visible {
+        animation: fyrFadeUp 0.55s cubic-bezier(0.22,1,0.36,1) forwards;
+    }
+    .fyr-search-wrap.fyr-visible {
+        animation: fyrFadeUp 0.55s 0.12s cubic-bezier(0.22,1,0.36,1) forwards;
+    }
+    .fyr-filters-row.fyr-visible {
+        animation: fyrFadeUp 0.55s 0.22s cubic-bezier(0.22,1,0.36,1) forwards;
+    }
+
+    /* Cards start hidden — each revealed by IntersectionObserver */
+    .fyr-card {
+        opacity: 0;
+        transform: translateY(36px) scale(0.97);
+    }
+    .fyr-card.fyr-card-visible {
+        animation: fyrCardPop 0.52s cubic-bezier(0.22,1,0.36,1) forwards;
+    }
+
+    /* Hover — layered on top of the animation end state */
+    .fyr-card.fyr-card-visible:hover {
+        box-shadow: 0 16px 40px rgba(163,25,30,0.10), 0 4px 12px rgba(0,0,0,0.06);
+        transform: translateY(-4px) scale(1.01);
+        border-color: rgba(163,25,30,0.25);
+        transition: box-shadow 0.28s ease, transform 0.28s ease, border-color 0.28s ease;
+    }
+
+    /* Search bar pulse on focus */
+    .fyr-search-wrap {
+        transition: border-color 0.2s, box-shadow 0.2s, transform 0.2s;
+    }
+    .fyr-search-wrap:focus-within {
+        transform: scaleX(1.005);
+    }
+
+    /* Filter card show/hide — smooth fade+scale instead of hard display:none */
+    .fyr-card.fyr-hidden {
+        pointer-events: none;
+        opacity: 0 !important;
+        transform: scale(0.95) !important;
+        transition: opacity 0.22s ease, transform 0.22s ease !important;
+        display: none !important;
+    }
+
+
+        .btn-vacancy-apply:hover {
+            background: #B82025;
+            transform: translateX(5px);
+        }
+
+        .btn-vacancy-apply .icon-circle {
+            background: #fff;
+            width: 32px;
+            height: 32px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: #06283F;
+            font-size: 0.8rem;
+        }
+
+    /* Responsive adjustments */
+    @@media (max-width: 768px) {
+        .vacancy-card
+
+    {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 16px;
+    }
+
+    .btn-vacancy-apply {
+        width: 100%;
+        justify-content: center;
+    }
+
+    }
+
+    .sustainability-hero {
+        position: relative;
+        width: 100%;
+        height: 70vh;
+        overflow: hidden;
+        padding-top: 0 !important;
+    }
+
+    .sustainability-hero-bg {
+        position: absolute;
+        inset: 0;
+        width: 100%;
+        height: 100%;
+    }
+
+        .sustainability-hero-bg img {
+            width: 800%;
+            height: 100%;
+            object-fit: cover;
+            display: block;
+        }
+
+    .sustainability-hero-overlay {
+        position: absolute;
+        inset: 0;
+        background: linear-gradient( to bottom, rgba(6, 40, 63, 0.55), rgba(6, 40, 63, 0.8) );
+        z-index: 1;
+    }
+
+    .sustainability-hero-content {
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        z-index: 3;
+        text-align: center;
+        width: 100%;
+    }
+
+    .sustainability-hero-title {
+        color: #fff;
+        font-size: 72px;
+        font-weight: 700;
+        letter-spacing: 6px;
+        font-family: Arial, sans-serif;
+    }
+
+    @@media (max-width: 768px) {
+        .sustainability-hero-title {
+            font-size: 42px;
+        }
+    }
+    /* Responsive adjustment */
+    @@media (max-width: 768px) {
+        .sustainability-hero {
+            height: 55vh;
+        }
+
+        .sustainability-hero-title {
+            font-size: 2.2rem;
+        }
+
+        .sustainability-hero-subtitle {
+            font-size: 1rem;
+        }
+    }
+    /* Main title – bold, sentence case */
+    .sustainability-hero-title {
+        font-size: clamp(2.5rem, 6vw, 4.5rem);
+        font-weight: 800;
+        color: #fff;
+        margin: 0 0 1rem;
+        line-height: 1.1;
+        text-transform: none; /* sentence case */
+    }
+
+    /* Subtitle – light, supportive */
+    .sustainability-hero-subtitle {
+        font-size: clamp(1rem, 2.5vw, 1.4rem);
+        font-weight: 300;
+        color: rgba(255, 255, 255, 0.9);
+        margin: 0;
+        line-height: 1.6;
+        text-transform: none;
+    }
+    /* Responsive adjustment */
+    @@media (max-width: 768px) {
+        .sustainability-hero {
+            height: 55vh;
+        }
+
+        .sustainability-hero-title {
+            font-size: 2.2rem;
+        }
+
+        .sustainability-hero-subtitle {
+            font-size: 1rem;
+        }
+    }
+</style>
+
+<!-- Hero Section -->
+<section class="sustainability-hero" style="border-radius:0px">
+    <!-- Background Image -->
+    <div class="sustainability-hero-bg">
+        <img src="~/assets/GPI Website Visuals/Careers/Careers Banner.jpg" alt="Careers">
+    </div>
+    <!-- Dark overlay for readability -->
+    <div class="sustainability-hero-overlay"></div>
+
+    <!-- Centred text content -->
+    <div class="sustainability-hero-content">
+        <h1 class="sustainability-hero-title">Careers</h1>
+        <p class="sustainability-hero-subtitle">
+            Join our team and be part of a dynamic, innovative, and collaborative environment 
+        </p>
+    </div>
+</section>
+<!-- Culture & Growth Initiatives -->
+<section class="culture-growth" style="padding: 10px 2rem;">
+    <div class="header-container-careers" >
+        <p class="about-label" style="font-weight: 900;    font-size: 40px;
+ color: #a3191e; margin-top:24px !important; margin-bottom:0px !important">
+            Culture & Growth Initiatives
+        </p>
+        <span class="hero-small reveal-line" style="font-size: 24px !important;margin-bottom: 0px !important;
+    font-weight: 900;
+    color: #06283f;">
+           Our Business Is Expanding, And We Welcome Enthusiastis Individuals Who Are Eager To Learn, Excel, And Grow.
+        </span>
+        <p class="people-intro">
+           At GPI, our people are part of our extended family. We provide the support and opportunities they need to grow, contribute, and succeed while fostering a culture of innovation and collaboration.
+        </p>
+    </div>
+    <div class="container-fluid" style="padding: 0 6rem; margin-top: 30px;">
+        <div class="culture-grid-equal">
+            <!-- Card 1: Continuous Learning -->
+            <div class="culture-card-equal culture-card-white">
+               @*  <div class="culture-card-icon">
+                    <img src="~/assets/icons/culture-refresh.png" alt="Continuous Learning">
+                </div> *@
+                 <div class="culture-card-icon">
+                    <img src="~/assets/icons/lamp-on.png" alt="Idea Acceptance">
+                </div>
+                <h3 class="culture-card-title">CONTINUOUS<br>LEARNING</h3>
+                <div class="culture-card-body">
+                    <p class="culture-preview">We recognize the ever-changing landscape of the industry. Therefore, we are committed to providing our teams with targeted training programs and continuous skill-building initiatives.</p>
+                    <p class="culture-full">By staying abreast of the latest technologies and methodologies, we empower our team to deliver cutting-edge solutions.</p>
+                    <button class="culture-read-more" onclick="toggleCultureText(this)">Read more</button>
+                </div>
+            </div>
+
+            <!-- Card 2: Positive Growth -->
+            <div class="culture-card-equal culture-card-white">
+                <div class="culture-card-icon">
+                    <img src="~/assets/icons/culture-growth.png" alt="Positive Growth">
+                </div>
+                <h3 class="culture-card-title">POSITIVE<br>GROWTH</h3>
+                <div class="culture-card-body">
+                    <p class="culture-preview">We foster an environment of positive growth, both for our business and our employees.</p>
+                    <p class="culture-full">By nurturing talent, encouraging innovation, and embracing challenges, we pave the way for sustainable growth and prosperity.</p>
+                    <button class="culture-read-more" onclick="toggleCultureText(this)">Read more</button>
+                </div>
+            </div>
+
+            <!-- Card 3: Family Environment -->
+            <div class="culture-card-equal culture-card-white">
+                <div class="culture-card-icon">
+                    <img src="~/assets/icons/culture-family.png" alt="Family Environment">
+                </div>
+                <h3 class="culture-card-title">FAMILY<br>ENVIRONMENT</h3>
+                <div class="culture-card-body">
+                    <p class="culture-preview">We believe in creating a workplace that feels like home. At GPI, we have cultivated a familial atmosphere where every team member is valued and supported.</p>
+                    <p class="culture-full">We understand the significance of collaboration, trust, and mutual respect. By fostering a sense of belonging, we encourage our employees to collaborate, share ideas, and work cohesively towards common goals.</p>
+                    <button class="culture-read-more" onclick="toggleCultureText(this)">Read more</button>
+                </div>
+            </div>
+
+            <!-- Card 4: Respect for Individuality -->
+            <div class="culture-card-equal culture-card-white">
+                <div class="culture-card-icon">
+                    <img src="~/assets/icons/culture-respect.png" alt="Respect for Individuality">
+                </div>
+                <h3 class="culture-card-title">RESPECT FOR<br>INDIVIDUALITY</h3>
+                <div class="culture-card-body">
+                    <p class="culture-preview">We respect the diverse mentalities, backgrounds, and experiences of our team members.</p>
+                    <p class="culture-full">Every individual brings unique perspectives and ideas to the table. We actively encourage and celebrate this diversity, appreciating the richness it adds to our workplace. By accepting and embracing varied viewpoints, we create an environment where creativity thrives, leading to innovative solutions and approaches.</p>
+                    <button class="culture-read-more" onclick="toggleCultureText(this)">Read more</button>
+                </div>
+            </div>
+
+            <!-- Card 5: Idea Acceptance -->
+            <div class="culture-card-equal culture-card-white">
+                <div class="culture-card-icon">
+                    <img src="~/assets/icons/lamp-on.png" alt="Idea Acceptance">
+                </div>
+                <h3 class="culture-card-title">IDEA<br>ACCEPTANCE</h3>
+                <div class="culture-card-body">
+                    <p class="culture-preview">We firmly believe that innovation can come from anyone, anywhere within the organization.</p>
+                    <p class="culture-full">We actively encourage our employees to share their ideas, regardless of their position or seniority. Each idea is treated with respect and consideration. By nurturing a culture where everyone's input is valued; we not only harness the collective intelligence of our people, but also inspire confidence and motivation among them.</p>
+                    <button class="culture-read-more" onclick="toggleCultureText(this)">Read more</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+<section class="culture-message" style="padding: 10px 2rem;">
+    <div class="message-block">
+        <div class="message-accent"></div>
+        <h2 class="message-heading">
+            OUR <span class="text-red">PEOPLE</span> ARE OUR STRENGTH
+        </h2>
+        <p class="message-body">
+            At GPI, our people are not just employees; they are integral members of our extended family.
+            We provide them with the tools, support, and encouragement they need to excel in their roles,
+            contribute meaningfully to our projects, and drive the company's success. Together, we create
+            an environment where innovation flourishes, and every individual has the opportunity to grow
+            both personally and professionally.
+        </p>
+        <a asp-controller="Pages" asp-action="Careers" class="btn-message-cta">
+            Join our team
+            <span class="cta-arrow">→</span>
+        </a>
+    </div>
+</section>
+<section class="summer-internship-cta" style="padding: 10px 2rem;">
+    <div class="cta-card">
+        <!-- Left content -->
+        <div class="cta-content">
+            <span class="cta-badge">SUMMER 2026</span>
+            <h2 class="cta-heading">
+                INTERNSHIP<br><span class="text-red">PROGRAM</span>
+            </h2>
+            <p class="cta-text">
+                Spend your summer gaining real‑world experience in a fast‑paced industrial environment.
+                Work alongside industry specialists and build the skills that matter most.
+            </p>
+            <a href="#" class="btn-cta-red">
+                Apply Now
+                <span class="cta-arrow">→</span>
+            </a>
+        </div>
+
+        <!-- Right image / spotlight media -->
+        <div class="spotlight-media" id="ilOpen" tabindex="0" role="button" aria-label="View internship photo gallery">
+            <img src="/assets/images/inter1.jfif" alt="GPI Summer Internship Program 2026" data-no-retina="">
+            <div class="spotlight-media-overlay"></div>
+        </div>
+    </div>
+
+</section>
+<section class="fyr-section" id="vacancies-modern" style="padding: 48px 2rem 64px;">
+
+    <!-- Header -->
+    <div class="fyr-header">
+        <h2 class="fyr-title">Find Your <span class="fyr-title-accent">Role</span></h2>
+        <p class="fyr-subtitle">
+            Join a team of industry leaders and innovators. Explore our current openings and take
+            the next step in your career with a company committed to growth, excellence, and sustainability.
+        </p>
+    </div>
+
+    <!-- Search bar -->
+    <div class="fyr-search-wrap">
+        <svg class="fyr-search-icon" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#9CA3AF" stroke-width="2">
+            <circle cx="11" cy="11" r="8"></circle>
+            <path d="m21 21-4.3-4.3"></path>
+        </svg>
+        <input id="fyrKeyword" type="text" placeholder="Search by keyword (Job title / department)..." autocomplete="off">
+        <button type="button" id="fyrClearKeyword" class="fyr-clear-btn" aria-label="Clear">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#9CA3AF" stroke-width="2"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+        </button>
+    </div>
+
+    <!-- Dropdown filters -->
+    <div class="fyr-filters-row">
+        <div class="fyr-dropdown" id="fyrDropLocation">
+            <button class="fyr-drop-btn" data-selected="">
+                <span class="fyr-drop-label">All Locations</span>
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="6 9 12 15 18 9"></polyline></svg>
+            </button>
+            <ul class="fyr-drop-menu">
+                <li class="fyr-drop-item active" data-value="">All Locations</li>
+                @foreach (var loc in Model.Vacancies.Select(v => v.Location).Distinct().OrderBy(l => l))
+                {
+                    <li class="fyr-drop-item" data-value="@loc">@loc</li>
+                }
+            </ul>
+        </div>
+
+        <div class="fyr-dropdown" id="fyrDropDept">
+            <button class="fyr-drop-btn" data-selected="">
+                <span class="fyr-drop-label">All Departments</span>
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="6 9 12 15 18 9"></polyline></svg>
+            </button>
+            <ul class="fyr-drop-menu">
+                <li class="fyr-drop-item active" data-value="">All Departments</li>
+                @foreach (var dept in Model.Departments)
+                {
+                    <li class="fyr-drop-item" data-value="@dept.Slug">@dept.Name</li>
+                }
+            </ul>
+        </div>
+
+        <div class="fyr-dropdown" id="fyrDropLevel">
+            <button class="fyr-drop-btn" data-selected="">
+                <span class="fyr-drop-label">All Experience Level</span>
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="6 9 12 15 18 9"></polyline></svg>
+            </button>
+            <ul class="fyr-drop-menu">
+                <li class="fyr-drop-item active" data-value="">All Experience Level</li>
+                @foreach (var lvl in Model.Vacancies.Select(v => v.SeniorityLevel).Where(l => !string.IsNullOrEmpty(l)).Distinct().OrderBy(l => l))
+                {
+                    <li class="fyr-drop-item" data-value="@lvl">@lvl</li>
+                }
+            </ul>
+        </div>
+
+        <div class="fyr-dropdown" id="fyrDropType">
+            <button class="fyr-drop-btn" data-selected="">
+                <span class="fyr-drop-label">All Employment Type</span>
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="6 9 12 15 18 9"></polyline></svg>
+            </button>
+            <ul class="fyr-drop-menu">
+                <li class="fyr-drop-item active" data-value="">All Employment Type</li>
+                @foreach (var et in Model.Vacancies.Select(v => v.EmploymentType).Distinct().OrderBy(e => e))
+                {
+                    <li class="fyr-drop-item" data-value="@et">@et</li>
+                }
+            </ul>
+        </div>
+    </div>
+
+    <!-- Cards grid -->
+    <div class="fyr-grid" id="fyrGrid">
+        @if (!Model.Vacancies.Any())
+        {
+            <p class="fyr-empty">There are no open positions right now. Please check back soon.</p>
+        }
+        @foreach (var job in Model.Vacancies)
+        {
+            <div class="fyr-card"
+                 data-category="@job.DepartmentSlug"
+                 data-location="@job.Location"
+                 data-level="@job.SeniorityLevel"
+                 data-type="@job.EmploymentType">
+
+                <!-- Card top row: location + badge -->
+                <div class="fyr-card-top">
+                    <span class="fyr-card-location">
+                        <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="#6B7280" stroke-width="2"><path d="M21 10c0 7-9 13-9 13S3 17 3 10a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg>
+                        @job.Location
+                    </span>
+                    <span class="fyr-badge">@job.EmploymentType.ToUpper()</span>
+                </div>
+
+                <!-- Title + summary -->
+                <div class="fyr-card-body">
+                    <h3 class="fyr-card-title">@job.JobTitle</h3>
+                    @if (!string.IsNullOrEmpty(job.JobSummary))
+                    {
+                        <p class="fyr-card-summary">@job.JobSummary</p>
+                    }
+                </div>
+
+                <!-- Meta row: seniority + department -->
+                <div class="fyr-card-meta">
+                    @if (!string.IsNullOrEmpty(job.SeniorityLevel))
+                    {
+                        <span class="fyr-meta-item">
+                            <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="#9CA3AF" stroke-width="2"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
+                            @job.SeniorityLevel
+                        </span>
+                    }
+                    <span class="fyr-meta-item">
+                        <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="#9CA3AF" stroke-width="2"><rect x="2" y="7" width="20" height="14" rx="2" ry="2"/><path d="M16 21V5a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v16"/></svg>
+                        @job.Department
+                    </span>
+                </div>
+
+                <!-- Action buttons -->
+                <div class="fyr-card-actions">
+                    <a asp-action="JobDetails" asp-controller="Pages" asp-route-id="@job.Id" class="fyr-btn-outline">View Details</a>
+                    <a asp-action="JobDetails" asp-controller="Pages" asp-route-id="@job.Id" class="fyr-btn-solid">Apply now</a>
+                </div>
+            </div>
+        }
+    </div>
+
+    <!-- No results message -->
+    <p class="fyr-no-results" id="fyrNoResults" style="display:none;">No positions match your filters. Please try different criteria.</p>
+
+</section>
+<script>
+(function () {
+    /* ---- helpers ---- */
+    const keyword   = document.getElementById('fyrKeyword');
+    const clearKw   = document.getElementById('fyrClearKeyword');
+    const grid      = document.getElementById('fyrGrid');
+    const noResults = document.getElementById('fyrNoResults');
+    const cards     = Array.from(grid.querySelectorAll('.fyr-card'));
+
+    /* dropdown state */
+    const dropState = { location: '', dept: '', level: '', type: '' };
+
+    /* ---- dropdown wiring ---- */
+    function wireDropdown(wrapperId, stateKey, defaultLabel) {
+        const wrapper = document.getElementById(wrapperId);
+        const btn     = wrapper.querySelector('.fyr-drop-btn');
+        const label   = btn.querySelector('.fyr-drop-label');
+        const menu    = wrapper.querySelector('.fyr-drop-menu');
+        const items   = Array.from(menu.querySelectorAll('.fyr-drop-item'));
+
+        btn.addEventListener('click', function (e) {
+            e.stopPropagation();
+            document.querySelectorAll('.fyr-drop-menu.open').forEach(m => { if (m !== menu) m.classList.remove('open'); });
+            menu.classList.toggle('open');
+        });
+
+        items.forEach(item => {
+            item.addEventListener('click', function () {
+                items.forEach(i => i.classList.remove('active'));
+                this.classList.add('active');
+                dropState[stateKey] = this.dataset.value;
+                label.textContent = this.dataset.value ? this.textContent : defaultLabel;
+                btn.classList.toggle('fyr-drop-btn--active', !!this.dataset.value);
+                menu.classList.remove('open');
+                filterCards();
+            });
+        });
+    }
+
+    wireDropdown('fyrDropLocation', 'location', 'All Locations');
+    wireDropdown('fyrDropDept',     'dept',     'All Departments');
+    wireDropdown('fyrDropLevel',    'level',    'All Experience Level');
+    wireDropdown('fyrDropType',     'type',     'All Employment Type');
+
+    /* close dropdowns on outside click */
+    document.addEventListener('click', () => document.querySelectorAll('.fyr-drop-menu.open').forEach(m => m.classList.remove('open')));
+
+    /* ---- keyword ---- */
+    keyword.addEventListener('input', filterCards);
+    clearKw.addEventListener('click', function () { keyword.value = ''; filterCards(); keyword.focus(); });
+
+    /* ---- filter logic ---- */
+    function filterCards() {
+        const kw = keyword.value.toLowerCase().trim();
+        let visible = 0;
+        cards.forEach(card => {
+            const matchKw   = !kw || card.textContent.toLowerCase().includes(kw);
+            const matchLoc  = !dropState.location || card.dataset.location === dropState.location;
+            const matchDept = !dropState.dept     || card.dataset.category  === dropState.dept;
+            const matchLvl  = !dropState.level    || card.dataset.level     === dropState.level;
+            const matchType = !dropState.type     || card.dataset.type      === dropState.type;
+            const show = matchKw && matchLoc && matchDept && matchLvl && matchType;
+            card.style.display = show ? '' : 'none';
+            if (show) visible++;
+        });
+        noResults.style.display = visible === 0 ? 'block' : 'none';
+    }
+
+    filterCards();
+})();
+</script>
+<script>
+(function () {
+    /* ---- 1. Animate header / search / filters on first scroll into view ---- */
+    const section     = document.getElementById('vacancies-modern');
+    const revealEls   = section.querySelectorAll('.fyr-header, .fyr-search-wrap, .fyr-filters-row');
+
+    const topObserver = new IntersectionObserver(function (entries) {
+        entries.forEach(function (entry) {
+            if (entry.isIntersecting) {
+                entry.target.classList.add('fyr-visible');
+                topObserver.unobserve(entry.target);
+            }
+        });
+    }, { threshold: 0.15 });
+
+    revealEls.forEach(function (el) { topObserver.observe(el); });
+
+    /* ---- 2. Staggered card entrance ---- */
+    const allCards = Array.from(section.querySelectorAll('.fyr-card'));
+
+    const cardObserver = new IntersectionObserver(function (entries) {
+        entries.forEach(function (entry) {
+            if (entry.isIntersecting) {
+                const card  = entry.target;
+                const index = allCards.indexOf(card);
+                const col   = index % 3; /* stagger by column */
+                card.style.animationDelay = (col * 80) + 'ms';
+                card.classList.add('fyr-card-visible');
+                cardObserver.unobserve(card);
+            }
+        });
+    }, { threshold: 0.08, rootMargin: '0px 0px -40px 0px' });
+
+    allCards.forEach(function (card) { cardObserver.observe(card); });
+
+    /* ---- 3. Shimmer effect on the badge when card becomes visible ---- */
+    section.addEventListener('animationstart', function (e) {
+        if (e.target.classList.contains('fyr-card')) {
+            const badge = e.target.querySelector('.fyr-badge');
+            if (badge) {
+                badge.style.transition = 'background 0.4s ease 0.3s';
+            }
+        }
+    });
+
+    /* ---- 4. Drop-button press micro-animation ---- */
+    section.querySelectorAll('.fyr-drop-btn').forEach(function (btn) {
+        btn.addEventListener('click', function () {
+            btn.style.transform = 'scale(0.96)';
+            setTimeout(function () { btn.style.transform = ''; }, 150);
+        });
+    });
+
+    /* ---- 5. Re-run stagger when cards are filtered back in ---- */
+    const grid = document.getElementById('fyrGrid');
+    const mutObs = new MutationObserver(function () {
+        allCards.forEach(function (card, i) {
+            if (card.style.display !== 'none' && !card.classList.contains('fyr-card-visible')) {
+                const col = i % 3;
+                card.style.animationDelay = (col * 60) + 'ms';
+                card.classList.add('fyr-card-visible');
+            }
+        });
+    });
+    mutObs.observe(grid, { attributes: true, subtree: true, attributeFilter: ['style'] });
+})();
+</script>
+<script>
+    function toggleCultureText(btn) {
+        const body = btn.parentElement;
+        body.classList.toggle('expanded');
+        btn.textContent = body.classList.contains('expanded') ? 'Read less' : 'Read more';
+    }
+</script>
+<script>
+    (function() {
+      const searchInput = document.getElementById('vacancySearchAlt');
+      const clearBtn = document.getElementById('clearVacancySearchAlt');
+      const filterButtons = document.querySelectorAll('#vacancies-alt .filter-btn');
+      const jobRows = document.querySelectorAll('#vacancyListAlt .vacancy-row');
+
+      let activeCategory = 'all';
+      let searchTerm = '';
+
+      function filterJobs() {
+        jobRows.forEach(row => {
+          const category = row.getAttribute('data-category');
+          const searchText = row.textContent.toLowerCase();
+
+          const matchesCategory = activeCategory === 'all' || category === activeCategory;
+          const matchesSearch = searchTerm === '' || searchText.includes(searchTerm);
+
+          row.style.display = (matchesCategory && matchesSearch) ? 'flex' : 'none';
+        });
+      }
+
+      filterButtons.forEach(btn => {
+        btn.addEventListener('click', function() {
+          filterButtons.forEach(b => b.classList.remove('active'));
+          this.classList.add('active');
+          activeCategory = this.getAttribute('data-filter');
+          filterJobs();
+        });
+      });
+
+      searchInput.addEventListener('input', function() {
+        searchTerm = this.value.toLowerCase().trim();
+        filterJobs();
+      });
+
+      clearBtn.addEventListener('click', function() {
+        searchInput.value = '';
+        searchTerm = '';
+        filterJobs();
+        searchInput.focus();
+      });
+
+      filterJobs();
+    })();
+</script>
+<script>
+    (function() {
+      const searchInput = document.getElementById('jobSearch');
+      const clearBtn = document.getElementById('clearSearch');
+      const filterButtons = document.querySelectorAll('.filter-btn');
+      const jobItems = document.querySelectorAll('.internship-item');
+
+      let activeCategory = 'all';
+      let searchTerm = '';
+
+      // Update visible jobs based on category + search text
+      function filterJobs() {
+        jobItems.forEach(item => {
+          const category = item.getAttribute('data-category');
+          const searchText = item.textContent.toLowerCase();
+
+          const matchesCategory = activeCategory === 'all' || category === activeCategory;
+          const matchesSearch = searchTerm === '' || searchText.includes(searchTerm);
+
+          item.style.display = (matchesCategory && matchesSearch) ? 'flex' : 'none';
+        });
+      }
+
+      // Category filter click
+      filterButtons.forEach(btn => {
+        btn.addEventListener('click', function() {
+          filterButtons.forEach(b => b.classList.remove('active'));
+          this.classList.add('active');
+          activeCategory = this.getAttribute('data-filter');
+          filterJobs();
+        });
+      });
+
+      // Search input
+      searchInput.addEventListener('input', function() {
+        searchTerm = this.value.toLowerCase().trim();
+        filterJobs();
+      });
+
+      // Clear button
+      clearBtn.addEventListener('click', function() {
+        searchInput.value = '';
+        searchTerm = '';
+        filterJobs();
+        searchInput.focus();
+      });
+
+      // Also run on page load to ensure correct state
+      filterJobs();
+    })();
+</script>
