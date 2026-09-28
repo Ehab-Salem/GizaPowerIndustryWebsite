@@ -1020,9 +1020,9 @@ button {
 /* ==================== OUR PURPOSE (Mission, Vision, Values) ==================== */
 .our-purpose-section {
     position: relative;
-    background-image: url('../images/purpose-bg-pattern.png');
+    /* background-image: url('../images/purpose-bg-pattern.png'); */
     background-repeat: repeat;
-    background-color: #FAFBFC;
+    /* background-color: #FAFBFC; */
     overflow: hidden;
 }
 
@@ -1043,7 +1043,7 @@ button {
 .purpose-header {
     position: relative;
     z-index: 1;
-    margin-bottom: 80px;
+    /* margin-bottom: 80px; */
 }
 
 .purpose-header .about-label {
@@ -1067,14 +1067,14 @@ button {
     z-index: 1;
     display: flex;
     flex-direction: column;
-    margin-bottom: 25px;
+    /* margin-bottom: 25px; */
 }
 
 .purpose-block {
     display: flex;
     align-items: flex-start;
     gap: 60px;
-    margin: 25px;
+    /* margin: 25px; */
 }
 
 .purpose-content {
@@ -10467,7 +10467,7 @@ body {
     grid-template-columns: 1fr 1fr;
     gap: 30px;
     align-items: start;
-    margin-bottom: 40px;
+    /* margin-bottom: 40px; */
 }
 
 .commitment-pillars .pillar-card {
@@ -10478,18 +10478,18 @@ body {
     height: 280px;
 }
 
-.commitment-pillars .pillar-card:nth-child(even) {
+/* .commitment-pillars .pillar-card:nth-child(even) {
     transform: translateY(60px);
-}
+} */
 
 .commitment-pillars .pillar-card:hover {
-    transform: translateY(-5px);
+    /* transform: translateY(-5px); */
     box-shadow: 0 12px 40px rgba(0, 0, 0, 0.08);
 }
 
-.commitment-pillars .pillar-card:nth-child(even):hover {
+/* .commitment-pillars .pillar-card:nth-child(even):hover {
     transform: translateY(55px);
-}
+} */
 
 .pillar-red {
     background: #B82025;
@@ -11398,7 +11398,7 @@ body {
     display: grid;
     grid-template-columns: repeat(5, 1fr);
     gap: 0;
-    margin-top: 30px;
+    margin-top: 100px;
     border: 1.5px solid #E6EAEC;
     border-radius: 20px;
     overflow: hidden;
