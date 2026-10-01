@@ -30,6 +30,7 @@
         position: absolute;
         inset: 0;
         z-index: 1;
+        background:none !important;
     }
 
     .sustainability-hero-content {
@@ -356,16 +357,23 @@
 <section class="sustainability-hero" style="border-radius:0px">
     <!-- Background Image -->
     <div class="sustainability-hero-bg">
-        <img src="~/assets/GPI Website Visuals/Careers/Job Description.jpg" alt="Careers">
+        <img src="~/assets/Careers/Carrers-02.jpg" alt="Careers">
     </div>
     <!-- Dark overlay for readability -->
     <div class="sustainability-hero-overlay"></div>
 
     <!-- Centred text content -->
-    <div class="job-hero-content">
+    @* <div class="job-hero-content">
         <h1 class="job-hero-title">@Model.JobTitle</h1>
-    </div>
+    </div> *@
 </section>
+<div class="container mt-3">
+    <div class="row align-items-center justify-content-center">
+        <div class="col-lg-12 col-md-8 position-relative text-center page-title-extra-large" data-anime='{ "el": "childs", "opacity": [0, 1], "rotateY": [-90, 0], "rotateZ": [-10, 0], "translateY": [80, 0], "translateZ": [50, 0], "staggervalue": 200, "duration": 900, "easing": "easeOutCirc" }'>
+            <h1 class="fw-800 mb-15px" style="color: #06283F !important">@Model.JobTitle</h1>
+        </div>
+    </div>
+</div>
 @* <!-- Job Details Hero Section -->
 <section class="job-hero" style="padding:7rem 4rem 2rem 2rem;">
     <div class="container-fluid">

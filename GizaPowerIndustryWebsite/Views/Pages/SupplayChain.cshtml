@@ -29,10 +29,39 @@
     }
 
     .supply-chain-page .sc-hero .sc-lead {
-        max-width: 760px;
+        /* max-width: 760px; */
         font-size: 18px;
-        line-height: 1.7;
+        /* line-height: 1.7; */
         opacity: .8;
+    }
+    /* Responsive: scale down icon & caption on small screens */
+    @@media (max-width: 991px) {
+        .supply-chain-page .sc-selector .icon-box.w-70px {
+            width: 48px !important;
+            height: 48px !important;
+        }
+
+        .supply-chain-page .sc-selector-caption {
+            font-size: 11px;
+            margin-top: 10px;
+            letter-spacing: 0;
+        }
+
+        .supply-chain-page .sc-selector figcaption {
+            padding: 12px !important;
+        }
+    }
+
+    @@media (max-width: 575px) {
+        .supply-chain-page .sc-selector .icon-box.w-70px {
+            width: 36px !important;
+            height: 36px !important;
+        }
+
+        .supply-chain-page .sc-selector-caption {
+            font-size: 10px;
+            margin-top: 6px;
+        }
     }
 
     .supply-chain-page .sc-hero .sc-note {
@@ -243,7 +272,7 @@
     <section class="sc-hero ipad-top-space-margin md-pt-0">
         <div class="container">
             <div class="row justify-content-start">
-                <div class="col-12 col-xl-10 col-lg-9">
+                <div class="col-12">
                     <div class="about-header">
                         <span class="about-label" style="color:#B82025;font-weight: 900;">
                             Supply Chain
@@ -284,8 +313,8 @@
 
     <section class="sc-selector pt-5 pb-0 position-relative">
         <div class="container">
-            <div class="row row-cols-1 row-cols-xl-5 row-cols-lg-3 row-cols-sm-2 justify-content-center g-4"
-                 data-anime='{ "el": "childs", "scale":[0.9,1], "opacity": [0,1], "duration": 500, "delay": 0, "staggervalue": 200, "easing": "easeOutQuad" }'>
+            <div class="row row-cols-3 row-cols-xl-5 g-3 g-xl-4 justify-content-center"
+            data-anime='{ "el": "childs", "scale":[0.9,1], "opacity": [0,1], "duration": 500, "delay": 0, "staggervalue": 200, "easing": "easeOutQuad" }'>
 
                 <!-- start interactive banners item -->
                 <div class="col text-center interactive-banner-style-01">

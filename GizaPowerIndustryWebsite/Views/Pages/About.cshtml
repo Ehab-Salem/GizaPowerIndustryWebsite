@@ -5,7 +5,7 @@
 <!-- ===== Style ===== -->
 <style>
     #group-structure-custom {
-        padding: 30px 0;
+        padding-top: 0px !important;
         background: #fff;
         font-family: sans-serif;
     }
@@ -105,7 +105,7 @@
     }
 
     /* Responsive */
-    @@media(max - width: 992px) {
+    @@media(max- width: 992px) {
         #group-structure-custom .container {
             grid-template-columns: 1fr;
         }
@@ -245,7 +245,7 @@
     }
     /* ── History Section Base Styles ── */
     .our-history-modern {
-        padding: 10px 0;
+        padding-top:0px;
         background: #F7F8F8;
     }
 
@@ -766,7 +766,6 @@
 
         /* Intro block – same rhythm as every other section heading */
         #supplychain .container {
-            padding-top: 80px;
             padding-bottom: 48px;
         }
 
@@ -1652,7 +1651,7 @@
 <style>
     /* ===== Group Structure - Enhanced Responsive ===== */
     #group-structure-custom {
-        padding: 2rem 1rem;
+        padding: 0rem 1rem;
     }
 
     /* Adjust the two‑column layout gap on smaller screens */
@@ -1809,35 +1808,35 @@
     .about-banner-overlay {
         position: absolute;
         inset: 0;
-        background: linear-gradient(to bottom, rgb(69 70 70 / 17%), rgb(0 0 0 / 80%));
+        background: none !important;
         z-index: 1;
     }
 
     /* Text block – positioned above the overlay */
     .about-banner-content {
         position: relative;
-        z-index: 2;
         text-align: center;
-        max-width: 720px;
-        padding: 0 2rem;
-        color: #fff;
+        width: 100%;
+        max-width: 100%;
+        padding: 40px 2rem 10px;
+        background: #fff;
     }
 
     /* Title – bold, high contrast */
     .about-banner-title {
-        font-size: clamp(2.5rem, 6vw, 4rem);
         font-weight: 800;
         line-height: 1.15;
         margin: 0 0 1rem;
-        color: #fff;
+        color: #06283F;
         text-transform: none; /* sentence case */
     }
-
     /* Subtitle – lighter weight, supportive role */
     .about-banner-subtitle {
         font-size: clamp(1rem, 2.5vw, 1.35rem);
         font-weight: 400;
         line-height: 1.6;
+        color: #586F7E;
+        margin: 0;
         margin: 0;
         opacity: 0.9;
         text-transform: none;
@@ -2233,7 +2232,7 @@
 </style>
 
 <!-- About Hero Section -->
-<section class="about-banner" style="margin-top: 70px;">
+<section class="about-banner">
     <!-- Full‑width slider as background -->
     <div class="about-banner-slider">
         <div class="hero-slider">
@@ -2241,10 +2240,10 @@
                 <img src="~/assets/GPI Website Visuals/About Us/EMPOWERING BUSINESSES 1.jpg" alt="">
             </div>
             <div class="hero-slide">
-                <img src="~/assets/GPI Website Visuals/About Us/EMPOWERING BUSINESSES 2.jpg" alt="">
+                <img src="~/assets/About Us/About Us 2.jpeg" alt="">
             </div>
             <div class="hero-slide">
-                <img src="~/assets/GPI Website Visuals/About Us/EMPOWERING BUSINESSES 3.png" alt="">
+                <img src="~/assets/About Us/About Us 3.jpeg" alt="">
             </div>
             <!-- Navigation arrows (optional – can be removed if too busy) -->
             <button type="button" class="slider-arrow prev-arrow" aria-label="Previous slide">
@@ -2266,19 +2265,25 @@
     </div>
 
     <!-- Centred text overlay -->
-    <div class="about-banner-content">
+    @* <div class="about-banner-content">
         <h1 class="about-banner-title">About Us</h1>
         <p class="about-banner-subtitle">
             Discover our story, values, and commitment to a sustainable future.
         </p>
-    </div>
+    </div> *@
 </section>
+<div class="about-banner-content">
+    <h1 class="about-banner-title">About Us</h1>
+    <p class="about-banner-subtitle">
+        Discover our story, values, and commitment to a sustainable future.
+    </p>
+</div>
 <!-- Company Overview Section -->
-<section class="company-overview" id="companyoverview" style="padding: 40px 0;">
+<section class="company-overview" id="companyoverview" style="padding: 100px 0;">
     <div class="container">
         <div class="overview-layout">
             <div class="overview-image">
-                <img src="~/assets/GPI Website Visuals/About Us/Company Overview.JPG" alt="Cable Manufacturing">
+                <img src="~/assets/About Us/COMPANY-OVERVIEW-02.jpg" alt="Cable Manufacturing">
             </div>
             <div class="overview-content">
                 <p class="about-label" style="font-weight: 900; font-size:40px;   color: #a3191e;margin-bottom:10px !important">
@@ -2462,14 +2467,14 @@
     <div class="purpose-red-curve">
         <img src="~/assets/images/purpose-red-curve.png" alt="">
     </div>
-    <div class="container" style="margin-left: 0px;">
+    <div class="container">
         <div class="purpose-header">
         </div>
     </div>
 
     <div class="mission-vision-container">
         <!-- Mission Block -->
-        <div class="purpose-block mission-block" style="margin: 45px 25px !important;">
+        <div class="purpose-block mission-block">
             <div class="purpose-content">
                 <p class="about-label" style="font-weight: 900;  font-size:40px;  color: #a3191e;margin-top:24px !important; margin-bottom:0px !important">OUR MISSION</p>
                 <span class="hero-small reveal-line" style="font-size: 21px;
@@ -2826,86 +2831,189 @@
                     line-height: 1.1;
                     font-weight: 900;
                     color: #06283f;">
-            OUR LEADERSHIP TEAM IS DEDICATED TO
+            Our Leadership Team is Dedicated To
         </span>
-        <div class="commitments-grid-asymmetric">
-            <!-- Card 1: Empowering Employees -->
-            <div class="commitment-card-v2 color-card-v2 red-card-v2 card-633" style="background: #06283f !important;">
-                <div class="card-bg-pattern-v2">
-                    <img src="~/assets/images/leadership-pattern-navy1.png" alt="">
-                </div>
-                <div class="card-content-v2">
-                    <h3>Empowering<br> Employees</h3>
-                    <p>
-                        We believe in empowering our employees by providing them with the
-                        tools, resources, and opportunities they need to succeed.
-                        Continuous learning and professional development are at the core of our culture.
+        <style>
+            .leadership-cards-grid {
+                display: grid;
+                grid-template-columns: repeat(4, 1fr);
+                gap: 20px;
+                margin-top: 40px;
+                margin-bottom: 40px;
+            }
 
-                    </p>
-                    <br>
+            .leadership-card {
+                border-radius: 24px;
+                padding: 36px 28px;
+                display: flex;
+                flex-direction: column;
+                gap: 16px;
+                position: relative;
+                overflow: hidden;
+                transition: transform 0.35s cubic-bezier(0.16,1,0.3,1), box-shadow 0.35s ease;
+            }
+
+                .leadership-card:hover {
+                    transform: translateY(-6px);
+                    box-shadow: 0 24px 48px rgba(0,0,0,0.18);
+                }
+
+                .leadership-card.lc-navy {
+                    background: linear-gradient(140deg, #06283F 0%, #0c3d5c 100%);
+                    color: #fff;
+                }
+
+                .leadership-card.lc-red {
+                    background: linear-gradient(140deg, #B82025 0%, #e02f35 100%);
+                    color: #fff;
+                }
+
+                .leadership-card.lc-dark-navy {
+                    background: linear-gradient(140deg, #041D2E 0%, #06283F 100%);
+                    color: #fff;
+                }
+
+                .leadership-card.lc-dark-red {
+                    background: linear-gradient(140deg, #8A1419 0%, #B82025 100%);
+                    color: #fff;
+                }
+                /* Subtle decorative circle */
+                .leadership-card::after {
+                    content: '';
+                    position: absolute;
+                    top: -60px;
+                    right: -60px;
+                    width: 200px;
+                    height: 200px;
+                    border-radius: 50%;
+                    background: rgba(255,255,255,0.05);
+                    pointer-events: none;
+                }
+
+            .lc-icon-wrap {
+                width: 56px;
+                height: 56px;
+                border-radius: 14px;
+                background: rgba(255,255,255,0.12);
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                flex-shrink: 0;
+            }
+
+                .lc-icon-wrap svg {
+                    width: 28px;
+                    height: 28px;
+                    stroke: #fff;
+                    fill: none;
+                    stroke-width: 1.75;
+                    stroke-linecap: round;
+                    stroke-linejoin: round;
+                }
+
+            .lc-number {
+                font-size: 12px;
+                font-weight: 700;
+                letter-spacing: 3px;
+                text-transform: uppercase;
+                opacity: 0.5;
+            }
+
+            .leadership-card h3 {
+                font-size: 20px;
+                font-weight: 800;
+                line-height: 1.25;
+                color: #fff;
+                margin: 0;
+            }
+
+            .leadership-card p {
+                font-size: 14px;
+                line-height: 1.7;
+                color: rgba(255,255,255,0.82);
+                margin: 0;
+            }
+
+            @@media (max-width: 992px) {
+                .leadership-cards-grid {
+                    grid-template-columns: repeat(2, 1fr);
+                }
+            }
+
+            @@media (max-width: 576px) {
+                .leadership-cards-grid {
+                    grid-template-columns: 1fr;
+                }
+            }
+        </style>
+
+        <div class="leadership-cards-grid">
+
+            <!-- Card 1: Empowering Employees -->
+            <div class="leadership-card lc-navy">
+                <span class="lc-number">01</span>
+                <div class="lc-icon-wrap">
+                    <svg viewBox="0 0 24 24">
+                        <path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2" />
+                        <circle cx="9" cy="7" r="4" />
+                        <path d="M23 21v-2a4 4 0 0 0-3-3.87" />
+                        <path d="M16 3.13a4 4 0 0 1 0 7.75" />
+                    </svg>
                 </div>
+                <h3>Empowering Employees</h3>
+                <p>We believe in empowering our employees by providing them with the tools, resources, and opportunities they need to succeed. Continuous learning and professional development are at the core of our culture.</p>
             </div>
 
             <!-- Card 2: Fostering Collaboration -->
-            <div class="commitment-card-v2 color-card-v2 red-card-v2 card-372" style="background: #06283f !important;">
-                <div class="card-bg-pattern-v2">
-                    <img src="~/assets/images/leadership-pattern-red.png" alt="">
+            <div class="leadership-card lc-red">
+                <span class="lc-number">02</span>
+                <div class="lc-icon-wrap">
+                    <svg viewBox="0 0 24 24">
+                        <circle cx="6" cy="6" r="2.5" />
+                        <circle cx="18" cy="6" r="2.5" />
+                        <circle cx="12" cy="18" r="2.5" />
+                        <line x1="8" y1="7" x2="10.5" y2="16" />
+                        <line x1="16" y1="7" x2="13.5" y2="16" />
+                    </svg>
                 </div>
-                <div class="card-content-v2">
-                    <h3>Fostering <br> Collaboration</h3>
-                    <p>
-                        We encourage open communication and teamwork across all levels of the organization.
-                        By working together, we can achieve more and drive innovation.
-                    </p>
-                </div>
+                <h3>Fostering Collaboration</h3>
+                <p>We encourage open communication and teamwork across all levels of the organization. By working together, we can achieve more and drive lasting innovation.</p>
             </div>
 
-            <!-- Card 3: Team Image (659 width) -->
-            <div class="commitment-card-v2 image-card-v2 card-659">
-                @* <img src="~/assets/images/leadership-team.jpg" alt="Leadership Team" class="main-img"> *@
-                <img src="~/assets/GPI Website Visuals/About Us/OUR LEADERSHIP TEAM IS DEDICATED TO 1.jpg" alt="Leadership Team" class="main-img">
-                <div class="card-overlay-v2 overlay-navy">
+            <!-- Card 3: Driving Innovation -->
+            <div class="leadership-card lc-dark-red">
+                <span class="lc-number">03</span>
+                <div class="lc-icon-wrap">
+                    <svg viewBox="0 0 24 24">
+                        <polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2" />
+                    </svg>
                 </div>
-            </div>
-            <!-- Card 4: Empowering Employees -->
-            <div class="commitment-card-v2 image-card-v2 card-633">
-                <img src="~/assets/GPI Website Visuals/About Us/OUR LEADERSHIP TEAM IS DEDICATED TO 2.jpg" alt="Cables" class="main-img">
-                <div class="card-overlay-v2"></div>
+                <h3>Driving Innovation</h3>
+                <p>Our leaders inspire a culture of innovation by encouraging creative thinking and bold problem-solving. We embrace new technologies and approaches to stay ahead.</p>
+
+
+
             </div>
 
-            <!-- Card 5: Fostering Collaboration -->
-            <div class="commitment-card-v2 color-card-v2 navy-card-v2 card-372">
-                <div class="card-bg-pattern-v2">
-                    <img src="~/assets/images/leadership-icon-sparkle.png" alt="">
-                </div>
-                <div class="card-content-v2">
-                    <h3>Driving <br> Innovation</h3>
-                    <p>
-                        Our leaders inspire a culture of innovation by encouraging creative thinking and problem-solving
-                    </p>
-                </div>
-            </div>
+            <!-- Card 4: Cultivating a Positive Workplace -->
+            <div class="leadership-card lc-dark-navy">
+                <span class="lc-number">04</span>
+                <div class="lc-icon-wrap">
+                    <svg viewBox="0 0 24 24">
+                        <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z" />
+                        <polyline points="9 12 11 14 15 10" />
+                    </svg>
 
-            <!-- Card 6: Team Image (659 width) -->
-            <div class="commitment-card-v2 color-card-v2 navy-card-v2 card-659">
-                <div class="card-bg-pattern-v2">
-                    <img src="~/assets/images/leadership-icon-shield.png" alt="Workplace Icon">
+
                 </div>
-                <div class="card-content-v2">
-                    <h3>Cultivating a<br>Positive Workplace</h3>
-                    <p>
-                        A positive and inclusive workplace is essential for creativity and productivity
-                        We strive to create a supportive environment where every team member feels valued and respected.
-                    </p>
-                    <br>
-                </div>
+                <h3>Cultivating a Positive Workplace</h3>
+                <p>A positive and inclusive workplace is essential for creativity and productivity. We strive to create a supportive environment where every team member feels valued and respected.</p>
             </div>
-        </div>
     </div>
 </section>
 
 <!-- ============================ MARKUP ============================ -->
-<section id="supplychain">
+<section id="supplychain" class="p-0">
     <div class="container">
         <p class="about-label" style="font-weight: 900; font-size:40px; color:#a3191e; margin-top:24px !important; margin-bottom:0px !important">
             Supply Chain
@@ -2923,7 +3031,7 @@
             <!-- Tab 1 -->
             <div class="sc2-tab active">
                 <div class="sc2-tab-bg">
-                    <img src="~/assets/GPI Website Visuals/About Us/Resilience Integration.jpg" alt="Backward Integration">
+                    <img src="~/assets/About Us/Resilience-Integration02.jpg" alt="Backward Integration">
                 </div>
                 <div class="sc2-tab-overlay"></div>
                 <div class="sc2-tab-inner">
@@ -2953,7 +3061,7 @@
             <!-- Tab 2 -->
             <div class="sc2-tab">
                 <div class="sc2-tab-bg">
-                    <img src="~/assets/GPI Website Visuals/About Us/Global Sourcing.jpg" alt="Global Sourcing">
+                    <img src="~/assets/About Us/Global-Sourcing-02.jpg" alt="Global Sourcing">
                 </div>
                 <div class="sc2-tab-overlay"></div>
                 <div class="sc2-tab-inner">
@@ -2983,7 +3091,7 @@
             <!-- Tab 3 -->
             <div class="sc2-tab">
                 <div class="sc2-tab-bg">
-                    <img src="~/assets/GPI Website Visuals/About Us/Advanced Manufacturing.jpg" alt="Advanced Manufacturing">
+                    <img src="~/assets/About Us/Advanced-Manufacturing-02.jpg" alt="Advanced Manufacturing">
                 </div>
                 <div class="sc2-tab-overlay"></div>
                 <div class="sc2-tab-inner">
@@ -3013,7 +3121,7 @@
             <!-- Tab 4 -->
             <div class="sc2-tab">
                 <div class="sc2-tab-bg">
-                    <img src="~/assets/GPI Website Visuals/About Us/Logistics & Distribution.jpg" alt="Logistics">
+                    <img src="~/assets/About Us/Logistics-&-Distribution-02.jpg" alt="Logistics">
                 </div>
                 <div class="sc2-tab-overlay"></div>
                 <div class="sc2-tab-inner">
@@ -3047,7 +3155,7 @@
 <section id="QHSE" class="qhse-section" style="padding-top:35px">
     <div class="container">
         <div class="qhse-hero">
-            <img src="~/assets/GPI Website Visuals/About Us/QUALITY-ASSURANCE.jpg"
+            <img src="~/assets/imgs/BASIC-Certification.jpg"
                  alt="Quality assurance and certifications at GPI facilities"
                  loading="lazy">
             <div class="qhse-overlay" aria-hidden="true"></div>

@@ -231,13 +231,89 @@
     }
 
     }
+
+    .sustainability-hero {
+        position: relative;
+        width: 100%;
+        height: 70vh;
+        min-height: 400px;
+        overflow: hidden;
+        margin-top: 70px;
+        border-radius: 0 !important;
+    }
+
+    .sustainability-hero-bg {
+        position: absolute;
+        inset: 0;
+        width: 100%;
+        height: 100%;
+    }
+
+        .sustainability-hero-bg img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            display: block;
+        }
+
+    .sustainability-hero-overlay {
+        position: absolute;
+        inset: 0;
+        /* background: linear-gradient(to bottom, rgba(6, 40, 63, 0.45), rgba(6, 40, 63, 0.75)); */
+        z-index: 1;
+    }
+
+    .sustainability-hero-content {
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        z-index: 2;
+        text-align: center;
+        width: 100%;
+        padding: 0 2rem;
+    }
+
+    .sustainability-hero-title {
+        font-size: clamp(2.5rem, 6vw, 4.5rem);
+        font-weight: 800;
+        color: #fff;
+        margin: 0 0 1rem;
+        line-height: 1.1;
+        text-transform: none;
+    }
+
+    .sustainability-hero-subtitle {
+        font-size: clamp(1rem, 2.5vw, 1.4rem);
+        font-weight: 300;
+        color: rgba(255, 255, 255, 0.9);
+        margin: 0;
+        line-height: 1.6;
+    }
 </style>
-<!-- Hero Section -->
+@* <!-- Hero Section -->
 <section class="qa-hero" style="padding:7rem 0 2rem 0;">
         <div class="qa-hero-image-container">
             <img src="~/assets/GPI Website Visuals/About Us/QUALITY-ASSURANCE.jpg" alt="Quality Assurance & Certifications">
             <div class="outline-text-sustainability">QHSE</div>
         </div>
+</section> *@
+<!-- Full‑width Hero Banner -->
+<section class="sustainability-hero" style="border-radius:0px">
+    <!-- Background Image -->
+    <div class="sustainability-hero-bg">
+        <img src="~/assets/GPI Website Visuals/About Us/QUALITY-ASSURANCE.jpg" alt="Sustainable energy landscape">
+    </div>
+    <!-- Dark overlay for readability -->
+    <div class="sustainability-hero-overlay"></div>
+
+    <!-- Centred text content -->
+    <div class="sustainability-hero-content">
+        <h1 class="sustainability-hero-title">QHSE</h1>
+        <p class="sustainability-hero-subtitle">
+            QHSE & Energy Management Systems
+        </p>
+    </div>
 </section>
 <section class="qhse-certified-systems">
     <p class="about-label" style="font-weight: 900;    font-size: 40px;
